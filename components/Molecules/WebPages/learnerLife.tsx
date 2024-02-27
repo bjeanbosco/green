@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import DecoratedList from '@/components/atoms/decoratedList';
+import DecoratedList from '@/components/Atoms/decoratedList';
 import { useState, useEffect } from 'react';
 import { GiCancel } from 'react-icons/gi';
-import axiosInstance from '@/src/lib/axios';
+import axiosInstance from '@/lib/axios';
 
 const LearnerLifePage = () => {
   const [activeTab, setActiveTab] = useState('about');

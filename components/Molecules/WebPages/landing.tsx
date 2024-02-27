@@ -126,7 +126,7 @@ const LandingPage = ({ user }: any) => {
   return (
     <div>
       <div className="flex my-6 justify-between text-white">
-        {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && (
+        {user?.permissions.map((permission: string) => permission.toLowerCase()).includes("edit".toLowerCase()) && (
           <div className="flex gap-2">
             <button
               onClick={toggleCustomization}
