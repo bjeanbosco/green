@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import DecoratedList from "@/components/atoms/decoratedList";
+import DecoratedList from "@/components/Atoms/decoratedList";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BiVideo } from "react-icons/bi";
@@ -265,7 +265,7 @@ const AboutPage = ({ user }: any) => {
     <div>
       <div className="flex my-6 justify-between text-white">
         <div className="flex gap-2">
-          {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && (
+          {user?.permissions.map((permission: string) => permission.toLowerCase()).includes("edit".toLowerCase()) && (
             <button
               onClick={toggleCustomization}
               className={`w-[124px] h-[43px] text-center rounded-[6px] ${

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import DecoratedList from "@/components/atoms/decoratedList";
+import DecoratedList from "@/components/Atoms/decoratedList";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
