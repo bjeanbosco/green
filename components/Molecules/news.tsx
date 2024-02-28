@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { BiCalendar, BiRename } from "react-icons/bi";
@@ -9,7 +10,7 @@ import Modal from "react-modal";
 const News = ({ user }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [description, setDescription] = useState("");
-
+  const [title, setTitle] = useState("");
   const [privacy, setPrivacy] = useState("public");
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -26,10 +27,30 @@ const News = ({ user }: any) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const handelSaveNews = () => {
+    axios
+      .post("/api/new", {
+        title,
+        selectedFile,
+        description,
+        privacy,
+      })
+      .then(function (response) {
+        console.log(response.data);
+        alert("Form data submitted successfully!");
+      })
+      .catch(function (error) {
+        console.error(error);
+        alert("An error occurred while submitting the form.");
+      });
+  };
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
-        {user?.permissions.includes("write") && (
+        {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
             className="flex gap-2 items-center justify-center h-[50px] bg-[#4A6FBB] text-white text-center rounded-[6px]"
@@ -62,15 +83,27 @@ const News = ({ user }: any) => {
                 prospective nursery parents. At Green Hills Academy, we
                 recognize parents are......
               </p>
-              {user?.permissions.includes("write") && (
+              {user?.permissions
+                .map((permission: string) => permission.toLowerCase())
+                .includes("edit".toLowerCase()) && (
                 <div className="flex justify-end">
                   <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
                     <Link href={""} className="flex justify-center">
                       {" "}
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                     <Link href={""} className="flex justify-center">
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                   </div>
                 </div>
@@ -98,15 +131,27 @@ const News = ({ user }: any) => {
                 prospective nursery parents. At Green Hills Academy, we
                 recognize parents are......
               </p>
-              {user?.permissions.includes("write") && (
+              {user?.permissions
+                .map((permission: string) => permission.toLowerCase())
+                .includes("edit".toLowerCase()) && (
                 <div className="flex justify-end">
                   <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
                     <Link href={""} className="flex justify-center">
                       {" "}
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                     <Link href={""} className="flex justify-center">
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                   </div>
                 </div>
@@ -134,15 +179,27 @@ const News = ({ user }: any) => {
                 prospective nursery parents. At Green Hills Academy, we
                 recognize parents are......
               </p>
-              {user?.permissions.includes("write") && (
+              {user?.permissions
+                .map((permission: string) => permission.toLowerCase())
+                .includes("edit".toLowerCase()) && (
                 <div className="flex justify-end">
                   <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
                     <Link href={""} className="flex justify-center">
                       {" "}
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                     <Link href={""} className="flex justify-center">
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                   </div>
                 </div>
@@ -170,15 +227,27 @@ const News = ({ user }: any) => {
                 prospective nursery parents. At Green Hills Academy, we
                 recognize parents are......
               </p>
-              {user?.permissions.includes("write") && (
+              {user?.permissions
+                .map((permission: string) => permission.toLowerCase())
+                .includes("edit".toLowerCase()) && (
                 <div className="flex justify-end">
                   <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
                     <Link href={""} className="flex justify-center">
                       {" "}
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                     <Link href={""} className="flex justify-center">
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg" alt="" className="" />
+                      <img
+                        loading="lazy"
+                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                        alt=""
+                        className=""
+                      />
                     </Link>
                   </div>
                 </div>
@@ -204,6 +273,8 @@ const News = ({ user }: any) => {
               </p>
               <input
                 type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                 placeholder="name"
               />
@@ -256,7 +327,7 @@ const News = ({ user }: any) => {
           <div className="flex justify-center gap-8 my-8">
             <button
               className="px-4 py-2 bg-[#4A6FBB] w-[120px] h-[50px] rounded-[9px] shadow text-white font-bold"
-              onClick={closeModal}
+              onClick={handelSaveNews}
             >
               Save
             </button>

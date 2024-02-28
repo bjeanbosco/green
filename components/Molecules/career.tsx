@@ -9,6 +9,7 @@ import { AiOutlineClockCircle, AiOutlineExperiment } from "react-icons/ai";
 import { VscBriefcase } from "react-icons/vsc";
 import { formatDistanceToNow, parse } from "date-fns";
 import Link from "next/link";
+import axios from "axios";
 interface JobState {
   slug: string;
   title: string;
@@ -22,7 +23,14 @@ interface JobState {
 
 const Career = ({ user }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [jobTitle, setJobTitle] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [jobLevel, setJobLevel] = useState("");
+  const [experience, setExperience] = useState("");
+  const [salary, setSalary] = useState("");
+  const [deadline, setDeadline] = useState("");
   const [description, setDescription] = useState("");
+
   const formattedJobData = jobData.map((job) => ({
     ...job,
     publishDate: job.publishDate ? new Date(job.publishDate) : null,
@@ -53,6 +61,28 @@ const Career = ({ user }: any) => {
     }
   };
 
+  //post data from the form into database
+
+  const handleSaveCareer = () => {
+    axios
+      .post("/api/careers", {
+        jobTitle,
+        industry,
+        jobLevel,
+        experience,
+        salary,
+        deadline,
+        selectedOption,
+        description,
+        selectedFile,
+      })
+      .then((res) => {
+        closeModal();
+        console.log(res.data);
+        //resetNewStaffData(); // Reset newStaffData
+      });
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -80,7 +110,9 @@ const Career = ({ user }: any) => {
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
-        {user?.permissions.includes("write") && (
+        {user?.permissions
+          .map((permission) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
             className="flex gap-2 items-center justify-center h-[50px] bg-[#4A6FBB] text-white text-center rounded-[6px]"
@@ -112,7 +144,9 @@ const Career = ({ user }: any) => {
                       {job.type}
                     </div>
                   </div>
-                  {user?.permissions.includes("write") && (
+                  {user?.permissions
+                    .map((permission) => permission.toLowerCase())
+                    .includes("edit".toLowerCase()) && (
                     <div className="grid grid-cols-2 divide-x items-center">
                       <Link href={""} className="flex justify-center">
                         {" "}
@@ -213,6 +247,8 @@ const Career = ({ user }: any) => {
                     type="text"
                     className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                     placeholder="Marketing Manager"
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
                   />
                 </div>
               </div>
@@ -228,6 +264,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="Content Writer"
+                      value={industry}
+                      onChange={(e) => setIndustry(e.target.value)}
                     />
                   </div>
                 </div>
@@ -241,6 +279,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="Entry level"
+                      value={jobLevel}
+                      onChange={(e) => setJobLevel(e.target.value)}
                     />
                   </div>
                 </div>
@@ -256,6 +296,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="2-4 Years"
+                      value={experience}
+                      onChange={(e) => setExperience(e.target.value)}
                     />
                   </div>
                 </div>
@@ -269,6 +311,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="500,000 - 1,000,000"
+                      value={salary}
+                      onChange={(e) => setSalary(e.target.value)}
                     />
                   </div>
                 </div>
@@ -283,6 +327,8 @@ const Career = ({ user }: any) => {
                     <input
                       type="date"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
+                      value={deadline}
+                      onChange={(e) => setDeadline(e.target.value)}
                     />
                   </div>
                 </div>
@@ -373,7 +419,7 @@ const Career = ({ user }: any) => {
           <div className="flex justify-center gap-8 my-8">
             <button
               className="px-4 py-2 bg-[#4A6FBB] w-[120px] h-[50px] rounded-[9px] shadow text-white font-bold"
-              onClick={closeModal}
+              onClick={handleSaveCareer}
             >
               Save
             </button>
