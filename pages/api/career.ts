@@ -1,7 +1,7 @@
-// pages/api/staff.ts
+// pages/api/career.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/db";
-import PostModel from "@/Models/Post";
+import CareerModel from "@/Models/Career";
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,7 +25,7 @@ export default async function handler(
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
-    const post = await PostModel.find({});
+    const post = await CareerModel.find({});
     res.status(200).json(post);
   } catch (error) {
     console.error(error);
@@ -35,12 +35,27 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
-    const { name, email, phoneNumber, department } = req.body;
-    const newPost = new PostModel({
-      name,
-      email,
-      phoneNumber,
-      department,
+    const {
+      jobTitle,
+      industry,
+      jobLevel,
+      experience,
+      salary,
+      deadline,
+      selectedOption,
+      description,
+      selectedFile,
+    } = req.body;
+    const newPost = new CareerModel({
+      jobTitle,
+      industry,
+      jobLevel,
+      experience,
+      salary,
+      deadline,
+      selectedOption,
+      description,
+      selectedFile,
     });
     await newPost.save();
     res.status(201).json(newPost);
@@ -52,7 +67,7 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 async function deleteHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     const id = req.query.id as string;
-    const deletedPost = await PostModel.findByIdAndDelete(id);
+    const deletedPost = await CareerModel.findByIdAndDelete(id);
     if (deletedPost) {
       res.status(200).json({ message: "post deleted successfully" });
     } else {
@@ -66,11 +81,31 @@ async function deleteHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 async function updateHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     const id = req.query.id as string;
-    const { name, email, phoneNumber, department } = req.body;
+    const {
+      jobTitle,
+      industry,
+      jobLevel,
+      experience,
+      salary,
+      deadline,
+      selectedOption,
+      description,
+      selectedFile,
+    } = req.body;
 
-    const updatedPost = await PostModel.findByIdAndUpdate(
+    const updatedPost = await CareerModel.findByIdAndUpdate(
       id,
-      { name, email, phoneNumber, department },
+      {
+        jobTitle,
+        industry,
+        jobLevel,
+        experience,
+        salary,
+        deadline,
+        selectedOption,
+        description,
+        selectedFile,
+      },
       { new: true }
     );
     if (updatedPost) {
