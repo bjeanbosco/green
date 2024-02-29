@@ -3,6 +3,11 @@ import DecoratedList from '@/components/Atoms/decoratedList';
 import { useState, useEffect } from 'react';
 import { GiCancel } from 'react-icons/gi';
 import axiosInstance from '@/lib/axios';
+import Link from 'next/link';
+import ExtracurricularActivity from '../ExtracurricularActivity';
+import Counselling from '../Counselling';
+import Creative_offers from '../CreativeOffers';
+import LearnersClubs from '../Learners_clubs';
 
 const LearnerLifePage = () => {
   const [activeTab, setActiveTab] = useState('about');
@@ -89,62 +94,115 @@ const LearnerLifePage = () => {
             </button>
           </div>
         </div>
-        <section
-          className="w-full h-[600px] gap-1 flex flex-col  items-center justify-end "
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url(/images/learnerlife.png)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          <div className="flex justify-center">
-            <div className="w-[55px] grid place-items-center">
-              <div className="w-[18px] h-[7px] my-2 bg-[yellow]" />
-              <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
+        <main className="w-full">
+      <section
+        className="w-full h-[70vh] gap-1 flex flex-col  items-center justify-end "
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9)), url(https://greenhillsacademy.rw:8081/images/GHA_121_fq5dcg.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex justify-center">
+          <div className="w-[55px] grid place-items-center">
+            <div className="w-[18px] h-[7px] my-2 bg-[yellow]" />
+            <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
+          </div>
+        </div>
+        <h1 className="text-primary capitalize">Learners Life</h1>
+      </section>
+      <section
+        style={{
+          backgroundImage: `url(${"/icons/bgwhite2_lpw73r.svg"})`,
+          backgroundSize: "cover",
+          backgroundPosition: "top",
+        }}
+      >
+        <div className="flex gap-4 justify-center">
+          <ul className="flex w-[80%] mt-12 md:justify-between sm:overflow-x-auto justify-between items-center md:p-4 sm:pb-6 border-b-2 rounded-xl bg-green">
+            <li className="mr-4">
+              <Link
+                className={`text-black md:p-4 sm:pb-6 hover:text-primary font-[Outfit] relative ${
+                  activeTab === "extracurricular" ? "font-bold" : ""
+                }`}
+                href="/about/learners_tab?tab=extracurricular"
+                onClick={() => handleTabClick("extracurricular")}
+              >
+                Extracurricular&nbsp;Activities
+                {activeTab === "extracurricular" && (
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary font-[Outfit]"></span>
+                )}
+              </Link>
+            </li>
+            <li className="mr-4">
+              <Link
+                className={`text-black md:p-4 sm:pb-6 hover:text-primary font-[Outfit] relative ${
+                  activeTab === "counselor" ? "font-bold" : ""
+                }`}
+                href="/about/learners_tab?tab=counselor"
+                onClick={() => handleTabClick("counselor")}
+              >
+                Counselling&nbsp;Department
+                {activeTab === "counselor" && (
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary font-[Outfit]"></span>
+                )}
+              </Link>
+            </li>
+            <li className="mr-4">
+              <Link
+                className={`text-black md:p-4 sm:pb-6  hover:text-primary font-[Outfit] relative ${
+                  activeTab === "creative" ? "font-bold" : ""
+                }`}
+                href="/about/learners_tab?tab=creative"
+                onClick={() => handleTabClick("creative")}
+              >
+                Creative&nbsp;Offers
+                {activeTab === "creative" && (
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary font-[Outfit]"></span>
+                )}
+              </Link>
+            </li>
+            <li className="mr-4">
+              <Link
+                className={`text-black md:p-4 sm:pb-6 hover:text-primary font-[Outfit] relative ${
+                  activeTab === "clubs" ? "font-bold" : ""
+                }`}
+                href="/about/learners_tab?tab=clubs"
+                onClick={() => handleTabClick("clubs")}
+              >
+                Learners&nbsp;Clubs
+                {activeTab === "clubs" && (
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary font-[Outfit]"></span>
+                )}
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="w-full flex justify-center">
+          {activeTab === "extracurricular" && (
+            <div id="extracurricular">
+              <ExtracurricularActivity />
             </div>
-          </div>
-          <h1 className="text-primary capitalize">Learners Life</h1>
-        </section>
-        <section
-          style={{
-            backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700375590/GHA/icons/bgwhiteyellow_mekqvs.svg)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'top',
-          }}
-        >
-          <div className="flex justify-center">
-            <ul className="flex w-[80%] mt-12 md:justify-between justify-between items-center md:p-4 sm:py-4 border-b-2 rounded-xl bg-green">
-              {/* ... (other tabs links) */}
-            </ul>
-          </div>
-          <div className="w-full flex justify-center">
-            {activeTab === 'about' && (
-              <div className="w-[80%] my-28 gap-12">
-                <div className="flex items-center">
-                  {/* ... (other content) */}
-                  <div className="grid grid-cols-1 gap-6 mt-4 justify-items-end">
-                    {detailsArray.map((detail, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        {isCustomizing ? (
-                          <input
-                            type="text"
-                            value={detail.description}
-                            onChange={(e) => handleDetailsChange(index, e.target.value)}
-                            className="border border-primary p-2 rounded"
-                          />
-                        ) : (
-                          <DecoratedList color="black" details={detail.description} />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* ... (other content) */}
-              </div>
-            )}
-            {/* ... (other tabs content) */}
-          </div>
-        </section>
+          )}
+          {activeTab === "counselor" && (
+            <div id="counselor">
+              <Counselling />
+            </div>
+          )}
+          {activeTab === "creative" && (
+            <div id="creative">
+              <Creative_offers />
+            </div>
+          )}
+
+          {activeTab === "clubs" && (
+            <div id="clubs">
+              <LearnersClubs />
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
       </main>
     </div>
   );
