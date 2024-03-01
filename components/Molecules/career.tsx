@@ -111,7 +111,7 @@ const Career = ({ user }: any) => {
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
         {user?.permissions
-          .map((permission: string) => permission.toLowerCase())
+          .map((permission) => permission.toLowerCase())
           .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
