@@ -57,7 +57,8 @@ const DashboardMain: React.FC = () => {
       <div className="w-full">
         <div>
           <h3 className="font-bold">Dashboard</h3>
-          <p className="">Welcome Back, {user?.username || "Guest"} !</p>
+          <p className="">Welcome Back, {user?.name ? user.name.split(' ')[0] : "Guest"}!</p>
+
         </div>
         <div className="relative">
           <Slider ref={sliderRef} {...settings}>

@@ -44,7 +44,8 @@ const MainWebPages = () => {
           <div className="w-[100%]">
             <div>
               <h3 className="font-bold">Numbers</h3>
-              <p className="">Welcome Back, {user?.username || "Guest"} !</p>
+              <p className="">Welcome Back, {user?.name ? user.name.split(' ')[0] : "Guest"}!</p>
+
             </div>
             <div className="flex my-8 gap-12 p-4">
               <button

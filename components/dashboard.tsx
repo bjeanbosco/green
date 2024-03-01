@@ -118,7 +118,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
             className="my-6 grid place-items-center w-full"
           >
             <img
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700301542/GHA/logo_pjrxda.png"
+              src="https://greenhillsacademy.rw:8081/images/logo_pjrxda.png"
               alt="Logo Top"
               className={`${
                 isMenuOpen
@@ -143,7 +143,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375717/GHA/icons/dashboard_gozwxv.svg"
+              src="/icons/dashboard_gozwxv.svg"
               alt=""
               className=""
             />
@@ -164,7 +164,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375935/GHA/icons/web_qi5vre.svg"
+              src="/icons/web_qi5vre.svg"
               alt=""
               className=""
             />
@@ -187,7 +187,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375721/GHA/icons/Document_lfenwn.svg"
+              src="/icons/Document_lfenwn.svg"
               alt=""
               className=""
             />
@@ -206,7 +206,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375636/GHA/icons/3User_wsbadb.svg"
+              src="/icons/3User_wsbadb.svg"
               alt=""
               className=""
             />
@@ -225,7 +225,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375645/GHA/icons/posts_fxtzhz.svg"
+              src="/icons/posts_fxtzhz.svg"
               alt=""
               className=""
             />
@@ -246,7 +246,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375640/GHA/icons/gallery_qffuuc.svg"
+              src="/icons/gallery_qffuuc.svg"
               alt=""
               className=""
             />
@@ -265,7 +265,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375704/GHA/icons/more_g6utph.svg"
+              src="/icons/more_g6utph.svg"
               alt=""
               className=""
             />
@@ -285,7 +285,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375653/GHA/icons/addUser_enxyzo.svg"
+              src="/icons/addUser_enxyzo.svg"
               alt=""
               className=""
             />
@@ -306,7 +306,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           ) : (
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375730/GHA/icons/profile_nvsex3.svg"
+              src="/icons/profile_nvsex3.svg"
               alt=""
               className=""
             />
@@ -352,7 +352,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
             >
               <img
                 loading="lazy"
-                src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375948/GHA/icons/search_aesxbk.svg"
+                src="/icons/search_aesxbk.svg"
                 alt=""
                 className=""
               />
@@ -370,7 +370,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               <div className="relative">
                 <img
                   loading="lazy"
-                  src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375708/GHA/icons/Notification_neaje7.svg"
+                  src="/icons/Notification_neaje7.svg"
                   alt=""
                   className=""
                 />
@@ -387,7 +387,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
                   <img
                     src={
                       user?.profilePicture ||
-                      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301531/GHA/profile_wumtxt.png"
+                      "https://greenhillsacademy.rw:8081/images/profile_wumtxt.png"
                     }
                     alt=""
                     className="rounded-full w-[55px] h-[55px]"
@@ -396,9 +396,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
                 </div>
                 {user && (
                   <div>
-                    <p className="text-lg font-bold text-black">
-                      {user.username}
+                    <p className="font-bold text-black">
+                      {user.name?.split(" ")[0] || "Guest"}
                     </p>
+
                     <p className="text-xs">{user.email}</p>
                   </div>
                 )}
