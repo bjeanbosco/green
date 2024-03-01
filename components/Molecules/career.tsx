@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiRename } from "react-icons/bi";
 import { MdAddCircleOutline } from "react-icons/md";
 import Modal from "react-modal";
@@ -83,6 +83,12 @@ const Career = ({ user }: any) => {
       });
   };
 
+  //get data from the database
+  const [Data, setData] = useState([]);
+  useEffect(() => {
+    axios.get("/api/career").then((res) => setData(res.data));
+  });
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -111,7 +117,7 @@ const Career = ({ user }: any) => {
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
         {user?.permissions
-          .map((permission) => permission.toLowerCase())
+          .map((permission: string) => permission.toLowerCase())
           .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
@@ -124,7 +130,7 @@ const Career = ({ user }: any) => {
       </div>
       <div>
         <div className="my-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {jobData.map((job, index) => (
+          {Data.map((job, index) => (
             <div
               key={index}
               className="border bg-white rounded-xl shadow-lg p-2"
@@ -141,7 +147,7 @@ const Career = ({ user }: any) => {
                   <div className="grid place-items-center mt-4 text-white px-4 py-1 text-center bg-[yellow] bg-opacity-50 rounded-lg text-xs font-['Outfit']">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
-                      {job.type}
+                      {job.selectedOption}
                     </div>
                   </div>
                   {user?.permissions
@@ -170,11 +176,11 @@ const Career = ({ user }: any) => {
                 </div>
               </div>
               <div className="p-2">
-                <h5 className="text-2xl font-bold">{job.title}</h5>
+                <h5 className="text-2xl font-bold">{job.jobTitle}</h5>
                 <div className="flex space-x-4 my-2">
                   <div className="flex text-sm text-gray-400 space-x-1.5">
                     <VscBriefcase className="text-sm mt-0.5 font-bold" />{" "}
-                    <span>{job.type}</span>
+                    <span>{job.selectedOption}</span>
                   </div>
                   <div className="flex text-sm text-gray-400 space-x-1.5">
                     <AiOutlineClockCircle className="text-sm mt-0.5 font-bold" />{" "}
@@ -198,9 +204,7 @@ const Career = ({ user }: any) => {
                 {isPastOrToday(job.deadline) && (
                   <button
                     className={`h-[45px] rounded-lg mb-4 text-white ${
-                      jobStates[index].isPublished
-                        ? "bg-primary"
-                        : "bg-[#4A6FBB]"
+                      job.isPublished === true ? "bg-primary" : "bg-[#4A6FBB]"
                     } ${
                       user?.permissions.includes("write")
                         ? ""
@@ -212,7 +216,7 @@ const Career = ({ user }: any) => {
                         : () => {}
                     }
                   >
-                    {jobStates[index].isPublished ? "Published" : "Publish"}
+                    {job.isPublished === true ? "Published" : "Publish"}
                   </button>
                 )}
                 <Link
