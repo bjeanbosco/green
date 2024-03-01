@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiCalendar, BiRename } from "react-icons/bi";
 import { MdAddCircleOutline, MdMoreTime } from "react-icons/md";
 import Modal from "react-modal";
@@ -8,7 +8,6 @@ import { BsCalendarWeek } from "react-icons/bs";
 import { GiAlarmClock } from "react-icons/gi";
 import Link from "next/link";
 import axios from "axios";
-import { error } from "console";
 
 const Event = ({ user }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,6 +61,27 @@ const Event = ({ user }: any) => {
         alert("An error occured while submitting");
       });
   };
+  // Convert the string to a Date object
+  const DateComponent = (props) => {
+    const date = new Date(props.date);
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const localizedDateString = date.toLocaleString("en-US", options);
+    console.log(localizedDateString);
+
+    return <p className="text-sm">{localizedDateString}</p>;
+  };
+  //get data from database
+  const [EventData, setEvent] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/event").then((res) => setEvent(res.data));
+  }, []);
+
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
@@ -79,7 +99,7 @@ const Event = ({ user }: any) => {
       </div>
       <div>
         <div className="grid p-4 grid-cols-2 w-full gap-12 my-8">
-          {eventData.map((event, index) => (
+          {EventData.map((event, index) => (
             <div
               key={index}
               className="w-full bg-white p-6 border rounded-xl shadow-lg"
@@ -101,13 +121,13 @@ const Event = ({ user }: any) => {
                 </div>
                 <div className="text-sm mt-2 text-gray-600 flex flex-row justify-start gap-1 items-center">
                   <BiCalendar />
-                  <p className="text-sm">{event.date}</p>
+                  <DateComponent date={event.date} />
                 </div>
                 <p className=" mt-2 text-base font-normal text-justify">
                   {event.description}
                 </p>
                 {user?.permissions
-                  .map((permission) => permission.toLowerCase())
+                  .map((permission: string) => permission.toLowerCase())
                   .includes("edit".toLowerCase()) && (
                   <div className="flex justify-end">
                     <div className="grid h-12 grid-cols-2 divide-x items-center">
@@ -314,69 +334,3 @@ const customStyles = {
     width: "100%", // Ensure the modal takes up the full width within 75vw
   },
 };
-const eventData = [
-  {
-    title: "Rwanda Culture Day",
-    date: "20/10/2023",
-    start_time: "14:30",
-    end_time: "20:30",
-    location: "kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl:
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-    moreImages: [
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-    ],
-    slug: "deploy_virtual",
-    type: "event",
-  },
-  {
-    title: "Multiculture Day",
-    date: "20/10/2023",
-    start_time: "14:30",
-    end_time: "20:30",
-    location: "kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl:
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301490/GHA/parental_vq51j7.jpg",
-    moreImages: [
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-    ],
-    slug: "parental_night",
-    type: "event",
-  },
-  {
-    title: "Christmas Concert",
-    date: "20/10/2023",
-    start_time: "14:30",
-    end_time: "20:30",
-    location: "kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl:
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301549/GHA/ghatraining_wc2jvr.png",
-    moreImages: [
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-    ],
-    slug: "gha_training",
-    type: "event",
-  },
-  {
-    title: "Graduation",
-    date: "20/10/2023",
-    start_time: "14:30",
-    end_time: "20:30",
-    location: "kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl:
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301549/GHA/ghatraining_wc2jvr.png",
-    moreImages: [
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-      "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-    ],
-    slug: "gha_training",
-    type: "event",
-  },
-];

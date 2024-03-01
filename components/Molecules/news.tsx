@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiCalendar, BiRename } from "react-icons/bi";
 import { MdAddCircleOutline } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
@@ -45,6 +45,25 @@ const News = ({ user }: any) => {
         alert("An error occurred while submitting the form.");
       });
   };
+  const [data, setNews] = useState([]);
+  useEffect(() => {
+    axios.get("/api/new").then((res) => setNews(res.data));
+  }, []);
+
+  // Convert the string to a Date object
+  const DateComponent = (props) => {
+    const date = new Date(props.date);
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const localizedDateString = date.toLocaleString("en-US", options);
+    console.log(localizedDateString);
+
+    return <p className="text-sm">{localizedDateString}</p>;
+  };
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
@@ -62,198 +81,55 @@ const News = ({ user }: any) => {
       </div>
       <div>
         <div className="grid p-4 grid-cols-2 w-full gap-12 my-8">
-          <div className="w-full gap-8 flex pb-2">
-            <div
-              className="w-1/2"
-              style={{
-                backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="w-1/2">
-              <p className="font-bold">Virtual Nursery Parents Night</p>
-              <div className="text-sm mt-2 flex flex-row justify-start gap-1 items-center">
-                <BiCalendar />
-                <p className="text-sm">Dec 12 2023</p>
-              </div>
-              <p className="mt-2 text-base font-normal text-justify">
-                On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel
-                Faulkner held a virtual Parents Night with current and
-                prospective nursery parents. At Green Hills Academy, we
-                recognize parents are......
-              </p>
-              {user?.permissions
-                .map((permission: string) => permission.toLowerCase())
-                .includes("edit".toLowerCase()) && (
-                <div className="flex justify-end">
-                  <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
-                    <Link href={""} className="flex justify-center">
-                      {" "}
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                    <Link href={""} className="flex justify-center">
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
+          {data.map((item) => {
+            return (
+              <div className="w-full gap-8 flex pb-2">
+                <div
+                  className="w-1/2"
+                  style={{
+                    backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg)`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                <div className="w-1/2">
+                  <p className="font-bold">{item.title}</p>
+                  <div className="text-sm mt-2 flex flex-row justify-start gap-1 items-center">
+                    <BiCalendar />
+                    <DateComponent date={item.createdAt} />
                   </div>
+                  <p className="mt-2 text-base font-normal text-justify">
+                    {item.description}
+                  </p>
+                  {user?.permissions
+                    .map((permission: string) => permission.toLowerCase())
+                    .includes("edit".toLowerCase()) && (
+                    <div className="flex justify-end">
+                      <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
+                        <Link href={""} className="flex justify-center">
+                          {" "}
+                          <img
+                            loading="lazy"
+                            src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                            alt=""
+                            className=""
+                          />
+                        </Link>
+                        <Link href={""} className="flex justify-center">
+                          <img
+                            loading="lazy"
+                            src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                            alt=""
+                            className=""
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-          <div className="w-full gap-8 flex pb-2">
-            <div
-              className="w-1/2"
-              style={{
-                backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="w-1/2">
-              <p className="font-bold">Virtual Nursery Parents Night</p>
-              <div className="text-sm mt-2 flex flex-row justify-start gap-1 items-center">
-                <BiCalendar />
-                <p className="text-sm">Dec 12 2023</p>
               </div>
-              <p className="mt-2 text-base font-normal text-justify">
-                On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel
-                Faulkner held a virtual Parents Night with current and
-                prospective nursery parents. At Green Hills Academy, we
-                recognize parents are......
-              </p>
-              {user?.permissions
-                .map((permission: string) => permission.toLowerCase())
-                .includes("edit".toLowerCase()) && (
-                <div className="flex justify-end">
-                  <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
-                    <Link href={""} className="flex justify-center">
-                      {" "}
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                    <Link href={""} className="flex justify-center">
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="w-full gap-8 flex pb-2">
-            <div
-              className="w-1/2"
-              style={{
-                backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="w-1/2">
-              <p className="font-bold">Virtual Nursery Parents Night</p>
-              <div className="text-sm mt-2 flex flex-row justify-start gap-1 items-center">
-                <BiCalendar />
-                <p className="text-sm">Dec 12 2023</p>
-              </div>
-              <p className="mt-2 text-base font-normal text-justify">
-                On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel
-                Faulkner held a virtual Parents Night with current and
-                prospective nursery parents. At Green Hills Academy, we
-                recognize parents are......
-              </p>
-              {user?.permissions
-                .map((permission: string) => permission.toLowerCase())
-                .includes("edit".toLowerCase()) && (
-                <div className="flex justify-end">
-                  <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
-                    <Link href={""} className="flex justify-center">
-                      {" "}
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                    <Link href={""} className="flex justify-center">
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="w-full gap-8 flex pb-2">
-            <div
-              className="w-1/2"
-              style={{
-                backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="w-1/2">
-              <p className="font-bold">Virtual Nursery Parents Night</p>
-              <div className="text-sm mt-2 flex flex-row justify-start gap-1 items-center">
-                <BiCalendar />
-                <p className="text-sm">Dec 12 2023</p>
-              </div>
-              <p className="mt-2 text-base font-normal text-justify">
-                On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel
-                Faulkner held a virtual Parents Night with current and
-                prospective nursery parents. At Green Hills Academy, we
-                recognize parents are......
-              </p>
-              {user?.permissions
-                .map((permission: string) => permission.toLowerCase())
-                .includes("edit".toLowerCase()) && (
-                <div className="flex justify-end">
-                  <div className="grid h-12 p-2 grid-cols-2 divide-x items-center">
-                    <Link href={""} className="flex justify-center">
-                      {" "}
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                    <Link href={""} className="flex justify-center">
-                      <img
-                        loading="lazy"
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
-                        alt=""
-                        className=""
-                      />
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
       <Modal

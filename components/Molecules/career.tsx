@@ -111,7 +111,7 @@ const Career = ({ user }: any) => {
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
         {user?.permissions
-          .map((permission) => permission.toLowerCase())
+          .map((permission: string) => permission.toLowerCase())
           .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
@@ -145,7 +145,7 @@ const Career = ({ user }: any) => {
                     </div>
                   </div>
                   {user?.permissions
-                    .map((permission) => permission.toLowerCase())
+                    .map((permission: string) => permission.toLowerCase())
                     .includes("edit".toLowerCase()) && (
                     <div className="grid grid-cols-2 divide-x items-center">
                       <Link href={""} className="flex justify-center">
