@@ -4,17 +4,16 @@ import User from "@/types/user";
 
 interface LearnerProps {
   user: User | undefined;
-  numberValue: number | string
-  title: string
+  numberValue: number | string;
+  title: string;
 }
 const Learners = ({ user, numberValue, title }: LearnerProps) => {
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [titleValue, setTitleValue] = useState("");
-  const [newValue, setNewValue] = useState<number>()
+  const [newValue, setNewValue] = useState<number>();
   const toggleCustomization = () => {
     setIsCustomizing(!isCustomizing);
   };
-console.log(user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase())  )
   return (
     <div className="my-4 md:w-1/2">
       <div className="flex gap-12 items-center pb-2">
@@ -22,8 +21,9 @@ console.log(user?.permissions.map(permission => permission.toLowerCase()).includ
         {user && isCustomizing ? (
           <span className="text-xs text-black">Editing...</span>
         ) : (
-          user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && (
-
+          user?.permissions
+            .map((permission) => permission.toLowerCase())
+            .includes("edit".toLowerCase()) && (
             <Link
               href={""}
               onClick={toggleCustomization}

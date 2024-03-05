@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiRename } from "react-icons/bi";
 import { MdAddCircleOutline } from "react-icons/md";
 import Modal from "react-modal";
@@ -9,6 +9,7 @@ import { AiOutlineClockCircle, AiOutlineExperiment } from "react-icons/ai";
 import { VscBriefcase } from "react-icons/vsc";
 import { formatDistanceToNow, parse } from "date-fns";
 import Link from "next/link";
+import axios from "axios";
 interface JobState {
   slug: string;
   title: string;
@@ -22,7 +23,14 @@ interface JobState {
 
 const Career = ({ user }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [jobTitle, setJobTitle] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [jobLevel, setJobLevel] = useState("");
+  const [experience, setExperience] = useState("");
+  const [salary, setSalary] = useState("");
+  const [deadline, setDeadline] = useState("");
   const [description, setDescription] = useState("");
+
   const formattedJobData = jobData.map((job) => ({
     ...job,
     publishDate: job.publishDate ? new Date(job.publishDate) : null,
@@ -53,6 +61,34 @@ const Career = ({ user }: any) => {
     }
   };
 
+  //post data from the form into database
+
+  const handleSaveCareer = () => {
+    axios
+      .post("/api/careers", {
+        jobTitle,
+        industry,
+        jobLevel,
+        experience,
+        salary,
+        deadline,
+        selectedOption,
+        description,
+        selectedFile,
+      })
+      .then((res) => {
+        closeModal();
+        console.log(res.data);
+        //resetNewStaffData(); // Reset newStaffData
+      });
+  };
+
+  //get data from the database
+  const [Data, setData] = useState([]);
+  useEffect(() => {
+    axios.get("/api/career").then((res) => setData(res.data));
+  });
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -80,7 +116,9 @@ const Career = ({ user }: any) => {
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
-        {user?.permissions.includes("write") && (
+        {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
             className="flex gap-2 items-center justify-center h-[50px] bg-[#4A6FBB] text-white text-center rounded-[6px]"
@@ -92,7 +130,7 @@ const Career = ({ user }: any) => {
       </div>
       <div>
         <div className="my-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {jobData.map((job, index) => (
+          {Data.map((job, index) => (
             <div
               key={index}
               className="border bg-white rounded-xl shadow-lg p-2"
@@ -109,10 +147,12 @@ const Career = ({ user }: any) => {
                   <div className="grid place-items-center mt-4 text-white px-4 py-1 text-center bg-[yellow] bg-opacity-50 rounded-lg text-xs font-['Outfit']">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
-                      {job.type}
+                      {job.selectedOption}
                     </div>
                   </div>
-                  {user?.permissions.includes("write") && (
+                  {user?.permissions
+                    .map((permission: string) => permission.toLowerCase())
+                    .includes("edit".toLowerCase()) && (
                     <div className="grid grid-cols-2 divide-x items-center">
                       <Link href={""} className="flex justify-center">
                         {" "}
@@ -136,11 +176,11 @@ const Career = ({ user }: any) => {
                 </div>
               </div>
               <div className="p-2">
-                <h5 className="text-2xl font-bold">{job.title}</h5>
+                <h5 className="text-2xl font-bold">{job.jobTitle}</h5>
                 <div className="flex space-x-4 my-2">
                   <div className="flex text-sm text-gray-400 space-x-1.5">
                     <VscBriefcase className="text-sm mt-0.5 font-bold" />{" "}
-                    <span>{job.type}</span>
+                    <span>{job.selectedOption}</span>
                   </div>
                   <div className="flex text-sm text-gray-400 space-x-1.5">
                     <AiOutlineClockCircle className="text-sm mt-0.5 font-bold" />{" "}
@@ -164,9 +204,7 @@ const Career = ({ user }: any) => {
                 {isPastOrToday(job.deadline) && (
                   <button
                     className={`h-[45px] rounded-lg mb-4 text-white ${
-                      jobStates[index].isPublished
-                        ? "bg-primary"
-                        : "bg-[#4A6FBB]"
+                      job.isPublished === true ? "bg-primary" : "bg-[#4A6FBB]"
                     } ${
                       user?.permissions.includes("write")
                         ? ""
@@ -178,7 +216,7 @@ const Career = ({ user }: any) => {
                         : () => {}
                     }
                   >
-                    {jobStates[index].isPublished ? "Published" : "Publish"}
+                    {job.isPublished === true ? "Published" : "Publish"}
                   </button>
                 )}
                 <Link
@@ -213,6 +251,8 @@ const Career = ({ user }: any) => {
                     type="text"
                     className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                     placeholder="Marketing Manager"
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
                   />
                 </div>
               </div>
@@ -228,6 +268,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="Content Writer"
+                      value={industry}
+                      onChange={(e) => setIndustry(e.target.value)}
                     />
                   </div>
                 </div>
@@ -241,6 +283,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="Entry level"
+                      value={jobLevel}
+                      onChange={(e) => setJobLevel(e.target.value)}
                     />
                   </div>
                 </div>
@@ -256,6 +300,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="2-4 Years"
+                      value={experience}
+                      onChange={(e) => setExperience(e.target.value)}
                     />
                   </div>
                 </div>
@@ -269,6 +315,8 @@ const Career = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="500,000 - 1,000,000"
+                      value={salary}
+                      onChange={(e) => setSalary(e.target.value)}
                     />
                   </div>
                 </div>
@@ -283,6 +331,8 @@ const Career = ({ user }: any) => {
                     <input
                       type="date"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
+                      value={deadline}
+                      onChange={(e) => setDeadline(e.target.value)}
                     />
                   </div>
                 </div>
@@ -373,7 +423,7 @@ const Career = ({ user }: any) => {
           <div className="flex justify-center gap-8 my-8">
             <button
               className="px-4 py-2 bg-[#4A6FBB] w-[120px] h-[50px] rounded-[9px] shadow text-white font-bold"
-              onClick={closeModal}
+              onClick={handleSaveCareer}
             >
               Save
             </button>

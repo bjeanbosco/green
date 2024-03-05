@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiCalendar, BiRename } from "react-icons/bi";
 import { MdAddCircleOutline, MdMoreTime } from "react-icons/md";
 import Modal from "react-modal";
@@ -7,9 +7,16 @@ import { SlLocationPin } from "react-icons/sl";
 import { BsCalendarWeek } from "react-icons/bs";
 import { GiAlarmClock } from "react-icons/gi";
 import Link from "next/link";
+import axios from "axios";
 
 const Event = ({ user }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [start_time, setStart_time] = useState("");
+  const [end_time, setEnd_time] = useState("");
+  const [location, setLocation] = useState("");
+
   const [description, setDescription] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
@@ -32,20 +39,67 @@ const Event = ({ user }: any) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const handleSaveEvent = () => {
+    axios
+      .post("/api/event", {
+        title,
+        date,
+        start_time,
+        end_time,
+        location,
+        description,
+        selectedFile,
+        selectedFiles,
+      })
+      .then((res) => {
+        console.log(res.data);
+
+        alert("it is working correctly");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("An error occured while submitting");
+      });
+  };
+  // Convert the string to a Date object
+  const DateComponent = (props) => {
+    const date = new Date(props.date);
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const localizedDateString = date.toLocaleString("en-US", options);
+    console.log(localizedDateString);
+
+    return <p className="text-sm">{localizedDateString}</p>;
+  };
+  //get data from database
+  const [EventData, setEvent] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/event").then((res) => setEvent(res.data));
+  }, []);
+
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
-      {user?.permissions.includes("write") && (<button
-          onClick={openModal}
-          className="flex gap-2 items-center justify-center h-[50px] bg-[#4A6FBB] text-white text-center rounded-[6px]"
-        >
-          <MdAddCircleOutline className="text-2xl" />
-          Add Event
-        </button>)}
+        {user?.permissions
+          .map((permission) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
+          <button
+            onClick={openModal}
+            className="flex gap-2 items-center justify-center h-[50px] bg-[#4A6FBB] text-white text-center rounded-[6px]"
+          >
+            <MdAddCircleOutline className="text-2xl" />
+            Add Event
+          </button>
+        )}
       </div>
       <div>
         <div className="grid p-4 grid-cols-2 w-full gap-12 my-8">
-          {eventData.map((event, index) => (
+          {EventData.map((event, index) => (
             <div
               key={index}
               className="w-full bg-white p-6 border rounded-xl shadow-lg"
@@ -67,24 +121,36 @@ const Event = ({ user }: any) => {
                 </div>
                 <div className="text-sm mt-2 text-gray-600 flex flex-row justify-start gap-1 items-center">
                   <BiCalendar />
-                  <p className="text-sm">{event.date}</p>
+                  <DateComponent date={event.date} />
                 </div>
                 <p className=" mt-2 text-base font-normal text-justify">
                   {event.description}
                 </p>
-                {user?.permissions.includes("write") && (
-                <div className="flex justify-end">
-                  <div className="grid h-12 grid-cols-2 divide-x items-center">
-                    <Link href={""} className="flex justify-center">
-                      {" "}
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg" alt="" className="" />
-                    </Link>
-                    <Link href={""} className="flex justify-center">
-                      <img                       loading="lazy"src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg" alt="" className="" />
-                    </Link>
+                {user?.permissions
+                  .map((permission: string) => permission.toLowerCase())
+                  .includes("edit".toLowerCase()) && (
+                  <div className="flex justify-end">
+                    <div className="grid h-12 grid-cols-2 divide-x items-center">
+                      <Link href={""} className="flex justify-center">
+                        {" "}
+                        <img
+                          loading="lazy"
+                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                          alt=""
+                          className=""
+                        />
+                      </Link>
+                      <Link href={""} className="flex justify-center">
+                        <img
+                          loading="lazy"
+                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                          alt=""
+                          className=""
+                        />
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               </div>
             </div>
           ))}
@@ -111,6 +177,8 @@ const Event = ({ user }: any) => {
                     type="text"
                     className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                     placeholder="name"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
               </div>
@@ -125,6 +193,8 @@ const Event = ({ user }: any) => {
                       type="date"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="name@flowbite.com"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
                     />
                   </div>
                 </div>
@@ -139,6 +209,8 @@ const Event = ({ user }: any) => {
                     <input
                       type="time"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
+                      value={start_time}
+                      onChange={(e) => setStart_time(e.target.value)}
                     />
                   </div>
                 </div>
@@ -151,6 +223,8 @@ const Event = ({ user }: any) => {
                     <input
                       type="time"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
+                      value={end_time}
+                      onChange={(e) => setEnd_time(e.target.value)}
                     />
                   </div>
                 </div>{" "}
@@ -166,6 +240,8 @@ const Event = ({ user }: any) => {
                       type="text"
                       className="border-b border-gray-400 rounded-lg w-full pl-12 p-3"
                       placeholder="kigali, Rwanda"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
                     />
                   </div>
                 </div>
@@ -226,7 +302,7 @@ const Event = ({ user }: any) => {
           <div className="flex justify-center gap-8 my-8">
             <button
               className="px-4 py-2 bg-[#4A6FBB] w-[120px] h-[50px] rounded-[9px] shadow text-white font-bold"
-              onClick={closeModal}
+              onClick={handleSaveEvent}
             >
               Save
             </button>
@@ -258,53 +334,3 @@ const customStyles = {
     width: "100%", // Ensure the modal takes up the full width within 75vw
   },
 };
-const eventData = [
-  {
-    title: "Rwanda Culture Day",
-    date: "20/10/2023",
-    startTime:"14:30",
-    endTime:"20:30",
-    location:"kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl: "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png",
-    moreImages: ["https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png", "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png"],
-    slug: "deploy_virtual",
-    type: "event",
-  },
-  {
-    title: "Multiculture Day",
-    date: "20/10/2023",
-    startTime:"14:30",
-    endTime:"20:30",
-    location:"kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl: "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301490/GHA/parental_vq51j7.jpg",
-    moreImages: ["https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png", "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png"],
-    slug: "parental_night",
-    type: "event",
-  },
-  {
-    title: "Christmas Concert",
-    date: "20/10/2023",
-    startTime:"14:30",
-    endTime:"20:30",
-    location:"kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl: "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301549/GHA/ghatraining_wc2jvr.png",
-    moreImages: ["https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png", "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png"],
-    slug: "gha_training",
-    type: "event",
-  },
-  {
-    title: "Graduation",
-    date: "20/10/2023",
-    startTime:"14:30",
-    endTime:"20:30",
-    location:"kigali",
-    description: `On Friday 28th August, 2020, the Nursery Principal, Ms. Carmel Faulkner held a virtual Parents Night with current and prospective nursery parents. At Green Hills Academy, we recognize parents are their child’s first, continuous and most important educator. We also understand that balancing home schooling, work and family commitments during the COVID closure is a huge challenge. Our nursery ‘at home learning’ aims to provide practical`,
-    imageUrl: "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301549/GHA/ghatraining_wc2jvr.png",
-    moreImages: ["https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png", "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png"],
-    slug: "gha_training",
-    type: "event",
-  },
-];
