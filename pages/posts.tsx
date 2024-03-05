@@ -38,7 +38,8 @@ const PostsPage = () => {
       <div>
         <div>
           <h3 className="font-bold">Posts</h3>
-          <p className="">Welcome Back, {user?.username || "Guest"} !</p>
+          <p className="">Welcome Back, {user?.name ? user.name.split(' ')[0] : "Guest"}!</p>
+
         </div>
         <div className="flex my-8 md:gap-8 gap-1 w-full py-4">
           <button

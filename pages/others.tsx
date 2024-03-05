@@ -31,7 +31,8 @@ const MainWebPages = () => {
           <div className="w-[100%]">
             <div>
               <h3 className="font-bold">Others</h3>
-              <p className="">Welcome Back, {user?.username || "Guest"} !</p>
+              <p className="">Welcome Back, {user?.name ? user.name.split(' ')[0] : "Guest"}!</p>
+
             </div>
             <div className="flex my-8 gap-12 p-4">
               <button
@@ -43,16 +44,6 @@ const MainWebPages = () => {
                 onClick={() => handleTabClick("nav")}
               >
                 Navigation bar
-              </button>
-              <button
-                className={`${
-                  activeTab === "footer"
-                    ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
-                    : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-                } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
-                onClick={() => handleTabClick("footer")}
-              >
-                Footer
               </button>
               <button
                 className={`${
@@ -69,11 +60,6 @@ const MainWebPages = () => {
               {activeTab === "nav" && (
                 <div>
                   <Navigation user={user} />
-                </div>
-              )}
-              {activeTab === "footer" && (
-                <div>
-                  <FooterNav user={user} />
                 </div>
               )}
               {activeTab === "social" && (

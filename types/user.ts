@@ -1,4 +1,7 @@
 type User = {
+    title: string;
+    category: string;
+    imageUrl: string | undefined;
     _id: string;
     email: string
     username: string;

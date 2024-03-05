@@ -162,7 +162,8 @@ const UsersPage = () => {
       <main>
         <div>
           <h3 className="font-bold">The Users</h3>
-          <p className="">Welcome Back, {user?.username || "Guest"} !</p>
+          <p className="">Welcome Back, {user?.name ? user.name.split(' ')[0] : "Guest"}!</p>
+
         </div>
         <div className="flex justify-end gap-8 items-center mt-8">
           <button

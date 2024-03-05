@@ -6,7 +6,7 @@ const navigationItemSchema = new mongoose.Schema(
   {
     label: { type: String, required: true },
     url: { type: String, required: true },
-    category: { type: String, required: true },
+    slug: { type: String, required: true },
   },
   { timestamps: true }
 );
