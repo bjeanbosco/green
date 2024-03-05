@@ -46,7 +46,7 @@ const Courses = ({ user, numberValue,title }: LearnerProps) => {
             <Link
               href={""}
               onClick={toggleCustomization}
-              className="text-lg text-primary hover:underline"
+              className="text-primary hover:underline"
             >
               Edit
             </Link>

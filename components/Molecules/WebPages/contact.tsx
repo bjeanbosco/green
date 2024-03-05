@@ -152,9 +152,9 @@ const ContactPage = () => {
                 <h1 className="capitalize text-center text-primary">
                   reach out to us
                 </h1>
-                <div className="flex sm:flex-wrap justify-between md:gap-8 my-4 text-lg">
+                <div className="flex sm:flex-wrap justify-between md:gap-8 my-4">
                   <div className="flex gap-2 md:my-4 items-center">
-                    <MdMail className="mt-1 text-primary text-lg" />
+                    <MdMail className="mt-1 text-primary" />
                     <input
                       type="text"
                       value={contactInfo.email}
@@ -168,7 +168,7 @@ const ContactPage = () => {
                     <hr className="h-6 w-0.5 bg-black" />
                   </div>
                   <div className="flex gap-2 md:my-4 items-center">
-                    <MdPhone className="mt-1 text-primary text-lg" />
+                    <MdPhone className="mt-1 text-primary" />
                     <input
                       type="text"
                       value={contactInfo.phoneNumber}
@@ -182,7 +182,7 @@ const ContactPage = () => {
                     <hr className="h-6 w-0.5 bg-black" />
                   </div>
                   <div className="flex gap-2 sm:w-full sm:justify-center md:my-4 items-center">
-                    <MdLocationPin className="mt-1 text-primary text-lg" />
+                    <MdLocationPin className="mt-1 text-primary" />
                     <input
                       type="text"
                       value={contactInfo.location}
@@ -199,7 +199,7 @@ const ContactPage = () => {
             {/* Schedule */}
             <div className="flex justify-center mt-12">
               <div className="md:w-1/2">
-                <h2 className="text-primary md:mb-12 font-bold uppercase font-['Outfit']">
+                <h2 className="text-primary md:mb-12 font-bold uppercase">
                   our schedule
                 </h2>
                 {schedule.map((item, index) => (
@@ -242,7 +242,7 @@ const ContactPage = () => {
             {/* Query Form */}
             <div className="flex justify-center mt-12">
               <div className="md:w-1/2">
-                <h2 className="text-primary md:mb-6 font-bold uppercase font-['Outfit']">
+                <h2 className="text-primary md:mb-6 font-bold uppercase">
                   query form
                 </h2>
                 <div className="mb-4">
@@ -284,7 +284,7 @@ const ContactPage = () => {
                 <div className="my-8">
                   <button
                     type="submit"
-                    className="capitalize bg-primary text-white w-full rounded-xl text-lg"
+                    className="capitalize bg-primary text-white w-full rounded-xl"
                   >
                     Submit now
                   </button>
@@ -301,9 +301,9 @@ const ContactPage = () => {
                 <h1 className="capitalize text-center text-primary">
                   reach out to us
                 </h1>
-                <div className="flex sm:flex-wrap justify-between md:gap-8 my-4 text-lg">
+                <div className="flex sm:flex-wrap justify-between md:gap-8 my-4">
                   <div className="flex gap-2 md:my-4">
-                    <MdMail className="mt-1 text-primary text-lg" />
+                    <MdMail className="mt-1 text-primary" />
                     <Link href={"mailto:info@greenhillsacademy.rw"}>
                       info@greenhillsacademy.rw
                     </Link>
@@ -312,14 +312,14 @@ const ContactPage = () => {
                     <hr className="h-6 w-0.5 bg-black" />
                   </div>
                   <div className="flex gap-2 md:my-4">
-                    <MdPhone className="mt-1 text-primary text-lg" />
+                    <MdPhone className="mt-1 text-primary" />
                     <Link href={"tel:+250735832348"}> +250 735 832 348 </Link>
                   </div>
                   <div className="flex sm:hidden my-4">
                     <hr className="h-6 w-0.5 bg-black" />
                   </div>
                   <div className="flex gap-2 sm:w-full sm:justify-center md:my-4">
-                    <MdLocationPin className="mt-1 text-primary text-lg" />
+                    <MdLocationPin className="mt-1 text-primary" />
                     <Link href={""}>
                       PO BX 6419, Kigali KG 278 St, Nyarutarama Kigali
                     </Link>
@@ -330,7 +330,7 @@ const ContactPage = () => {
             <div className="flex justify-center">
               <div className="flex sm:flex-wrap w-[80%] my-12">
                 <div className="md:w-1/2">
-                  <h2 className="text-primary md:mb-12 font-bold uppercase font-['Outfit']">
+                  <h2 className="text-primary md:mb-12 font-bold uppercase">
                     our schedule
                   </h2>
                   <div className="mb-4">
@@ -347,7 +347,7 @@ const ContactPage = () => {
                   </div>
                 </div>
                 <div className="md:w-1/2">
-                  <h2 className="text-primary md:mb-6 font-bold uppercase font-['Outfit']">
+                  <h2 className="text-primary md:mb-6 font-bold uppercase">
                     query form
                   </h2>
                   <div className="mb-4">
@@ -365,7 +365,7 @@ const ContactPage = () => {
                   <div className="my-8">
                     <button
                       type="submit"
-                      className="capitalize bg-primary text-white w-full rounded-xl text-lg"
+                      className="capitalize bg-primary text-white w-full rounded-xl"
                     >
                       Submit now
                     </button>

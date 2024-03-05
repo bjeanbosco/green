@@ -12,6 +12,14 @@ import AccreditationPage from "@/components/Molecules/WebPages/accreditations";
 import Dashboard from "@/components/dashboard";
 import User from "@/types/user";
 import { decodeToken } from "@/lib/jwt";
+import ExtracurricularActivity from "@/components/Molecules/ExtracurricularActivity";
+import LearnersClubs from "@/components/Molecules/Learners_clubs";
+import Creative_offers from "@/components/Molecules/CreativeOffers";
+import Counselling from "@/components/Molecules/Counselling";
+import HighSchoolPage from "@/components/Organisms/HighSchoolPage";
+import MiddleSchoolPage from "@/components/Organisms/MiddleSchoolPage";
+import PrimaryPage from "@/components/Organisms/PrimaryPage";
+import NurseryPage from "@/components/Organisms/NurseryPage";
 
 const MainWebPages = () => {
   const [activeTab, setActiveTab] = useState("landing");
@@ -47,7 +55,7 @@ const MainWebPages = () => {
                     activeTab === "landing"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("landing")}
                 >
                   Landing&nbsp;Page
@@ -57,7 +65,7 @@ const MainWebPages = () => {
                     activeTab === "about"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("about")}
                 >
                   About&nbsp;us
@@ -67,7 +75,7 @@ const MainWebPages = () => {
                     activeTab === "education"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("education")}
                 >
                   Education
@@ -77,7 +85,7 @@ const MainWebPages = () => {
                     activeTab === "admissions"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("admissions")}
                 >
                   Admissions
@@ -87,7 +95,7 @@ const MainWebPages = () => {
                     activeTab === "boarding"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("boarding")}
                 >
                   Boarding
@@ -97,7 +105,7 @@ const MainWebPages = () => {
                     activeTab === "contact"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("contact")}
                 >
                   Contact&nbsp;Us
@@ -107,17 +115,59 @@ const MainWebPages = () => {
                     activeTab === "learners"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("learners")}
                 >
                   Learners&nbsp;life{" "}
                 </button>
+                {/* //// */}
+                <button
+                  className={`${
+                    activeTab === "extracurricular"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("extracurricular")}
+                >
+                  Extracurricular&nbsp;Activities
+                </button>
+                <button
+                  className={`${
+                    activeTab === "counselor"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("counselor")}
+                >
+                  Counselling&nbsp;Department
+                </button>
+                <button
+                  className={`${
+                    activeTab === "creative"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("creative")}
+                >
+                   Creative&nbsp;Offers
+                </button>
+                <button
+                  className={`${
+                    activeTab === "clubs"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("clubs")}
+                >
+                  Learners&nbsp;Clubs
+                </button>
+                {/* //// */}
                 <button
                   className={`${
                     activeTab === "leadership"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("leadership")}
                 >
                   Leadership
@@ -127,7 +177,7 @@ const MainWebPages = () => {
                     activeTab === "facilities"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("facilities")}
                 >
                   Facilities
@@ -137,10 +187,51 @@ const MainWebPages = () => {
                     activeTab === "accreditation"
                       ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                       : "text-[#616161] hover:text-white hover:bg-primary"
-                  } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                   onClick={() => handleTabClick("accreditation")}
                 >
                   Accreditation
+                </button>
+                {/* /////////// */}
+                <button
+                  className={`${
+                    activeTab === "nursery"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("nursery")}
+                >
+                  Nursery
+                </button>
+                <button
+                  className={`${
+                    activeTab === "primary"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("primary")}
+                >
+                  Primary
+                </button>
+                <button
+                  className={`${
+                    activeTab === "middle"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("middle")}
+                >
+                  Middle
+                </button>
+                <button
+                  className={`${
+                    activeTab === "high"
+                      ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
+                      : "text-[#616161] hover:text-white hover:bg-primary"
+                  } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
+                  onClick={() => handleTabClick("high")}
+                >
+                  High
                 </button>
               </div>
             </div>
@@ -180,6 +271,26 @@ const MainWebPages = () => {
                 <LearnerLifePage />
               </div>
             )}
+            {/*  */}
+            {activeTab === "extracurricular" && (
+              <div>
+                <ExtracurricularActivity />
+              </div>
+            )}
+            {activeTab === "counselor" && (
+              <div>
+                <Counselling />
+              </div>
+            )}{activeTab === "creative" && (
+              <div>
+                <Creative_offers />
+              </div>
+            )}{activeTab === "clubs" && (
+              <div>
+                <LearnersClubs />
+              </div>
+            )}
+            {/*  */}
             {activeTab === "leadership" && (
               <div>
                 <LeadershipPage />
@@ -193,6 +304,27 @@ const MainWebPages = () => {
             {activeTab === "accreditation" && (
               <div>
                 <AccreditationPage />
+              </div>
+            )}
+            {/*  */}
+            {activeTab === "nursery" && (
+              <div>
+                <NurseryPage />
+              </div>
+            )}
+            {activeTab === "primary" && (
+              <div>
+                <PrimaryPage />
+              </div>
+            )}
+            {activeTab === "middle" && (
+              <div>
+                <MiddleSchoolPage />
+              </div>
+            )}
+            {activeTab === "high" && (
+              <div>
+                <HighSchoolPage />
               </div>
             )}
           </div>

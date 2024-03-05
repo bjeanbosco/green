@@ -101,7 +101,7 @@ const NewsAndEventsSlider: React.FC<Props> = ({ data }) => {
                     </h4>
                   </div>
                   <h3 className="font-semibold mb-2">{item.title}</h3>
-                  <span className="text-sm pb-2">{item.date}</span>
+                  <span className="pb-2">{item.date}</span>
                   <p className="text-white md:py-4 text-justify">
                     {truncateDescription(item.description, 50)}
                   </p>

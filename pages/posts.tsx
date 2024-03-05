@@ -47,7 +47,7 @@ const PostsPage = () => {
               activeTab === "News"
                 ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                 : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-            } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+            } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
             onClick={() => handleTabClick("News")}
           >
             News
@@ -57,7 +57,7 @@ const PostsPage = () => {
               activeTab === "Events"
                 ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                 : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-            } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+            } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
             onClick={() => handleTabClick("Events")}
           >
             Events
@@ -67,7 +67,7 @@ const PostsPage = () => {
               activeTab === "Careers"
                 ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                 : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-            } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+            } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
             onClick={() => handleTabClick("Careers")}
           >
             Careers

@@ -26,12 +26,12 @@ export default function Login() {
               <h2 className="text-center text-primary font-bold">
                 Welcome back!
               </h2>
-              <p className="w-full text-center text-neutral-600 md:text-xl font-normal font-['Outfit']">
+              <p className="w-full text-center text-neutral-600 md:font-normal">
                 Fill in your credentials
               </p>
             </div>
             <div className="mt-4">
-              <p className="mb-3 text-lg">Email</p>
+              <p className="mb-3">Email</p>
               <Input
                 placeholder="Email or Username"
                 type="text"
@@ -41,7 +41,7 @@ export default function Login() {
               />
             </div>
             <div className="mt-4">
-              <p className="mb-3 text-lg">Password</p>
+              <p className="mb-3">Password</p>
               <Input
                 placeholder="Password"
                 type="password"
@@ -50,13 +50,13 @@ export default function Login() {
                 error={errors.password}
               />
             </div>
-            <div className=" text-end cursor-pointer text-primary text-lg font-medium font-['Outfit'] mt-3 capitalize">
+            <div className=" text-end cursor-pointer text-primary font-medium mt-3 capitalize">
               Forgot password?
             </div>
             <div className="flex justify-center">
               <button
                 onClick={onSubmit}
-                className="text-center px-4 py-1 text-white text-lg font-['Outfit'] capitalize mt-3 bg-primary md:rounded-2xl"
+                className="text-center px-4 py-1 text-white capitalize mt-3 bg-primary md:rounded-2xl"
               >
                 {loading ? "Logging in ..." : "Log in"}
               </button>

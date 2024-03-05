@@ -53,7 +53,7 @@ const MainWebPages = () => {
                   activeTab === "learners"
                     ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                     : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-                } flex items-center rounded-[6px] h-[38px] w-[136px] justify-center cursor-pointer px-8 font-['Outfit']`}
+                } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                 onClick={() => handleTabClick("learners")}
               >
                 Learners
@@ -63,7 +63,7 @@ const MainWebPages = () => {
                   activeTab === "nationality"
                     ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                     : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-                } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                 onClick={() => handleTabClick("nationality")}
               >
                 Nationalities
@@ -73,7 +73,7 @@ const MainWebPages = () => {
                   activeTab === "courses"
                     ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                     : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-                } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                 onClick={() => handleTabClick("courses")}
               >
                 Courses
@@ -83,7 +83,7 @@ const MainWebPages = () => {
                   activeTab === "educators"
                     ? "text-white bg-primary hover:text-white hover:bg-primary hover:shadow-xl"
                     : "text-[#616161] hover:text-white hover:bg-primary bg-[#B3B3B3]/25"
-                } flex items-center rounded-[6px] h-[38px] justify-center cursor-pointer w-[136px] px-8 font-['Outfit']`}
+                } flex items-center rounded-[6px] py-2 justify-center cursor-pointer px-8`}
                 onClick={() => handleTabClick("educators")}
               >
                 Educators

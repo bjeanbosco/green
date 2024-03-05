@@ -133,16 +133,16 @@ const AdmissionPage = ({ user }: any) => {
       >
         {isCustomizing ?<textarea
         rows={2}
-                className="md:w-[45%] w-[80%] text-center text-black text-2xl font-normal font-['Outfit']"
+                className="md:w-[45%] w-[80%] text-center text-black font-normal"
                 value={admission.bannerTitle}
                 onChange={(e) => {
                   setAdmission({...admission, bannerTitle: e.target.value});
                 }}
-              />: (<div className="md:w-[45%] w-[80%] text-center text-white  text-2xl font-normal font-['Outfit']">
+              />: (<div className="md:w-[45%] w-[80%] text-center text-white  font-normal">
           Wish to learn more? We&apos;ll send you a package of information as
           soon as you complete the form Linked below
         </div>)}
-        <button className="text-xl text-white hover:shadow-xl mt-4 grid place-items-center bg-primary rounded-lg justify-center">
+        <button className="text-white hover:shadow-xl mt-4 grid place-items-center bg-primary rounded-lg justify-center">
           <div className="flex space-x-4 text-[yellow]">
             <span>Apply now</span>{" "}
             <MdCastForEducation className="mt-1 text-[yellow]" />
@@ -163,10 +163,10 @@ const AdmissionPage = ({ user }: any) => {
                   className=" md:w-1/2 w-36 md:h-[350px] h-48 z-20"
                 />
                 <div className="md:w-1/2 w-32 z-40 md:ml-28 ml-20 -mt-44 md:px-6 px-2 py-6 bg-primary">
-                  <h3 className="md:text-justify text-[yellow] font-bold font-['Outfit']">
+                  <h3 className="md:text-justify text-[yellow] font-bold">
                     {numberOfYears}+ Years
                   </h3>
-                  <p className="md:text-justify text-white font-normal font-['Outfit']">
+                  <p className="md:text-justify text-white font-normal">
                     Years of Experience
                   </p>
                 </div>
@@ -181,26 +181,26 @@ const AdmissionPage = ({ user }: any) => {
               </div>
               <div className="flex md:w-1/2 sm:my-8 w-full flex-col md:gap-8 gap-3 justify-center items-start ">
               {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.enrollementSection.title}
                 onChange={(e) => {
                   setAdmission({...admission, enrollementSection: {...admission.enrollementSection, title: e.target.value}});
                 }}
-              />: <h1 className="text-primary sm:text-base font-bold font-['Outfit']">
+              />: <h1 className="text-primary sm:text-base font-bold">
                   {admission.enrollementSection.title}
                 </h1>}
                 <hr className="w-[75px] h-1.5 bg-primary mb-4" />
                 {isCustomizing ?<textarea
                 rows={4}
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.enrollementSection.description}
                 onChange={(e) => {
                   setAdmission({...admission, enrollementSection: {...admission.enrollementSection, description: e.target.value}});
                 }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal font-['Outfit']">
+              />: <p className="w-full text-justify text-zinc-800 font-normal">
                   {admission.enrollementSection.description}
                 </p>}
-                <button className="text-xl text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
+                <button className="text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
                   <div className="flex space-x-4 text-white">
                     <span>Fill the form</span>{" "}
                     <SiGoogleforms className="mt-1 text-[yellow]" />
@@ -223,23 +223,23 @@ const AdmissionPage = ({ user }: any) => {
           <div className="flex justify-center items-start md:mt-16">
             <div className="flex md:gap-8 gap-2 flex-col items-start">
             {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.missionSection.title}
                 onChange={(e) => {
                   setAdmission({...admission, missionSection: {...admission.missionSection, title: e.target.value}});
                 }}
-              />: <h1 className="text-white sm:text-base font-bold font-['Outfit']">
+              />: <h1 className="text-white sm:text-base font-bold">
                 {admission.missionSection.title}
               </h1>}
               <hr className="w-[75px] h-1.5 bg-[yellow] mb-4" />
               {isCustomizing ?<textarea
               rows={4}
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.missionSection.description}
                 onChange={(e) => {
                   setAdmission({...admission, missionSection: {...admission.missionSection, description: e.target.value}});
                 }}
-              />:  <p className="h-auto text-justify text-white w-[80%] font-normal font-['Outfit']">
+              />:  <p className="h-auto text-justify text-white w-[80%] font-normal">
                 {admission.missionSection.description}
               </p>}
             </div>
@@ -272,25 +272,25 @@ const AdmissionPage = ({ user }: any) => {
                     className=""
                   />
                   {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.firstCharacterSection.title}
                 onChange={(e) => {
                   setAdmission({...admission, firstCharacterSection: {...admission.firstCharacterSection, title: e.target.value}});
                 }}
-              />: <h2 className="text-[yellow] sm:text-base font-bold font-['Outfit']">
+              />: <h2 className="text-[yellow] sm:text-base font-bold">
                     {admission.firstCharacterSection.title}
                   </h2>}
                 </div>
                 {isCustomizing ?<textarea rows={4}
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.firstCharacterSection.description}
                 onChange={(e) => {
                   setAdmission({...admission, firstCharacterSection: {...admission.firstCharacterSection, description: e.target.value}});
                 }}
-              />: <p className="w-full text-justify text-white font-normal font-['Outfit']">
+              />: <p className="w-full text-justify text-white font-normal">
                   {admission.firstCharacterSection.description}
                 </p>}
-                <button className="text-xl text-white hover:shadow-xl grid place-items-center bg-primary border border-[yellow] rounded-lg justify-center">
+                <button className="text-white hover:shadow-xl grid place-items-center bg-primary border border-[yellow] rounded-lg justify-center">
                   <div className="flex space-x-4 text-white">
                     <span>Fill the form</span>{" "}
                     <SiGoogleforms className="mt-1 text-[yellow]" />
@@ -317,26 +317,26 @@ const AdmissionPage = ({ user }: any) => {
                 <div className="flex gap-2">
                   <img                       loading="lazy"src="/icons/success.svg" alt="" className="" />
                   {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.secondCharacterSection.title}
                 onChange={(e) => {
                   setAdmission({...admission, secondCharacterSection: {...admission.secondCharacterSection, title: e.target.value}});
                 }}
-              />: <h2 className="text-primary sm:text-base font-bold font-['Outfit']">
+              />: <h2 className="text-primary sm:text-base font-bold">
                     {admission.secondCharacterSection.title}
                   </h2>}
                 </div>
                 {isCustomizing ?<textarea
                 rows={4}
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.secondCharacterSection.description}
                 onChange={(e) => {
                   setAdmission({...admission, secondCharacterSection: {...admission.secondCharacterSection, description: e.target.value}});
                 }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal font-['Outfit']">
+              />: <p className="w-full text-justify text-zinc-800 font-normal">
                   {admission.secondCharacterSection.description}
                 </p>}
-                <button className="text-xl text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
+                <button className="text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
                   <div className="flex space-x-4 text-white">
                     <span>Fill the form</span>{" "}
                     <SiGoogleforms className="mt-1 text-[yellow]" />
@@ -386,32 +386,32 @@ const AdmissionPage = ({ user }: any) => {
                 <div className="flex gap-2">
                   <img                       loading="lazy"src="/icons/octicon_goal-16.svg" alt="" className="" />
                   {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.lastCharacterSection.title}
                 onChange={(e) => {
                   setAdmission({...admission, lastCharacterSection: {...admission.lastCharacterSection, title: e.target.value}});
                 }}
-              />: <h2 className="text-primary sm:text-base font-bold font-['Outfit']">
+              />: <h2 className="text-primary sm:text-base font-bold">
                     {admission.lastCharacterSection.title}
                   </h2>}
                 </div>
                 {isCustomizing ?<textarea
                 rows={4}
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.lastCharacterSection.description}
                 onChange={(e) => {
                   setAdmission({...admission, lastCharacterSection: {...admission.lastCharacterSection, description: e.target.value}});
                 }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal font-['Outfit']">
+              />: <p className="w-full text-justify text-zinc-800 font-normal">
                   {admission.lastCharacterSection.description}
                 </p>}
                 {isCustomizing ?<textarea rows={4}
-                className="text-primary sm:text-base font-bold font-['Outfit']"
+                className="text-primary sm:text-base font-bold"
                 value={admission.lastCharacterSection.description}
                 onChange={(e) => {
                   setAdmission({...admission, lastCharacterSection: {...admission.lastCharacterSection, description: e.target.value}});
                 }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal font-['Outfit']">
+              />: <p className="w-full text-justify text-zinc-800 font-normal">
                   For more information or to make an appointment with our
                   Admissions Director, please contact Lucie Umulisa at{" "}
                   <Link
@@ -430,7 +430,7 @@ const AdmissionPage = ({ user }: any) => {
                   . She will be happy to answer all of your questions and give
                   you a tour of our beautiful and expansive campus.
                 </p>}
-                <button className="text-xl text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
+                <button className="text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
                   <div className="flex space-x-4 text-white">
                     <span>Fill the form</span>{" "}
                     <SiGoogleforms className="mt-1 text-[yellow]" />

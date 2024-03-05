@@ -32,7 +32,7 @@ const NewsAndEventPage = ({ user }: any) => {
       <div className="md:w-[80%] sm:pt-8 sm:w-[80%] my-12">
         <div className="flex justify-center">
           <div className="text-center">
-            <p className="text-lg text-gray-400 font-normal font-['Outfit']">
+            <p className="text-gray-400 font-normal">
               Latest
             </p>
             <h1 className="text-primary sm:text-2xl"> News and Events </h1>

@@ -120,7 +120,7 @@ const Event = ({ user }: any) => {
                   <p className="text-sm">Alumni day</p>
                   <p className="font-bold ">{event.title}</p>
                 </div>
-                <div className="text-sm mt-2 text-gray-600 flex flex-row justify-start gap-1 items-center">
+                <div className="mt-2 text-gray-600 flex flex-row justify-start gap-1 items-center">
                   <BiCalendar />
                   <DateComponent date={event.date} />
                 </div>
@@ -169,7 +169,7 @@ const Event = ({ user }: any) => {
           <div className="flex w-full gap-4 my-8">
             <div className="w-1/2">
               <div className="">
-                <p className="mb-3 text-lg">Event Title</p>
+                <p className="mb-3">Event Title</p>
                 <div className="relative mb-6">
                   <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                     <BiRename />
@@ -185,7 +185,7 @@ const Event = ({ user }: any) => {
               </div>
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Event Date</p>
+                  <p className="mb-3">Event Date</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <BsCalendarWeek />
@@ -202,7 +202,7 @@ const Event = ({ user }: any) => {
               </div>
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Start Time</p>
+                  <p className="mb-3">Start Time</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <MdMoreTime />
@@ -216,7 +216,7 @@ const Event = ({ user }: any) => {
                   </div>
                 </div>
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">End Time</p>
+                  <p className="mb-3">End Time</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <GiAlarmClock />
@@ -232,7 +232,7 @@ const Event = ({ user }: any) => {
               </div>
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Location</p>
+                  <p className="mb-3">Location</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <SlLocationPin />
@@ -250,7 +250,7 @@ const Event = ({ user }: any) => {
             </div>
             <div className="w-1/2">
               <div>
-                <p className="mb-3 text-lg">Description</p>
+                <p className="mb-3">Description</p>
                 <textarea
                   value={description}
                   onChange={(e) => {
@@ -262,7 +262,7 @@ const Event = ({ user }: any) => {
                 />
               </div>
               <div className="mt-8">
-                <p className="mb-3 text-lg">Cover Photo</p>
+                <p className="mb-3">Cover Photo</p>
                 <input
                   type="file"
                   accept="image/*"
@@ -278,7 +278,7 @@ const Event = ({ user }: any) => {
                 )}
               </div>
               <div className="mt-8">
-                <p className="mb-3 text-lg">Select Pictures</p>
+                <p className="mb-3">Select Pictures</p>
                 <input
                   type="file"
                   accept="image/*" // Allow only image files
