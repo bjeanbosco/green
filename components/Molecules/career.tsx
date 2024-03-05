@@ -130,7 +130,7 @@ const Career = ({ user }: any) => {
       </div>
       <div>
         <div className="my-12 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {Data.map((job, index) => (
+          {Data.map((job: any, index: number) => (
             <div
               key={index}
               className="border bg-white rounded-xl shadow-lg p-2"
@@ -206,12 +206,16 @@ const Career = ({ user }: any) => {
                     className={`h-[45px] rounded-lg mb-4 text-white ${
                       job.isPublished === true ? "bg-primary" : "bg-[#4A6FBB]"
                     } ${
-                      user?.permissions.includes("write")
+                      user?.permissions
+                        .map((permission: string) => permission.toLowerCase())
+                        .includes("edit".toLowerCase())
                         ? ""
                         : "cursor-not-allowed"
                     }`}
                     onClick={
-                      user?.permissions.includes("write")
+                      user?.permissions
+                        .map((permission: string) => permission.toLowerCase())
+                        .includes("edit".toLowerCase())
                         ? () => handlePublishClick(index)
                         : () => {}
                     }

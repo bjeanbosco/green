@@ -65,8 +65,8 @@ const FooterNav = ({ user }: any) => {
                 <p className=" text-lg">Edit</p>
               ) : (
                 user?.permissions
-                  .map((permission) => permission.toLowerCase())
-                  .includes("edit".toLowerCase()) && (
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
                   <Link
                     href={""}
                     onClick={toggleCustomization}
@@ -195,8 +195,8 @@ const FooterNav = ({ user }: any) => {
                 <p className=" text-lg">Edit</p>
               ) : (
                 user?.permissions
-                  .map((permission) => permission.toLowerCase())
-                  .includes("edit".toLowerCase()) && (
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
                   <Link
                     href={""}
                     onClick={toggleCustomization}

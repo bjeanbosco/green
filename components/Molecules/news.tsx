@@ -51,19 +51,20 @@ const News = ({ user }: any) => {
   }, []);
 
   // Convert the string to a Date object
-  const DateComponent = (props) => {
+  const DateComponent = (props: { date: string | number | Date }) => {
     const date = new Date(props.date);
 
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    const options: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
     };
     const localizedDateString = date.toLocaleString("en-US", options);
     console.log(localizedDateString);
 
     return <p className="text-sm">{localizedDateString}</p>;
-  };
+};
+
   return (
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
@@ -81,7 +82,7 @@ const News = ({ user }: any) => {
       </div>
       <div>
         <div className="grid p-4 grid-cols-2 w-full gap-12 my-8">
-          {data.map((item) => {
+          {data.map((item:any) => {
             return (
               <div className="w-full gap-8 flex pb-2">
                 <div

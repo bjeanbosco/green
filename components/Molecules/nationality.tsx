@@ -23,7 +23,9 @@ const Nationalities = ({user, numberValue,title }: LearnerProps) => {
         {user && isCustomizing ? (
           <p className="text-lg">Edit</p>
         ) : (
-          user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && (
+          user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
             <Link
               href={""}
               onClick={toggleCustomization}

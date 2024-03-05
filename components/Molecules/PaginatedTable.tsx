@@ -41,7 +41,9 @@ const PaginatedTable = ({ user, users, onDelete, onUpdate }: UserProps) => {
             <th className="border-b border-gray-400 p-2">Email</th>
             <th className="border-b border-gray-400 p-2">Phone</th>
             <th className="border-b border-gray-400 p-2">Department</th>
-            {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && (
+            {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
               <th className="border-b border-gray-400 p-2">Action</th>
             )}
           </tr>
@@ -67,7 +69,9 @@ const PaginatedTable = ({ user, users, onDelete, onUpdate }: UserProps) => {
               </td>
               <td className="border-b border-gray-400 p-2">{person.department}</td>
               <td className="border-b border-gray-400 p-2">
-                {/* {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && ( */}
+                {/* {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && ( */}
                   <div className="grid grid-cols-2 divide-x items-center">
                     <button onClick={() => onUpdate(person._id, person)} className="flex justify-center">
 

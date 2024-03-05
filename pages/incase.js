@@ -1,5 +1,8 @@
 import axios from 'axios';
 import useImageUploader from '@/utils/useImageUploader'; // Import the useImageUploader hook
+import React from 'react'
+
+export default function incase() {
 
 const handleSaveStaff = async () => {
   // Destructure variables and functions from the useImageUploader hook
@@ -21,3 +24,10 @@ const handleSaveStaff = async () => {
     // You may add additional error handling or display messages to the user
   }
 };
+
+  return (
+    <div>
+      
+    </div>
+  )
+}
