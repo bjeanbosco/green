@@ -11,10 +11,10 @@ const UnauthorizedPage = () => {
   return (
     <div className="h-screen grid place-items-center text-center">
       <div className="">
-        <h1 className="text-4xl font-bold text-[red] mb-4">
+        <h1 className="font-bold text-[red] mb-4">
           Error 403: Unauthorized Access
         </h1>
-        <p className="text-lg mb-8">
+        <p className="mb-8">
           You do not have permission to access this page. Please contact your
           administrator for assistance.
         </p>

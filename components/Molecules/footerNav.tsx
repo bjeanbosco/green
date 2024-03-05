@@ -62,7 +62,7 @@ const FooterNav = ({ user }: any) => {
             <div className="flex gap-12 items-center pb-2">
               <p className="font-bold">Links</p>
               {isCustomizing ? (
-                <p className=" text-lg">Edit</p>
+                <p className="">Edit</p>
               ) : (
                 user?.permissions
           .map((permission: string) => permission.toLowerCase())
@@ -70,7 +70,7 @@ const FooterNav = ({ user }: any) => {
                   <Link
                     href={""}
                     onClick={toggleCustomization}
-                    className="text-lg text-primary hover:underline"
+                    className="text-primary hover:underline"
                   >
                     Edit
                   </Link>
@@ -192,7 +192,7 @@ const FooterNav = ({ user }: any) => {
             <div className="flex gap-12 items-center pb-2">
               <p className="font-bold">Address</p>
               {isCustomizing ? (
-                <p className=" text-lg">Edit</p>
+                <p className="">Edit</p>
               ) : (
                 user?.permissions
           .map((permission: string) => permission.toLowerCase())
@@ -200,7 +200,7 @@ const FooterNav = ({ user }: any) => {
                   <Link
                     href={""}
                     onClick={toggleCustomization}
-                    className="text-lg text-primary hover:underline"
+                    className="text-primary hover:underline"
                   >
                     Edit
                   </Link>

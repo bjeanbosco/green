@@ -326,7 +326,7 @@ const AboutPage = ({ user }: any) => {
                   <div className="flex justify-center">
                     {isCustomizing ? (
                       <input
-                        className="text-primary capitalize text-2xl text-center mt-4"
+                        className="text-primary capitalize text-center mt-4"
                         value={about.title}
                         onChange={(e) => {
                           setAbout({ ...about, title: e.target.value });
@@ -393,7 +393,7 @@ const AboutPage = ({ user }: any) => {
                   <div className="flex flex-col gap-4 md:w-1/2 w-[80%]">
                     {isCustomizing ? (
                       <input
-                        className="text-primary capitalize text-2xl text-center mt-4"
+                        className="text-primary capitalize text-center mt-4"
                         value={about.whoWeAre.title}
                         onChange={(e) => {
                           setAbout({ ...about, whoWeAre: { ...about.whoWeAre, "title": e.target.value } });
@@ -408,7 +408,7 @@ const AboutPage = ({ user }: any) => {
 
                     {isCustomizing ? (
                       <textarea
-                        className="text-xl pt-4 text-justify text-black text-base font-normal border border-gray-400 p-2 w-full"
+                        className="pt-4 text-justify text-black text-base font-normal border border-gray-400 p-2 w-full"
                         value={about.whoWeAre.description}
                         rows={5}
                         onChange={(e) => {
@@ -416,7 +416,7 @@ const AboutPage = ({ user }: any) => {
                         }}
                       />
                     ) : (
-                      <p className="text-xl pt-4 text-justify text-black text-base font-normal">
+                      <p className="pt-4 text-justify text-black text-base font-normal">
                         {about.whoWeAre.description}
                       </p>
                     )}
@@ -460,7 +460,7 @@ const AboutPage = ({ user }: any) => {
                     <div className="grid gap-2">
                       {isCustomizing ? (
                         <input
-                          className="text-primary text-2xl text-center mt-4"
+                          className="text-primary text-center mt-4"
                           value={about.welcomeNote.title}
                           onChange={(e) => {
                             setAbout({ ...about, welcomeNote: { ...about.welcomeNote, "title": e.target.value } });;
@@ -472,31 +472,31 @@ const AboutPage = ({ user }: any) => {
                         </h2>
                       )}
                       <hr className="w-[75px] h-1.5 bg-primary mb-4" />
-                      <p className="mt-4 my-2 text-xl font-bold ">
+                      <p className="mt-4 my-2 font-bold ">
                         {about.welcomeNote.professorName}
                       </p>
-                      <p className="text-zinc-600 text-xl font-normal ">
+                      <p className="text-zinc-600 font-normal ">
                         {about.welcomeNote.professorPosition}
                       </p>
-                      <p className="text-xl pt-4 text-justify font-normal">
+                      <p className="pt-4 text-justify font-normal">
                         {paragraphs[currentParagraphIndex]}
                       </p>
                       <div className="flex gap-4 mt-4">
                         {isBackButtonVisible && (
-                          <span className="text-primary cursor-pointer font-medium font-['Outfit']">
+                          <span className="text-primary cursor-pointer font-medium">
                             <a
                               onClick={handleBackClick}
-                              className="md:text-xl text-2xl"
+                              className="md:text-2xl"
                             >
                               back
                             </a>
                           </span>
                         )}
                         {isNextButtonVisible && (
-                          <span className="text-primary cursor-pointer font-medium font-['Outfit']">
+                          <span className="text-primary cursor-pointer font-medium">
                             <a
                               onClick={handleNextClick}
-                              className="md:text-xl text-2xl"
+                              className="md:text-2xl"
                             >
                               Read more
                             </a>
@@ -712,7 +712,7 @@ const AboutPage = ({ user }: any) => {
                   <div className="md:w-[80%] w-[91%]">
                     {isCustomizing ? (
                       <input
-                        className="text-primary text-2xl text-center mt-4"
+                        className="text-primary text-center mt-4"
                         value={about.alumniSectionTitle}
                         onChange={(e) => {
                           setAbout({ ...about, alumniSectionTitle: e.target.value });

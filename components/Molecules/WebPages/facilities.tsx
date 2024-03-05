@@ -31,7 +31,7 @@ const FacilitiesPage = () => {
     >
       <div className="w-[80%] my-16 flex flex-col gap-12">
         <div className="">
-          <h2 className="text-primary uppercase font-bold font-['Outfit']">
+          <h2 className="text-primary uppercase font-bold">
             Campus Development
           </h2>
           <p className="text-black text-justify pb-6">
@@ -50,7 +50,7 @@ const FacilitiesPage = () => {
           </p>
         </div>
         <div className="">
-          <h2 className="text-primary uppercase font-bold font-['Outfit']">
+          <h2 className="text-primary uppercase font-bold">
             WORLD-CLASS FACILITIES
           </h2>
 
@@ -64,7 +64,7 @@ const FacilitiesPage = () => {
           </p>
         </div>
         <div className="">
-          <h2 className="text-primary uppercase font-bold font-['Outfit']">
+          <h2 className="text-primary uppercase font-bold">
             BOARDING SCHOOL
           </h2>
 

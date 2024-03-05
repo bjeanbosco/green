@@ -240,7 +240,7 @@ export default function Nav() {
           </div>
         </section>
       </section>
-      <section className="flex md:justify-end text-lg absolute top-0">
+      <section className="flex md:justify-end absolute top-0">
         <Menu
           right
           isOpen={isMenuOpen}
@@ -276,7 +276,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] uppercase`}
               >
                 <GoHome
                   className={` ${
@@ -290,7 +290,7 @@ export default function Nav() {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className={`group w-full text-start p-4 text-lg hover:bg-primary hover:text-[yellow] font-medium font-['Outfit'] ${
+                className={`group w-full text-start p-4 hover:bg-primary hover:text-[yellow] font-medium ${
                   isDropdownOpen ? "bg-primary text-[yellow]" : " bg-[#EAFBF3]"
                 }`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -325,7 +325,7 @@ export default function Nav() {
                     ref={ref}
                     className="z-10 absolute right-0 mt-2 py-2 w-[80%] bg-white divide-y divide-gray-100 rounded-lg shadow"
                   >
-                    <ul className="py-2 text-sm text-gray-700">
+                    <ul className="py-2 text-gray-700">
                       <li className="py-2">
                         <Link
                           href="https://greenhillsacademy.rw/about"
@@ -372,7 +372,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/admission"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <SiReacthookform
                   className={`group-hover:text-[yellow] ${
@@ -392,7 +392,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/about/learners_tab"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <FaRegLifeRing
                   className={`group-hover:text-[yellow] ${
@@ -411,7 +411,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/about/leadership_tab"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <MdOutlineLeaderboard
                   className={`group-hover:text-[yellow] ${
@@ -430,7 +430,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/about/facilities_tab"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <RiBuildingLine
                   className={`group-hover:text-[yellow] ${
@@ -449,7 +449,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/about/accreditation"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <SiReacthookform
                   className={`group-hover:text-[yellow] ${
@@ -468,7 +468,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/boarding"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <TbBellSchool
                   className={`group-hover:text-[yellow] ${
@@ -487,7 +487,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/news"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <BiNews
                   className={`group-hover:text-[yellow] ${
@@ -507,7 +507,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/contact"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <BiSupport
                   className={`group-hover:text-[yellow] ${
@@ -526,7 +526,7 @@ export default function Nav() {
                   router.pathname === "https://greenhillsacademy.rw/about/gallery_tab"
                     ? "bg-primary text-[yellow]"
                     : "bg-[#EAFBF3]"
-                } hover:bg-primary hover:text-[yellow] text-lg font-medium font-['Outfit'] uppercase`}
+                } hover:bg-primary hover:text-[yellow] font-medium uppercase`}
               >
                 <GrGallery
                   className={`group-hover:text-[yellow] ${

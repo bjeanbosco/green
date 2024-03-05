@@ -144,7 +144,7 @@ const Career = ({ user }: any) => {
                 }}
               >
                 <div className="justify-between items-center gap-8 flex ml-4">
-                  <div className="grid place-items-center mt-4 text-white px-4 py-1 text-center bg-[yellow] bg-opacity-50 rounded-lg text-xs font-['Outfit']">
+                  <div className="grid place-items-center mt-4 text-white px-4 py-1 text-center bg-[yellow] bg-opacity-50 rounded-lg text-xs">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
                       {job.selectedOption}
@@ -176,14 +176,14 @@ const Career = ({ user }: any) => {
                 </div>
               </div>
               <div className="p-2">
-                <h5 className="text-2xl font-bold">{job.jobTitle}</h5>
+                <h5 className="font-bold">{job.jobTitle}</h5>
                 <div className="flex space-x-4 my-2">
-                  <div className="flex text-sm text-gray-400 space-x-1.5">
-                    <VscBriefcase className="text-sm mt-0.5 font-bold" />{" "}
+                  <div className="flex text-gray-400 space-x-1.5">
+                    <VscBriefcase className="mt-0.5 font-bold" />{" "}
                     <span>{job.selectedOption}</span>
                   </div>
-                  <div className="flex text-sm text-gray-400 space-x-1.5">
-                    <AiOutlineClockCircle className="text-sm mt-0.5 font-bold" />{" "}
+                  <div className="flex text-gray-400 space-x-1.5">
+                    <AiOutlineClockCircle className="mt-0.5 font-bold" />{" "}
                     <span>
                       {job.publishDate &&
                         `Posted ${formatDistanceToNow(
@@ -196,7 +196,7 @@ const Career = ({ user }: any) => {
                   </div>
                 </div>
                 <hr />
-                <p className="text-justify text-lg my-2">
+                <p className="text-justify my-2">
                   {truncateString(job.description)}
                 </p>
               </div>
@@ -225,7 +225,7 @@ const Career = ({ user }: any) => {
                 )}
                 <Link
                   href={`/news/career_tab/${job.slug}`}
-                  className="text-lg text-primary hover:underline"
+                  className="text-primary hover:underline"
                 >
                   View More
                 </Link>
@@ -246,7 +246,7 @@ const Career = ({ user }: any) => {
           <div className="flex w-full gap-4 my-8">
             <div className="w-1/2">
               <div className="">
-                <p className="mb-3 text-lg">Job Title</p>
+                <p className="mb-3">Job Title</p>
                 <div className="relative mb-6">
                   <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                     <BiRename />
@@ -263,7 +263,7 @@ const Career = ({ user }: any) => {
 
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Industry</p>
+                  <p className="mb-3">Industry</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <BsFillBuildingFill />
@@ -278,7 +278,7 @@ const Career = ({ user }: any) => {
                   </div>
                 </div>
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Job level</p>
+                  <p className="mb-3">Job level</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <GiLevelEndFlag />
@@ -295,7 +295,7 @@ const Career = ({ user }: any) => {
               </div>
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Experience</p>
+                  <p className="mb-3">Experience</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <AiOutlineExperiment />
@@ -310,7 +310,7 @@ const Career = ({ user }: any) => {
                   </div>
                 </div>
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Salary range</p>
+                  <p className="mb-3">Salary range</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <BsCashCoin />
@@ -327,7 +327,7 @@ const Career = ({ user }: any) => {
               </div>
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Deadline Date</p>
+                  <p className="mb-3">Deadline Date</p>
                   <div className="relative mb-6">
                     <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                       <BsCalendarWeek />
@@ -342,7 +342,7 @@ const Career = ({ user }: any) => {
                 </div>
               </div>
               <div className="">
-                <p className="mb-3 text-lg">Job Type</p>
+                <p className="mb-3">Job Type</p>
                 <div className="flex items-center gap-4">
                   <div className="relative flex items-center cursor-pointer">
                     <div
@@ -394,7 +394,7 @@ const Career = ({ user }: any) => {
             </div>
             <div className="w-1/2">
               <div>
-                <p className="mb-3 text-lg">Description:</p>
+                <p className="mb-3">Description:</p>
                 <textarea
                   value={description}
                   onChange={(e) => {
@@ -406,7 +406,7 @@ const Career = ({ user }: any) => {
                 />
               </div>
               <div className="mt-8">
-                <p className="mb-3 text-lg">Select Picture:</p>
+                <p className="mb-3">Select Picture:</p>
                 <input
                   type="file"
                   accept="image/*"

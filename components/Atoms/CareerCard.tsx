@@ -48,7 +48,7 @@ export default function CareerCard({
         }}
       >
         <div className="flex-col justify-start items-start gap-8 flex ml-4">
-          <div className="grid place-items-center mt-4 text-white px-4 py-1 text-center bg-[yellow] bg-opacity-50 rounded-lg text-xs font-['Outfit']">
+          <div className="grid place-items-center mt-4 text-white px-4 py-1 text-center bg-[yellow] bg-opacity-50 rounded-lg text-xs">
             <div className="flex">
               {type}{" "}
               <div className="animate-bounce w-2 h-2 h-full rounded-full bg-primary" />
@@ -57,19 +57,19 @@ export default function CareerCard({
         </div>
       </div>
       <div className="p-2">
-        <h5 className="text-2xl font-bold">{title}</h5>
+        <h5 className="font-bold">{title}</h5>
         <div className="flex space-x-4 my-2">
-          <div className="flex text-sm text-gray-200 space-x-1.5">
-            <VscBriefcase className="text-sm mt-0.5 font-bold" />{" "}
+          <div className="flex text-gray-200 space-x-1.5">
+            <VscBriefcase className="mt-0.5 font-bold" />{" "}
             <span>{type}</span>
           </div>
-          <div className="flex text-sm text-gray-200 space-x-1.5">
-            <AiOutlineClockCircle className="text-sm mt-0.5 font-bold" />{" "}
+          <div className="flex text-gray-200 space-x-1.5">
+            <AiOutlineClockCircle className="mt-0.5 font-bold" />{" "}
             <span>{posted}</span>
           </div>
         </div>
         <hr />
-        <p className="text-justify text-lg my-2">
+        <p className="text-justify my-2">
           {truncateString(description)}
         </p>
       </div>

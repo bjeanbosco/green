@@ -95,7 +95,7 @@ const News = ({ user }: any) => {
                 />
                 <div className="w-1/2">
                   <p className="font-bold">{item.title}</p>
-                  <div className="text-sm mt-2 flex flex-row justify-start gap-1 items-center">
+                  <div className="mt-2 flex flex-row justify-start gap-1 items-center">
                     <BiCalendar />
                     <DateComponent date={item.createdAt} />
                   </div>
@@ -143,7 +143,7 @@ const News = ({ user }: any) => {
           <h3 className="font-bold text-[#4A6FBB]">Create New Event</h3>
           <hr className="my-4" />
           <div className="">
-            <p className="mb-3 text-lg">News Title</p>
+            <p className="mb-3">News Title</p>
             <div className="relative mb-6">
               <p className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
                 <BiRename />
@@ -158,7 +158,7 @@ const News = ({ user }: any) => {
             </div>
           </div>
           <div className="">
-            <p className="mb-3 text-lg">Select Picture:</p>
+            <p className="mb-3">Select Picture:</p>
             <input
               type="file"
               accept="image/*"
@@ -174,7 +174,7 @@ const News = ({ user }: any) => {
             )}
           </div>
           <div className="mt-4">
-            <p className="mb-3 text-lg">Description:</p>
+            <p className="mb-3">Description:</p>
             <textarea
               value={description}
               onChange={(e) => {
@@ -187,7 +187,7 @@ const News = ({ user }: any) => {
           </div>
 
           <div className="">
-            <p className="mb-3 text-lg">Post Privacy:</p>
+            <p className="mb-3">Post Privacy:</p>
             <select
               value={privacy}
               onChange={(e) => {

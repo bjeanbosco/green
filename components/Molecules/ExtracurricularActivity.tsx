@@ -8,7 +8,7 @@ export default function ExtracurricularActivity() {
     <div className="w-full flex justify-center">
       <div id="extracurricular" className="w-[80%] flex flex-col gap-8 py-16">
         <div>
-          <h1 className="text-primary font-bold font-['Outfit']">
+          <h1 className="text-primary font-bold">
             Extracurricular Activities
           </h1>
 

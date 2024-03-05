@@ -170,7 +170,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
             />
           )}
           {isMenuOpen ? null : (
-            <p className="text-xl capitalize">Web&nbsp;Pages</p>
+            <p className="capitalize">Web&nbsp;Pages</p>
           )}
         </Link>
         <Link
@@ -192,7 +192,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Numbers</p>}
+          {isMenuOpen ? null : <p className="capitalize">Numbers</p>}
         </Link>
         <Link
           onClick={() => handleLinkClick("/staff")}
@@ -211,7 +211,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Staff</p>}
+          {isMenuOpen ? null : <p className="capitalize">Staff</p>}
         </Link>
         <Link
           onClick={() => handleLinkClick("/posts")}
@@ -230,7 +230,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Posts</p>}
+          {isMenuOpen ? null : <p className="capitalize">Posts</p>}
         </Link>
         <Link
           onClick={() => handleLinkClick("/gallery")}
@@ -251,7 +251,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Gallery</p>}
+          {isMenuOpen ? null : <p className="capitalize">Gallery</p>}
         </Link>
         <Link
           onClick={() => handleLinkClick("/others")}
@@ -270,7 +270,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Others</p>}
+          {isMenuOpen ? null : <p className="capitalize">Others</p>}
         </Link>
         <div className="h-[40px]" />
         <Link
@@ -290,7 +290,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Users</p>}
+          {isMenuOpen ? null : <p className="capitalize">Users</p>}
         </Link>
         <Link
           onClick={() => handleLinkClick("/profile")}
@@ -311,7 +311,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
               className=""
             />
           )}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Profile</p>}
+          {isMenuOpen ? null : <p className="capitalize">Profile</p>}
         </Link>
         {/* <Link
           href="/"
@@ -322,7 +322,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
          {loadingState['/webpages'] ? (
             <ClipLoader color={'#018C79'} loading={true} size={20} />
           ) : ( <img                       loading="lazy"src="/icons/settings.svg" alt="" className="" />)}
-          {isMenuOpen ? null : <p className="text-xl capitalize">Settings</p>}
+          {isMenuOpen ? null : <p className="capitalize">Settings</p>}
         </Link> */}
         <div className="flex justify-center my-12">
           {user && (
@@ -342,45 +342,8 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
       <div className="bg-[#F5FBFF] h-full w-full overflow-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-secondary text-darkGrey">
         <div className="bg-white px-4 py-2 h-[80px] justify-between items-center flex shadow-2xl">
           <Hamburger toggled={isMenuOpen} toggle={handleMenuToggle} size={32} />
-          <form
-            onSubmit={handleSearch}
-            className="flex items-center gap-2 h-full"
-          >
-            <div
-              onClick={handleSearch}
-              className={`bg-[#B3B3B3]/25 rounded-[7px] text-primary h-[40px] w-[52px] grid place-items-center cursor-pointer `}
-            >
-              <img
-                loading="lazy"
-                src="/icons/search_aesxbk.svg"
-                alt=""
-                className=""
-              />
-            </div>
-            <input
-              type="text"
-              placeholder="Enter Your Search Here..."
-              className="w-full text-black text-lg border-0 font-['Outfit'] border"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
           <div className="flex gap-12 px-4 items-center">
-            <Link href="#" onClick={() => setIsNotificationModalOpen(true)}>
-              <div className="relative">
-                <img
-                  loading="lazy"
-                  src="/icons/Notification_neaje7.svg"
-                  alt=""
-                  className=""
-                />
-                {upcomingEventsCount > 0 && (
-                  <div className="absolute top-0 right-0 h-4 w-4 bg-[red] rounded-full text-white text-[11px] text-center">
-                    {upcomingEventsCount}
-                  </div>
-                )}
-              </div>
-            </Link>
+         
             <Link href="/profile">
               <div className="flex gap-2 items-center">
                 <div className="relative">
@@ -408,12 +371,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, children }) => {
           </div>
         </div>
         <div className="m-12">{modifiedChildren}</div>
-
-        <NotificationsModal
-          isOpen={isNotificationModalOpen}
-          onRequestClose={() => setIsNotificationModalOpen(false)}
-          upcomingEvents={upcomingEvents}
-        />
       </div>
     </div>
   );

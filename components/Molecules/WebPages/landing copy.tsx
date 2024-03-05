@@ -209,7 +209,7 @@ const LandingPage = ({ user }: any) => {
                         {isCustomizing ? (
                           <>
                             <input
-                              className="text-primary capitalize text-2xl mt-4"
+                              className="text-primary capitalize mt-4"
                               value={landing.sections[0].title}
                               onChange={(e) => {
                                 const sections = [...landing.sections];
@@ -229,7 +229,7 @@ const LandingPage = ({ user }: any) => {
                           </>
                         ) : (
                           <>
-                            <h2 className="text-2xl font-semibold text-center">
+                            <h2 className="font-semibold text-center">
                               {landing.sections[0].title}
                             </h2>
                             <div className="font-bold inline-block py-2 px-4 rounded-full text-primary hover:border hover:border-primary">
@@ -266,7 +266,7 @@ const LandingPage = ({ user }: any) => {
                         {isCustomizing ? (
                           <>
                             <input
-                              className="text-primary capitalize text-2xl mt-4"
+                              className="text-primary capitalize mt-4"
                               value={landing.sections[1].title}
                               onChange={(e) => {
                                 const sections = [...landing.sections];
@@ -286,7 +286,7 @@ const LandingPage = ({ user }: any) => {
                           </>
                         ) : (
                           <>
-                            <h2 className="text-2xl font-semibold text-center">
+                            <h2 className="font-semibold text-center">
                               {landing.sections[1].title}
                             </h2>
                             <div className="font-bold inline-block py-2 px-4 rounded-full text-primary hover:border hover:border-primary">
@@ -323,7 +323,7 @@ const LandingPage = ({ user }: any) => {
                         {isCustomizing ? (
                           <>
                             <input
-                              className="text-primary capitalize text-2xl mt-4"
+                              className="text-primary capitalize mt-4"
                               value={landing.sections[2].title}
                               onChange={(e) => {
                                 const sections = [...landing.sections];
@@ -344,7 +344,7 @@ const LandingPage = ({ user }: any) => {
                         ) : (
                           <>
                             {" "}
-                            <h2 className="text-2xl font-semibold text-center">
+                            <h2 className="font-semibold text-center">
                               {landing.sections[2].title}
                             </h2>
                             <div className="font-bold inline-block py-2 px-4 rounded-full text-primary hover:border hover:border-primary">
@@ -382,7 +382,7 @@ const LandingPage = ({ user }: any) => {
                           <>
                             {" "}
                             <input
-                              className="text-primary capitalize text-2xl mt-4"
+                              className="text-primary capitalize mt-4"
                               value={landing.sections[3].title}
                               onChange={(e) => {
                                 const sections = [...landing.sections];
@@ -402,7 +402,7 @@ const LandingPage = ({ user }: any) => {
                           </>
                         ) : (
                           <>
-                            <h2 className="text-2xl font-semibold text-center">
+                            <h2 className="font-semibold text-center">
                               {landing.sections[3].title}
                             </h2>
                             <div className="font-bold inline-block py-2 px-4 rounded-full text-primary hover:border hover:border-primary">
@@ -452,14 +452,14 @@ const LandingPage = ({ user }: any) => {
                                 {isCustomizing ? (
                                   <textarea
                                     rows={3}
-                                    className="text-primary capitalize text-2xl mt-4"
+                                    className="text-primary capitalize mt-4"
                                     value={landing.mission.text}
                                     onChange={(e) => {
                                       setLanding({...landing, mission: {...landing.mission, text: e.target.value}});
                                     }}
                                   />
                                 ) : (
-                                  <p className="text-white text-xl text-justify">
+                                  <p className="text-white text-justify">
                                     {landing.mission.text}
                                   </p>
                                 )}
@@ -499,7 +499,7 @@ const LandingPage = ({ user }: any) => {
                                 <h2 className="text-[yellow] font-semibold ">
                                   Core value
                                 </h2>
-                                <div className="text-white text-xl text-justify">
+                                <div className="text-white text-justify">
                                   <ol className="list-disc ml-6">
                                     {landing.coreValues.map((detail, index) => (
                                       <div key={index}>
@@ -557,7 +557,7 @@ const LandingPage = ({ user }: any) => {
                     onChange={(e) => {
                       setLanding({...landing, uniquenessTitle: e.target.value});
                     }}
-                    className="text-2xl font-semibold text-center mb-2 text-primary"
+                    className="font-semibold text-center mb-2 text-primary"
                   />
                 ) : (
                   <h1 className="tracking-widest text-center py-8 text-primary font-semibold uppercase">
@@ -618,7 +618,7 @@ const LandingPage = ({ user }: any) => {
                                     setLanding({...landing, uniqueness: cards});
                                     }
                                   }
-                                  className="text-sm text-center bg-transparent border-none focus:ring-0"
+                                  className="text-center bg-transparent border-none focus:ring-0"
                                 />
                               </>
                             ) : (
@@ -626,7 +626,7 @@ const LandingPage = ({ user }: any) => {
                                 <h2 className="text-[25px] font-semibold text-center mb-2">
                                   {card.title}
                                 </h2>
-                                <p className="text-sm text-center">
+                                <p className="text-center">
                                   {card.content}
                                 </p>
                               </div>
@@ -664,7 +664,7 @@ const LandingPage = ({ user }: any) => {
                     onChange={(e) => {
                       setLanding({...landing, footer: {...landing.footer, label1: e.target.value}});
                     }}
-                    className="text-2xl font-bold text-center mb-2 text-primary"
+                    className="font-bold text-center mb-2 text-primary"
                   />
                 ) : (
                   <h1 className="text-center text-primary font-bold">
@@ -677,10 +677,10 @@ const LandingPage = ({ user }: any) => {
                     onChange={(e) => {
                       setLanding({...landing, footer: {...landing.footer, label2: e.target.value}});
                     }}
-                    className="text-2xl font-semibold text-center mb-2 text-primary"
+                    className="font-semibold text-center mb-2 text-primary"
                   />
                 ) : (
-                  <div className="text-primary text-lg font-semibold">
+                  <div className="text-primary font-semibold">
                     {landing.footer.label2}
                   </div>
                 )}
@@ -718,10 +718,10 @@ const LandingPage = ({ user }: any) => {
                     onChange={(e) => {
                       setLanding({...landing, footer: {...landing.footer, label3: e.target.value}});
                     }}
-                    className="text-2xl font-semibold text-center mb-2 text-black"
+                    className="font-semibold text-center mb-2 text-black"
                   />
                 ) : (
-                  <h4 className="text-black font-semibold font-['Outfit']">
+                  <h4 className="text-black font-semibold">
                     {landing.footer.label3}
                   </h4>
                 )}
@@ -729,13 +729,13 @@ const LandingPage = ({ user }: any) => {
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="h-full bg-neutral-100 text-lg rounded-tl-2xl rounded-bl-2xl justify-center items-center gap-2.5 flex w-[280px] text-neutral-500 text-lg font-normal font-['Outfit']"
+                    className="h-full bg-neutral-100 rounded-tl-2xl rounded-bl-2xl justify-center items-center gap-2.5 flex w-[280px] text-neutral-500 font-normal"
                     pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                     title="Please enter a valid email address"
                     required
                   />
 
-                  <button className="px-8 py-4 bg-primary rounded-tr-2xl rounded-br-2xl justify-center items-center gap-2.5 flex w-[150px] text-center text-white text-lg font-normal font-['Outfit']">
+                  <button className="px-8 py-4 bg-primary rounded-tr-2xl rounded-br-2xl justify-center items-center gap-2.5 flex w-[150px] text-center text-white font-normal">
                     Subscribe
                   </button>
                 </div>

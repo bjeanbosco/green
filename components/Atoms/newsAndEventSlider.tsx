@@ -44,8 +44,8 @@ const NewsAndEventSlider: React.FC<NewsAndEventSliderProps> = ({ newsAndEvents }
               <div className="flex flex-col md:flex-row items-center space-x-8 md:space-x-4">
                 <div className="md:w-2/4 text-white p-4">
                   <h3 className="font-semibold mb-2">{item.title}</h3>
-                  <span className="text-sm pb-2">{item.date}</span>
-                  <p className="text-white text-lg py-4">{item.description}</p>
+                  <span className="pb-2">{item.date}</span>
+                  <p className="text-white py-4">{item.description}</p>
                   <button
                       onClick={() => {
                         // Handle the click event and navigate to the specified link

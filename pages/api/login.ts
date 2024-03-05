@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             // Generate JWT
             let token;
             if (process.env.JWT_SECRET) {
-                token = jwt.sign({ userId: user._id, email: user.email, permissions: user.permissions, department: user.department, profilePicture: user.profilePicture,phoneNumber: user.phoneNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                token = jwt.sign({ name: user.name, email: user.email, permissions: user.permissions, department: user.department, profilePicture: user.profilePicture,phoneNumber: user.phoneNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
             } else {
                 console.error("JWT secret is not defined in environment variables.");
                 return res.status(500).json({ message: 'Internal Server Error' });

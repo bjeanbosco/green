@@ -8,9 +8,9 @@ import ExtracurricularActivity from '../ExtracurricularActivity';
 import Counselling from '../Counselling';
 import Creative_offers from '../CreativeOffers';
 import LearnersClubs from '../Learners_clubs';
-
+import df from "./leadership"
 const LearnerLifePage = () => {
-  const [activeTab, setActiveTab] = useState('about');
+  const [activeTab, setActiveTab] = useState('');
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [detailsArray, setDetailsArray] = useState([
     {
@@ -125,7 +125,7 @@ const LearnerLifePage = () => {
                 className={`text-black md:p-4 sm:pb-6 hover:text-primary font-[Outfit] relative ${
                   activeTab === "extracurricular" ? "font-bold" : ""
                 }`}
-                href="/about/learners_tab?tab=extracurricular"
+                href="#"
                 onClick={() => handleTabClick("extracurricular")}
               >
                 Extracurricular&nbsp;Activities
@@ -139,7 +139,7 @@ const LearnerLifePage = () => {
                 className={`text-black md:p-4 sm:pb-6 hover:text-primary font-[Outfit] relative ${
                   activeTab === "counselor" ? "font-bold" : ""
                 }`}
-                href="/about/learners_tab?tab=counselor"
+                href="#"
                 onClick={() => handleTabClick("counselor")}
               >
                 Counselling&nbsp;Department
@@ -153,7 +153,7 @@ const LearnerLifePage = () => {
                 className={`text-black md:p-4 sm:pb-6  hover:text-primary font-[Outfit] relative ${
                   activeTab === "creative" ? "font-bold" : ""
                 }`}
-                href="/about/learners_tab?tab=creative"
+                href="#"
                 onClick={() => handleTabClick("creative")}
               >
                 Creative&nbsp;Offers
@@ -167,7 +167,7 @@ const LearnerLifePage = () => {
                 className={`text-black md:p-4 sm:pb-6 hover:text-primary font-[Outfit] relative ${
                   activeTab === "clubs" ? "font-bold" : ""
                 }`}
-                href="/about/learners_tab?tab=clubs"
+                href="#"
                 onClick={() => handleTabClick("clubs")}
               >
                 Learners&nbsp;Clubs
@@ -177,29 +177,6 @@ const LearnerLifePage = () => {
               </Link>
             </li>
           </ul>
-        </div>
-        <div className="w-full flex justify-center">
-          {activeTab === "extracurricular" && (
-            <div id="extracurricular">
-              <ExtracurricularActivity />
-            </div>
-          )}
-          {activeTab === "counselor" && (
-            <div id="counselor">
-              <Counselling />
-            </div>
-          )}
-          {activeTab === "creative" && (
-            <div id="creative">
-              <Creative_offers />
-            </div>
-          )}
-
-          {activeTab === "clubs" && (
-            <div id="clubs">
-              <LearnersClubs />
-            </div>
-          )}
         </div>
       </section>
     </main>

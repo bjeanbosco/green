@@ -272,7 +272,7 @@ const LandingPage = ({ user }: any) => {
         </div>
         {/* end of school mission  */}
         {/* <ReasonsToJoin /> */}
-        <div className="flex bg-green justify-center bg-black md:h-[100%] items-center" style={{
+        <div className="flex bg-green justify-center bg-black md:h-full items-center" style={{
       backgroundImage: `url(${"/icons/lightgreen2_xytlj8.svg"
       }`,
       backgroundSize: "cover",
@@ -289,31 +289,17 @@ const LandingPage = ({ user }: any) => {
         <h1 className="text-center py-6 text-primary font-semibold uppercase">
           Eight reasons to join GHA
         </h1>
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-4 gap-8">
         {ReasonToJoin.map((card: { title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.PromiseLikeOfReactNode | null | undefined; content: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; imageSrc: string | undefined; }, index: React.Key | null | undefined) => (
           <div
             className=""
             key={index}
           >
             <div
-              className="image"
-              style={{
-                height: "100%",
-                width: "100%",
-              }}
+              className=""
             >
 
-              <div className="text flex flex-col gap-4">
-                  <div className="border border-white px-2 py-14 rounded-lg">
-                    <p className="font-bold capitalize text-[yellow] text-center mb-2">
-                      {card.title}
-                    </p>
-                    <p className="text-sm text-center text-white">
-                      {card.content}
-                    </p>
-                  </div>
-              </div>
-              <img
+<img
                 src={card.imageSrc}
                 alt="image"
                 style={{
@@ -324,6 +310,17 @@ const LandingPage = ({ user }: any) => {
                   borderRadius: "8px",
                 }}
               />
+              <div className="text flex flex-col gap-4 bg-black">
+                  <div className="border border-white px-2 py-14 rounded-lg">
+                    <p className="font-bold capitalize text-[yellow] text-center mb-2">
+                      {card.title}
+                    </p>
+                    <p className="text-center text-white">
+                      {card.content}
+                    </p>
+                  </div>
+              </div>
+              
             </div>
           </div>
         ))}
@@ -353,11 +350,6 @@ const LandingPage = ({ user }: any) => {
               <p className="text-primary text-center font-semibold">
                 @GHA_rwanda
               </p>
-              <div className="flex justify-center">
-                <div className="w-2/3">
-                  <SocialMedia />
-                </div>
-              </div>
             </div>
           </div>
         </div>

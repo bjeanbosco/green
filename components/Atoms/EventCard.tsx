@@ -62,7 +62,7 @@ const EventCard = ({
           <div className="mt-4 flex-col justify-start items-start gap-1 inline-flex">
             <h4 className="font-bold text-[yellow]">{title}</h4>
           </div>
-          {/* <div className="text-lg mt-2 text-white flex flex-row justify-start gap-1 items-center">
+          {/* <div className="mt-2 text-white flex flex-row justify-start gap-1 items-center">
             <BiCalendar />
             <p className="text-sm">{date}</p>
           </div> */}

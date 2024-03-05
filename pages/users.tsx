@@ -260,7 +260,7 @@ const UsersPage = () => {
                     </div>
                   </div>
                   <div className="mt-4">
-                    <p className="text-lg my-2">Password</p>
+                    <p className="my-2">Password</p>
                     <input
                       type="password"
                       name="password"
@@ -272,7 +272,7 @@ const UsersPage = () => {
                       }
                       className="border border-gray-400 py-2 px-4 rounded w-full focus:outline-none focus:border-primary"
                     />
-                    <p className="text-lg my-2">Confirm Password</p>
+                    <p className="my-2">Confirm Password</p>
                     <input
                       type="password"
                       placeholder="xxxxxx"
@@ -284,7 +284,7 @@ const UsersPage = () => {
                     />
                   </div>
                   <div className="mt-4">
-                    <p className="text-lg my-2">Permissions</p>
+                    <p className="my-2">Permissions</p>
                     <div className="flex flex-col gap-2 w-1/4">
                       <div className="flex items-center gap-4">
                         <input
@@ -333,7 +333,7 @@ const UsersPage = () => {
               <p className="text-[#4A6FBB]">Add New User To the System</p>
               <div className="flex w-full gap-4 mt-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">
+                  <p className="mb-3">
                     Names<span className="">(Select Staff)</span>
                   </p>
                   <select
@@ -350,7 +350,7 @@ const UsersPage = () => {
                   </select>
                 </div>
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Email</p>
+                  <p className="mb-3">Email</p>
                   <input
                     name="email"
                     value={newUser.email}
@@ -362,7 +362,7 @@ const UsersPage = () => {
               </div>
               <div className="flex w-full gap-4 mt-4">
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Phone Number</p>
+                  <p className="mb-3">Phone Number</p>
                   <input
                     name="phoneNumber"
                     value={newUser.phoneNumber}
@@ -372,7 +372,7 @@ const UsersPage = () => {
                   />
                 </div>
                 <div className="w-1/2">
-                  <p className="mb-3 text-lg">Department</p>
+                  <p className="mb-3">Department</p>
                   <input
                     name="department"
                     value={newUser.department}
@@ -383,7 +383,7 @@ const UsersPage = () => {
                 </div>
               </div>
               <div className="mt-4">
-                <p className="text-lg my-2">Password</p>
+                <p className="my-2">Password</p>
                 <input
                   type="password"
                   name="password"
@@ -391,7 +391,7 @@ const UsersPage = () => {
                   onChange={handleInputChange}
                   className="border border-gray-400 py-2 px-4 rounded w-full focus:outline-none focus:border-primary"
                 />
-                <p className="text-lg my-2">Confirm Password</p>
+                <p className="my-2">Confirm Password</p>
                 <input
                   type="password"
                   placeholder="xxxxxx"
@@ -403,7 +403,7 @@ const UsersPage = () => {
                 />
               </div>
               <div className="mt-4">
-                <p className="text-lg my-2">Permissions</p>
+                <p className="my-2">Permissions</p>
                 <div className="flex flex-col gap-2 w-1/4">
                   <div className="flex items-center gap-4">
                     <input

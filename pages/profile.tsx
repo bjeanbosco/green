@@ -74,15 +74,15 @@ const ProfilePage = () => {
               </div>
             </div>
             <p className="text-center pt-3">{user?.name}</p>
-            <p className="text-center text-lg">{user?.email}</p>
+            <p className="text-center">{user?.email}</p>
             <div className="flex w-full gap-4 items-center mt-4">
-              <p className=" w-1/2 text-lg">Phone</p>
+              <p className=" w-1/2">Phone</p>
               <span className="text-md break-words w-1/2">
                 {user?.phoneNumber}
               </span>
             </div>
             <div className="flex w-full gap-4 items-center mt-4">
-              <p className="text-lg w-1/2">Department</p>
+              <p className="w-1/2">Department</p>
               <span className="text-md break-words w-1/2">
                 {user?.department}
               </span>
@@ -94,7 +94,7 @@ const ProfilePage = () => {
             <div className="w-full flex gap-8">
               
               <div className="w-1/2">
-                <p className="text-lg my-2">Names</p>
+                <p className="my-2">Names</p>
                 <input
                   type="text"
                   placeholder="Full names"
@@ -107,7 +107,7 @@ const ProfilePage = () => {
               </div>
 
               <div className="w-1/2">
-                <p className="text-lg my-2">Email Address</p>
+                <p className="my-2">Email Address</p>
                 <input
                   type="email"
                   placeholder="someone@example.com"
@@ -121,7 +121,7 @@ const ProfilePage = () => {
             </div>
             <div className="w-full flex gap-8">
               <div className="w-1/2">
-                <p className="text-lg my-2">Phone Number</p>
+                <p className="my-2">Phone Number</p>
                 <input
                   type="tel"
                   placeholder="+250xxx"
@@ -133,7 +133,7 @@ const ProfilePage = () => {
                 />
               </div>
               <div className="w-1/2">
-                <p className="text-lg my-2">Department</p>
+                <p className="my-2">Department</p>
                 <input
                   type="text"
                   placeholder="instructor"
@@ -147,7 +147,7 @@ const ProfilePage = () => {
             </div>
             <div className="w-full flex gap-8">
               <div className="w-1/2">
-                <p className="text-lg my-2">Profile Picture</p>
+                <p className="my-2">Profile Picture</p>
                 <input
                   type="file"
                   accept="image/*"
@@ -171,7 +171,7 @@ const ProfilePage = () => {
             <p>Password </p>
             <hr className="my-4" />
             {error && <p className="text-[red] text-md">*{error}</p>}
-            <p className="text-lg my-2">Current Password</p>
+            <p className="my-2">Current Password</p>
             <div className="relative">
               <input
                 type={showCurrentPassword ? "text" : "password"}
@@ -187,7 +187,7 @@ const ProfilePage = () => {
                 {showCurrentPassword ? <BsEye /> : <BsEyeSlash />}
               </div>
             </div>
-            <p className="text-lg my-2">New Password</p>
+            <p className="my-2">New Password</p>
             <div className="relative">
               <input
                 type={showNewPassword ? "text" : "password"}
@@ -204,7 +204,7 @@ const ProfilePage = () => {
               </div>
             </div>
 
-            <p className="text-lg my-2">Confirm Password</p>
+            <p className="my-2">Confirm Password</p>
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}

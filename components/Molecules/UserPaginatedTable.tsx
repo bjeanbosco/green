@@ -87,17 +87,17 @@ const itemsPerPage: number = 10;
         <button
           onClick={prevPage}
           disabled={currentPage === 1}
-          className={`bg-white shadow-inner shadow-xl rounded-full h-[50px] w-[50px] border flex items-center justify-center text-2xl ${
+          className={`bg-white shadow-inner shadow-xl rounded-full h-[50px] w-[50px] border flex items-center justify-center ${
             currentPage === 1 ? "cursor-not-allowed" : ""
           }`}
         >
           <HiOutlineChevronLeft />
         </button>
-        <span className="text-sm font-bold">
+        <span className="font-bold">
           Page {currentPage} of {Math.ceil(users.length / itemsPerPage)}
         </span>
         <button
-          className={`bg-white shadow-inner shadow-xl rounded-full h-[50px] w-[50px] border flex items-center justify-center text-2xl ${
+          className={`bg-white shadow-inner shadow-xl rounded-full h-[50px] w-[50px] border flex items-center justify-center ${
             currentPage === Math.ceil(users.length / itemsPerPage)
               ? "cursor-not-allowed"
               : ""
