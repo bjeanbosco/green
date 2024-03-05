@@ -13,7 +13,7 @@ export const NewsEventData = [
     slug: "InnovateEdu",
     type: "event",
     videoUrl:
-      "https://res.cloudinary.com/dbqwmndns/video/upload/q_auto/v1703061323/GHA/videos/Copy_of_InnovateEDU_Africa_ezqs8r.mp4",
+      "https://greenhillsacademy.rw:8081/videos/videos/Copy_of_InnovateEDU_Africa_ezqs8r.mp4",
   },
   {
     title: "Pink Day and Bake Sale for Breast Cancer Awareness",
@@ -30,7 +30,7 @@ export const NewsEventData = [
     slug: "breast_cancer_awareness",
     type: "event",
     videoUrl:
-      "https://res.cloudinary.com/dbqwmndns/video/upload/q_auto/v1703061335/GHA/videos/Copy_of_Breast_Cancer_Walk_2023_video_xmutmj.mp4",
+      "https://greenhillsacademy.rw:8081/videos/videos/Copy_of_Breast_Cancer_Walk_2023_video_xmutmj.mp4",
   },
   {
     title:
@@ -56,7 +56,7 @@ export const NewsEventData = [
     slug: "heritage_day",
     type: "event",
     videoUrl:
-      "https://res.cloudinary.com/dbqwmndns/video/upload/q_auto/v1703061334/GHA/videos/Copy_of_Heritage_Day_Video_yz9q5u.mp4",
+      "https://greenhillsacademy.rw:8081/videos/videos/Copy_of_Heritage_Day_Video_yz9q5u.mp4",
   },
   {
     title:

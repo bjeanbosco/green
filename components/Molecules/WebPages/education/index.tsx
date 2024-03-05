@@ -358,7 +358,7 @@ const EducationMainPage = ({ user }: any) => {
             </div>
             <div
               style={{
-                backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700375590/GHA/icons/bgwhiteyellow_mekqvs.svg)`,
+                backgroundImage: `url(/icons/bgwhiteyellow_mekqvs.svg)`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -475,7 +475,7 @@ const EducationMainPage = ({ user }: any) => {
               className="w-full bg-green mt-28 flex justify-center "
               ref={ref}
               style={{
-                backgroundImage: `url(${inView ? 'https://res.cloudinary.com/dbqwmndns/image/upload/v1700375622/GHA/icons/lightgreen2_xytlj8.svg' : ''}`,
+                backgroundImage: `url(${inView ? '/icons/lightgreen2_xytlj8.svg' : ''}`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}

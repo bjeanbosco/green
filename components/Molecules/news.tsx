@@ -87,7 +87,7 @@ const News = ({ user }: any) => {
                 <div
                   className="w-1/2"
                   style={{
-                    backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg)`,
+                    backgroundImage: `url(https://greenhillsacademy.rw:8081/images/1_hcjnfu.jpg)`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
@@ -110,7 +110,7 @@ const News = ({ user }: any) => {
                           {" "}
                           <img
                             loading="lazy"
-                            src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                            src="/icons/update_ijqjnj.svg"
                             alt=""
                             className=""
                           />
@@ -118,7 +118,7 @@ const News = ({ user }: any) => {
                         <Link href={""} className="flex justify-center">
                           <img
                             loading="lazy"
-                            src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                            src="/icons/delete_tvo46a.svg"
                             alt=""
                             className=""
                           />

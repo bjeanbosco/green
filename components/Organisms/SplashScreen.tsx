@@ -6,7 +6,7 @@ const SplashScreen = () => {
     <section
       className="splash-screen"
       style={{
-        backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700375582/GHA/icons/bgwhiteyello2_fczk4h.svg)`,
+        backgroundImage: `url(/icons/bgwhiteyello2_fczk4h.svg)`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -19,7 +19,7 @@ const SplashScreen = () => {
           width={0}
           height={0}
           sizes="100vw"
-          src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301542/GHA/logo_pjrxda.png"
+          src="https://greenhillsacademy.rw:8081/images/logo_pjrxda.png"
           alt="Logo Top"
           className="object-cover sm:object-contain animate-spin-slow h-full w-full"
         />

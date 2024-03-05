@@ -14,7 +14,7 @@ const NotFoundPage = () => {
       <section
         className="grid place-items-center h-screen"
         style={{
-          backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700375582/GHA/icons/bgwhiteyello2_fczk4h.svg)`,
+          backgroundImage: `url(/icons/bgwhiteyello2_fczk4h.svg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

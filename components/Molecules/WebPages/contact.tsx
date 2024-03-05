@@ -14,7 +14,7 @@ type ScheduleItem = {
 const ContactPage = () => {
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700375590/GHA/icons/bgwhiteyellow_mekqvs.svg"
+    "/icons/bgwhiteyellow_mekqvs.svg"
   );
   const [contactInfo, setContactInfo] = useState<Contact>({
     "email": "info@greenhillsacademy.rw",

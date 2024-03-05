@@ -67,13 +67,13 @@ const itemsPerPage: number = 10;
                 <div className="grid grid-cols-2 divide-x items-center">
                   <button onClick={() => onUpdate(user._id,user)} className="flex justify-center">
                     <img
-                      src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                      src="/icons/update_ijqjnj.svg"
                       alt=""
                     />
                   </button>
                   <button onClick={() => onDelete(user._id)} className="flex justify-center">
                     <img
-                      src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                      src="/icons/delete_tvo46a.svg"
                       alt=""
                     />
                   </button>

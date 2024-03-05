@@ -156,7 +156,7 @@ const AdmissionPage = ({ user }: any) => {
               <div className="flex md:w-1/2 w-full flex-col">
                 <div
                   style={{
-                    backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301619/GHA/9_ujknty.jpg)`,
+                    backgroundImage: `url(https://greenhillsacademy.rw:8081/images/GHA/9_ujknty.jpg)`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
@@ -305,7 +305,7 @@ const AdmissionPage = ({ user }: any) => {
         className="grid w-full place-items-center h-full"
         ref={ref}
       style={{
-        backgroundImage: `url(${inView ? "https://res.cloudinary.com/dbqwmndns/image/upload/v1700375606/GHA/icons/bgwhite2_lpw73r.svg" : ""})`,
+        backgroundImage: `url(${inView ? "/icons/bgwhite2_lpw73r.svg" : ""})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

@@ -42,14 +42,13 @@ const AboutPage = ({ user }: any) => {
       },
     ],
   };
-  const url = "https://api.cloudinary.com/v1_1/drjbtprwb/image/upload";
   const [imageData, setImageData] = useState([
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301699/GHA/4_kxmvir.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301761/GHA/3_wb4qxk.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700379745/GHA/8_f9cwce.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301619/GHA/9_ujknty.jpg",
+    "https://greenhillsacademy.rw:8081/images/4_kxmvir.jpg",
+    "https://greenhillsacademy.rw:8081/images/1_hcjnfu.jpg",
+    "https://greenhillsacademy.rw:8081/images/3_wb4qxk.jpg",
+    "https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg",
+    "https://greenhillsacademy.rw:8081/images/8_f9cwce.jpg",
+    "https://greenhillsacademy.rw:8081/images/9_ujknty.jpg",
   ]);
 
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {

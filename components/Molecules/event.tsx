@@ -135,7 +135,7 @@ const Event = ({ user }: any) => {
                         {" "}
                         <img
                           loading="lazy"
-                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                          src="/icons/update_ijqjnj.svg"
                           alt=""
                           className=""
                         />
@@ -143,7 +143,7 @@ const Event = ({ user }: any) => {
                       <Link href={""} className="flex justify-center">
                         <img
                           loading="lazy"
-                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                          src="/icons/delete_tvo46a.svg"
                           alt=""
                           className=""
                         />

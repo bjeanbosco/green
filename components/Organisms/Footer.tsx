@@ -6,13 +6,13 @@ import SocialMedia from "../Atoms/SocialMedia";
 
 const Footer = () => {
   const sponsorshipImages = [
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301720/GHA/logos-ib_uwt0nh.png",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700307214/GHA/keylink/aisa_fqh6jz.png",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700307212/GHA/keylink/cognia_dn6q30.png",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700307212/GHA/keylink/fl1_fwcgfx.png",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700307213/GHA/keylink/logo_01_m7usvz.png",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700307214/GHA/keylink/roundlogo_m07oza.png",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700307212/GHA/keylink/schlogo1_tz9ogi.png",
+    "https://greenhillsacademy.rw:8081/images/logos-ib_uwt0nh.png",
+    "https://greenhillsacademy.rw:8081/images/keylink/aisa_fqh6jz.png",
+    "https://greenhillsacademy.rw:8081/images/keylink/cognia_dn6q30.png",
+    "https://greenhillsacademy.rw:8081/images/keylink/fl1_fwcgfx.png",
+    "https://greenhillsacademy.rw:8081/images/keylink/logo_01_m7usvz.png",
+    "https://greenhillsacademy.rw:8081/images/keylink/roundlogo_m07oza.png",
+    "https://greenhillsacademy.rw:8081/images/keylink/schlogo1_tz9ogi.png",
   ];
   const currentYear = new Date().getFullYear();
 
@@ -20,7 +20,7 @@ const Footer = () => {
     <footer
       className="w-full"
       style={{
-        backgroundImage: `url(${"https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700375606/GHA/icons/bgwhite2_lpw73r.svg"})`,
+        backgroundImage: `url(${"/icons/bgwhite2_lpw73r.svg"})`,
         backgroundSize: "cover",
         backgroundPosition: "bottom",
         backgroundRepeat: "no-repeat",
@@ -33,7 +33,7 @@ const Footer = () => {
               <div className="my-6 md:mb-0 flex justify-center">
                 <Link href={"/"} className="flex items-center">
                   <img
-                    src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301542/GHA/logo_pjrxda.png"
+                    src="https://greenhillsacademy.rw:8081/images/logo_pjrxda.png"
                     className="h-[150px] sm:h-[80px] object-contain"
                     alt="Home Logo"
                   />
@@ -98,7 +98,7 @@ const Footer = () => {
                   className="flex items-center"
                 >
                   <img
-                    src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301544/GHA/logos-06_ngn83n.png"
+                    src="https://greenhillsacademy.rw:8081/images/logos-06_ngn83n.png"
                     className="h-[150px] sm:h-[80px] object-contain"
                     alt="IB Logo"
                   />

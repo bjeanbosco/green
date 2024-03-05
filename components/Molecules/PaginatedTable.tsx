@@ -51,7 +51,7 @@ const PaginatedTable = ({ user, users, onDelete, onUpdate }: UserProps) => {
             <tr key={index} className="">
               <td className="py-4 border-b items-center gap-4 border-gray-400 p-2 flex sm:flex-wrap">
                 <img
-                  src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg"
+                  src="https://greenhillsacademy.rw:8081/images/1_hcjnfu.jpg"
                   alt=""
                   className="rounded-full w-[55px] h-[55px]"
                 />
@@ -70,12 +70,12 @@ const PaginatedTable = ({ user, users, onDelete, onUpdate }: UserProps) => {
                 {/* {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && ( */}
                   <div className="grid grid-cols-2 divide-x items-center">
                     <button onClick={() => onUpdate(person._id, person)} className="flex justify-center">
-                      upd
-                      <img loading="lazy" src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg" alt="" className="" />
+
+                      <img loading="lazy" src="/icons/update_ijqjnj.svg" alt="" className="" />
                     </button>
                     <button onClick={() => onDelete(person._id)} className="flex justify-center">
-                      del 
-                      <img loading="lazy" src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg" alt="" className="" />
+
+                      <img loading="lazy" src="/icons/delete_tvo46a.svg" alt="" className="" />
                     </button>
                   </div>
                 {/* )} */}

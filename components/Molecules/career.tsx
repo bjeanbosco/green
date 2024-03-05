@@ -138,7 +138,7 @@ const Career = ({ user }: any) => {
               <div
                 className="w-full h-[300px] rounded-2xl"
                 style={{
-                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301734/GHA/studentimage_eknrqa.jpg)`,
+                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url(https://greenhillsacademy.rw:8081/images/studentimage_eknrqa.jpg)`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -158,7 +158,7 @@ const Career = ({ user }: any) => {
                         {" "}
                         <img
                           loading="lazy"
-                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375649/GHA/icons/update_ijqjnj.svg"
+                          src="/icons/update_ijqjnj.svg"
                           alt=""
                           className=""
                         />
@@ -166,7 +166,7 @@ const Career = ({ user }: any) => {
                       <Link href={""} className="flex justify-center">
                         <img
                           loading="lazy"
-                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375728/GHA/icons/delete_tvo46a.svg"
+                          src="/icons/delete_tvo46a.svg"
                           alt=""
                           className=""
                         />

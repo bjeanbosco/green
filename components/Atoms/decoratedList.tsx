@@ -14,7 +14,7 @@ const DecoratedList: React.FC<ListProps> = ({ details, color }) => {
       {parts.length === 2 ? (
         <div className="w-full justify-start gap-2 flex">
         <Image
-            src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375712/GHA/icons/mingcute_right-fill_anrax6.svg"
+            src="/icons/mingcute_right-fill_anrax6.svg"
             alt=""
             width={16}
             height={16}
@@ -27,7 +27,7 @@ const DecoratedList: React.FC<ListProps> = ({ details, color }) => {
       ) : (
         <div className="w-full justify-start gap-2 flex">
         <Image
-          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375712/GHA/icons/mingcute_right-fill_anrax6.svg"
+          src="/icons/mingcute_right-fill_anrax6.svg"
           alt=""
           width={16}
           height={16}

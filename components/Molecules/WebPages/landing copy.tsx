@@ -537,7 +537,7 @@ const LandingPage = ({ user }: any) => {
             className="mt-12 bg-green bg-green"
             ref={ref}
             style={{
-              backgroundImage: `url(${inView ? 'https://res.cloudinary.com/dbqwmndns/image/upload/v1700375622/GHA/icons/lightgreen2_xytlj8.svg' : ''}`,
+              backgroundImage: `url(${inView ? '/icons/lightgreen2_xytlj8.svg' : ''}`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -645,7 +645,7 @@ const LandingPage = ({ user }: any) => {
           <div
                ref={ref}
                style={{
-                 backgroundImage: `url(${inView ? "https://res.cloudinary.com/dbqwmndns/image/upload/v1700375606/GHA/icons/bgwhite2_lpw73r.svg" : ""})`,
+                 backgroundImage: `url(${inView ? "/icons/bgwhite2_lpw73r.svg" : ""})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}

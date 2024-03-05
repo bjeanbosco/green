@@ -66,7 +66,7 @@ const ProfilePage = () => {
             <div className="flex justify-center">
               <div className="relative">
                 <img
-                  src={user?.profilePicture || "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301531/GHA/profile_wumtxt.png"}
+                  src={user?.profilePicture || "https://greenhillsacademy.rw:8081/images/profile_wumtxt.png"}
                   alt=""
                   className="rounded-full w-[80px] h-[80px]"
                 />

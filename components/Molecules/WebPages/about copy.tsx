@@ -38,12 +38,12 @@ const AboutPage = ({ user }: any) => {
   };
   const url = "https://api.cloudinary.com/v1_1/drjbtprwb/image/upload";
   const [imageData, setImageData] = useState([
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301699/GHA/4_kxmvir.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301751/GHA/1_hcjnfu.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301761/GHA/3_wb4qxk.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700379745/GHA/8_f9cwce.jpg",
-    "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301619/GHA/9_ujknty.jpg",
+    "https://greenhillsacademy.rw:8081/images/4_kxmvir.jpg",
+    "https://greenhillsacademy.rw:8081/images/1_hcjnfu.jpg",
+    "https://greenhillsacademy.rw:8081/images/3_wb4qxk.jpg",
+    "https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg",
+    "https://greenhillsacademy.rw:8081/images/8_f9cwce.jpg",
+    "https://greenhillsacademy.rw:8081/images/9_ujknty.jpg",
   ]);
 
   const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -310,7 +310,7 @@ const AboutPage = ({ user }: any) => {
             <div
               className="w-full"
               style={{
-                backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700375590/GHA/icons/bgwhiteyellow_mekqvs.svg)`,
+                backgroundImage: `url(/icons/bgwhiteyellow_mekqvs.svg)`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -384,7 +384,7 @@ const AboutPage = ({ user }: any) => {
               <div
                 className="flex h-full bg-green py-8 justify-center"
                 style={{
-                  backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700375657/GHA/icons/lightgreen3_bdlud3.svg)`,
+                  backgroundImage: `url(/icons/lightgreen3_bdlud3.svg)`,
                   backgroundSize: "cover",
                   backgroundPosition: "bottom",
                 }}
@@ -530,7 +530,7 @@ const AboutPage = ({ user }: any) => {
                   <div className="grid place-items-center gap-4">
                     <div className="flex justify-center">
                       <img
-                        src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375563/GHA/icons/Learners_life_lrohks.png"
+                        src="/icons/Learners_life_lrohks.png"
                         alt=""
                         className="w-[60px] h-[60px]"
                       />
@@ -703,7 +703,7 @@ const AboutPage = ({ user }: any) => {
                 className="w-full pt-16"
                 ref={ref}
                 style={{
-                  backgroundImage: `url(${inView ? "https://res.cloudinary.com/dbqwmndns/image/upload/v1700375606/GHA/icons/bgwhite2_lpw73r.svg" : ""})`,
+                  backgroundImage: `url(${inView ? "/icons/bgwhite2_lpw73r.svg" : ""})`,
                   backgroundSize: "cover",
                   backgroundPosition: "bottom",
                 }}
@@ -759,7 +759,7 @@ const AboutPage = ({ user }: any) => {
                     className="md:w-full py-20 flex bg-green justify-center "
                     ref={ref}
                     style={{
-                      backgroundImage: `url(${inView ? 'https://res.cloudinary.com/dbqwmndns/image/upload/v1700375628/GHA/icons/lightgreen_fotidt.svg' : ''})`,
+                      backgroundImage: `url(${inView ? '/icons/lightgreen_fotidt.svg' : ''})`,
                       backgroundSize: "cover",
                       backgroundPosition: "bottom",
                     }}
@@ -828,7 +828,7 @@ const AboutPage = ({ user }: any) => {
                       <div className="flex md:flex-row flex-col md:gap-0 gap-7 items-end">
                         <img
                           className="h-[100%]"
-                          src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700301720/GHA/alumni_frls5b.jpg"
+                          src="https://greenhillsacademy.rw:8081/images/alumni_frls5b.jpg"
                           alt=""
                         />
                       </div>

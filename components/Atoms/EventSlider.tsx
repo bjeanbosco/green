@@ -36,7 +36,7 @@ const NewsAndEventsSlider: React.FC<Props> = ({ data }) => {
       className="flex justify-center bg-primary h-full w-full p-4"
       ref={ref}
       style={{
-        backgroundImage: `url(${inView ? "https://res.cloudinary.com/dbqwmndns/image/upload/v1700375598/GHA/icons/green_c6iapo.svg" : ""})`,
+        backgroundImage: `url(${inView ? "/icons/green_c6iapo.svg" : ""})`,
         backgroundSize: "cover",
         backgroundPosition: "bottom",
       }}

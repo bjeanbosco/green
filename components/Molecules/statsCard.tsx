@@ -55,7 +55,7 @@ const Stats = memo(() => {
       ref={ref}
       style={{
         backgroundImage:
-          `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${inView ? "https://res.cloudinary.com/dbqwmndns/image/upload/v1700301495/GHA/DSC_6818_fwdzpf.jpg" : ""})`,
+          `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${inView ? "https://greenhillsacademy.rw:8081/images/DSC_6818_fwdzpf.jpg" : ""})`,
       }}
     >
       <div className="w-[80%] place-items-center grid grid-cols-4 gap-4">
@@ -64,7 +64,7 @@ const Stats = memo(() => {
           <div className="flex justify-center">
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375575/GHA/icons/Learners_g6now4.png"
+              src="/icons/Learners_g6now4.png"
               alt=""
               className="sm:w-[30px] sm:h-[30px] w-[80px] h-[80px]"
             />
@@ -80,7 +80,7 @@ const Stats = memo(() => {
           <div className="flex justify-center">
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700374976/GHA/icons/Nationalities_zqfvf4.png"
+              src="/icons/Nationalities_zqfvf4.png"
               alt="Nationalities"
               className="sm:w-[30px] sm:h-[30px] w-[80px] h-[80px]"
             />
@@ -96,7 +96,7 @@ const Stats = memo(() => {
           <div className="flex justify-center">
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375557/GHA/icons/Courses_igvtpi.png"
+              src="/icons/Courses_igvtpi.png"
               alt="Courses"
               className="sm:w-[30px] sm:h-[30px] w-[80px] h-[80px]"
             />
@@ -112,7 +112,7 @@ const Stats = memo(() => {
           <div className="flex justify-center">
             <img
               loading="lazy"
-              src="https://res.cloudinary.com/dbqwmndns/image/upload/v1700375571/GHA/icons/Educators_tf8ipr.png"
+              src="/icons/Educators_tf8ipr.png"
               alt="Educators"
               className="sm:w-[30px] sm:h-[30px] w-[80px] h-[80px]"
             />

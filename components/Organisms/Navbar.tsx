@@ -164,41 +164,7 @@ export default function Nav() {
             </motion.button>
           </div>
           <div className="flex items-center">
-            {/* <div
-              className={`${
-                !isMenuOpen ? "flex items-center space-x-4" : "hidden"
-              } sm:hidden`}
-            >
-              <form
-                onSubmit={handleSearch}
-                className="flex items-center gap-4 h-full sm:hidden"
-              >
-                <div
-                  onClick={handleSearch}
-                  className={`text-white h-4 w-4 cursor-pointer `}
-                >
-                  <Image
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='https://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700375952/GHA/icons/search2_oyqjms.svg"
-                    alt="Image"
-                    className="object-cover h-full w-full"
-                  />
-                </div>
-                <span className="hidden md:inline">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="SEARCH...."
-                    className="h-full text-black text-white text-lg font-medium font-['Outfit'] bg-transparent border-0 outline-none"
-                  />
-                </span>
-              </form>
-            </div> */}
+          
             <div
               className="flex items-center space-x-4 cursor-pointer"
               onClick={handleMenuToggle}
@@ -233,7 +199,7 @@ export default function Nav() {
                 width={0}
                 height={0}
                 sizes="100vw"
-                src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301542/GHA/logo_pjrxda.png"
+                src="https://greenhillsacademy.rw:8081/images/logo_pjrxda.png"
                 alt="Logo Top"
                 className="object-cover sm:object-contain h-full w-full"
               />
@@ -252,7 +218,7 @@ export default function Nav() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301544/GHA/logos-06_ngn83n.png"
+                  src="https://greenhillsacademy.rw:8081/images/logos-06_ngn83n.png"
                   alt="Logo Top"
                   className="object-cover h-full w-full"
                 />
@@ -264,7 +230,7 @@ export default function Nav() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301533/GHA/whiteib_qopowi.png"
+                  src="https://greenhillsacademy.rw:8081/images/whiteib_qopowi.png"
                   alt="Logo Top"
                   className="object-cover h-full w-full"
                 />
@@ -292,42 +258,13 @@ export default function Nav() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700301542/GHA/logo_pjrxda.png"
+                  src="https://greenhillsacademy.rw:8081/images/logo_pjrxda.png"
                   alt="Logo Top"
                   className="h-[100px] sm:object-contain object-cover w-full"
                 />
               </Link>
             </div>
             <div className="flex flex-col gap-2">
-              {/* <form
-                onSubmit={handleSearch}
-                className="w-full py-2 bg-primary w-full text-white px-6 flex justify-between items-center"
-              >
-                <div className="w-[80%]">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="SEARCH...."
-                    className="w-[100%] h-full text-white text-lg font-medium font-['Outfit'] bg-transparent border-0 outline-none"
-                  />
-                </div>
-                <div
-                  onClick={handleSearch}
-                  className={`text-white h-6 w-6 grid place-items-center cursor-pointer `}
-                >
-                  <Image
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='https://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    src="https://res.cloudinary.com/dbqwmndns/image/upload/w_800,q_auto/v1700375952/GHA/icons/search2_oyqjms.svg"
-                    alt="Image"
-                    className="object-cover h-full w-full"
-                  />
-                </div>
-              </form> */}
 
               <motion.button
                 whileHover={{ scale: 1.1 }}

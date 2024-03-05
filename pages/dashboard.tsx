@@ -215,7 +215,7 @@ const DashboardMain: React.FC = () => {
                   <div
                     className="w-1/3 rounded-xl"
                     style={{
-                      backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg)`,
+                      backgroundImage: `url(https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg)`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -235,7 +235,7 @@ const DashboardMain: React.FC = () => {
                   <div
                     className="w-1/3 rounded-xl"
                     style={{
-                      backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg)`,
+                      backgroundImage: `url(https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg)`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -255,7 +255,7 @@ const DashboardMain: React.FC = () => {
                   <div
                     className="w-1/3 rounded-xl"
                     style={{
-                      backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg)`,
+                      backgroundImage: `url(https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg)`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -275,7 +275,7 @@ const DashboardMain: React.FC = () => {
                   <div
                     className="w-1/3 rounded-xl"
                     style={{
-                      backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg)`,
+                      backgroundImage: `url(https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg)`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -295,7 +295,7 @@ const DashboardMain: React.FC = () => {
                   <div
                     className="w-1/3 rounded-xl"
                     style={{
-                      backgroundImage: `url(https://res.cloudinary.com/dbqwmndns/image/upload/v1700301692/GHA/2_hrxmza.jpg)`,
+                      backgroundImage: `url(https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg)`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
