@@ -62,19 +62,20 @@ const Event = ({ user }: any) => {
       });
   };
   // Convert the string to a Date object
-  const DateComponent = (props) => {
+  const DateComponent = (props: { date: string | number | Date }) => {
     const date = new Date(props.date);
 
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    const options: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
     };
     const localizedDateString = date.toLocaleString("en-US", options);
     console.log(localizedDateString);
 
     return <p className="text-sm">{localizedDateString}</p>;
-  };
+};
+
   //get data from database
   const [EventData, setEvent] = useState([]);
 
@@ -86,7 +87,7 @@ const Event = ({ user }: any) => {
     <div>
       <div className="flex justify-end gap-8 items-center mt-8">
         {user?.permissions
-          .map((permission) => permission.toLowerCase())
+          .map((permission: string) => permission.toLowerCase())
           .includes("edit".toLowerCase()) && (
           <button
             onClick={openModal}
@@ -99,7 +100,7 @@ const Event = ({ user }: any) => {
       </div>
       <div>
         <div className="grid p-4 grid-cols-2 w-full gap-12 my-8">
-          {EventData.map((event, index) => (
+          {EventData.map((event:any, index) => (
             <div
               key={index}
               className="w-full bg-white p-6 border rounded-xl shadow-lg"

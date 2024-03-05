@@ -40,7 +40,9 @@ const LeaderTable = ({ user, users, onDelete, onUpdate }: UserProps) => {
             <th className="border-b border-gray-400 p-2">Name</th>
             <th className="border-b border-gray-400 p-2">Title</th>
             <th className="border-b border-gray-400 p-2">Category</th>
-            {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && (
+            {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
               <th className="border-b border-gray-400 p-2">Action</th>
             )}
           </tr>
@@ -65,7 +67,9 @@ const LeaderTable = ({ user, users, onDelete, onUpdate }: UserProps) => {
                 <Link href={""}>{person.category}</Link>
               </td>
               <td className="border-b border-gray-400 p-2">
-                {/* {user?.permissions.map(permission => permission.toLowerCase()).includes("edit".toLowerCase()) && ( */}
+                {/* {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && ( */}
                   <div className="grid grid-cols-2 divide-x items-center">
                     <button onClick={() => onUpdate(person._id, person)} className="flex justify-center">
 
