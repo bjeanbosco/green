@@ -1,7 +1,8 @@
-// pages/api/staff.ts
+// pages/api/new.ts
+import multer from "multer";
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/db";
-import StaffModel from "@/Models/Staff";
+import NewModel from "@/Models/New";
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,8 +26,8 @@ export default async function handler(
 
 async function getHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
-    const staff = await StaffModel.find({});
-    res.status(200).json(staff);
+    const post = await NewModel.find({});
+    res.status(200).json(post);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -35,15 +36,16 @@ async function getHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 
 async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
-    const { name, email, phoneNumber, department } = req.body;
-    const newStaffMember = new StaffModel({
-      name,
-      email,
-      phoneNumber,
-      department,
+    const { title, selectedFile, description, privacy } = req.body;
+    console.log(title, selectedFile, description, privacy);
+    const newPost = new NewModel({
+      title,
+      selectedFile,
+      description,
+      privacy,
     });
-    await newStaffMember.save();
-    res.status(201).json(newStaffMember);
+    await newPost.save();
+    res.status(201).json(newPost);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -52,11 +54,11 @@ async function postHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 async function deleteHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     const id = req.query.id as string;
-    const deletedStaff = await StaffModel.findByIdAndDelete(id);
-    if (deletedStaff) {
-      res.status(200).json({ message: "Staff member deleted successfully" });
+    const deletedPost = await NewModel.findByIdAndDelete(id);
+    if (deletedPost) {
+      res.status(200).json({ message: "news deleted successfully" });
     } else {
-      res.status(404).json({ message: "Staff member not found" });
+      res.status(404).json({ message: "news not found" });
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -66,17 +68,17 @@ async function deleteHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 async function updateHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     const id = req.query.id as string;
-    const { name, email, phoneNumber, department } = req.body;
+    const { title, selectedFile, description, privacy } = req.body;
 
-    const updatedStaff = await StaffModel.findByIdAndUpdate(
+    const updatedPost = await NewModel.findByIdAndUpdate(
       id,
-      { name, email, phoneNumber, department },
+      { title, selectedFile, description, privacy },
       { new: true }
     );
-    if (updatedStaff) {
-      res.status(200).json(updatedStaff);
+    if (updatedPost) {
+      res.status(200).json(updatedPost);
     } else {
-      res.status(404).json({ message: "Staff member not found" });
+      res.status(404).json({ message: "news not found" });
     }
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });

@@ -27,7 +27,9 @@ const SocialMedia = ({ user }: any) => {
           {isCustomizing ? (
             <p className=" text-lg">Edit</p>
           ) : (
-            user?.permissions.includes("write") && (
+            user?.permissions
+              .map((permission) => permission.toLowerCase())
+              .includes("edit".toLowerCase()) && (
               <Link
                 href={""}
                 onClick={toggleCustomization}

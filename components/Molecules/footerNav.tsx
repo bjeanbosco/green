@@ -1,18 +1,20 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-const FooterNav = ({ user }: any)  => {
-    const [isCustomizing, setIsCustomizing] = useState(false);
-    const [homeValue, setHomeValue] = useState("Home");
-    const [aboutValue, setAboutValue] = useState("About us");
-    const [educationValue, setEducationValue] = useState("Education");
-    const [admissionValue, setAdmissionValue] = useState("Admissions");
-    const [newsValue, setNewsValue] = useState("News & Events");
-    const [contactValue, setContactValue] = useState("Contact Us");
-    const [applyValue, setApplyValue] = useState("Apply");
-    const [locationValue, setLocationValue] = useState(" Kigali KG 278 St, Nyarutarama Kigali");
-    const [phoneValue, setPhoneValue] = useState("+250735832348");
-    const [emailValue, setEmailValue] = useState("info@greenhillsacademy.rw");
+const FooterNav = ({ user }: any) => {
+  const [isCustomizing, setIsCustomizing] = useState(false);
+  const [homeValue, setHomeValue] = useState("Home");
+  const [aboutValue, setAboutValue] = useState("About us");
+  const [educationValue, setEducationValue] = useState("Education");
+  const [admissionValue, setAdmissionValue] = useState("Admissions");
+  const [newsValue, setNewsValue] = useState("News & Events");
+  const [contactValue, setContactValue] = useState("Contact Us");
+  const [applyValue, setApplyValue] = useState("Apply");
+  const [locationValue, setLocationValue] = useState(
+    " Kigali KG 278 St, Nyarutarama Kigali"
+  );
+  const [phoneValue, setPhoneValue] = useState("+250735832348");
+  const [emailValue, setEmailValue] = useState("info@greenhillsacademy.rw");
   const toggleCustomization = () => {
     setIsCustomizing(!isCustomizing);
   };
@@ -25,7 +27,6 @@ const FooterNav = ({ user }: any)  => {
   return (
     <div className="my-4 md:w-[80%] bg-white p-4">
       <ul className="flex md:p-4 sm:py-4 border-b-2">
-        
         <li className="md:mr-4 sm:hidden">
           <a
             className={`text-gray-600 md:p-4 sm:py-4 hover:text-primary relative ${
@@ -63,13 +64,17 @@ const FooterNav = ({ user }: any)  => {
               {isCustomizing ? (
                 <p className=" text-lg">Edit</p>
               ) : (
-                user?.permissions.includes("write") && (<Link
-                  href={""}
-                  onClick={toggleCustomization}
-                  className="text-lg text-primary hover:underline"
-                >
-                  Edit
-                </Link>)
+                user?.permissions
+                  .map((permission) => permission.toLowerCase())
+                  .includes("edit".toLowerCase()) && (
+                  <Link
+                    href={""}
+                    onClick={toggleCustomization}
+                    className="text-lg text-primary hover:underline"
+                  >
+                    Edit
+                  </Link>
+                )
               )}
             </div>
             {isCustomizing ? (
@@ -162,7 +167,6 @@ const FooterNav = ({ user }: any)  => {
                 disabled
               />
             )}
-          
             <div className="flex justify-end gap-8 items-center mt-8">
               {isCustomizing ? (
                 <Link
@@ -173,13 +177,13 @@ const FooterNav = ({ user }: any)  => {
                   Cancel
                 </Link>
               ) : null}
-               <button
-          className={`w-[124px] h-[43px] bg-[#4A6FBB] text-white text-center rounded-[6px] ${
-            isCustomizing ? "" : "cursor-not-allowed"
-          }`}
-        >
-          Save
-        </button>
+              <button
+                className={`w-[124px] h-[43px] bg-[#4A6FBB] text-white text-center rounded-[6px] ${
+                  isCustomizing ? "" : "cursor-not-allowed"
+                }`}
+              >
+                Save
+              </button>
             </div>
           </div>
         )}
@@ -190,13 +194,17 @@ const FooterNav = ({ user }: any)  => {
               {isCustomizing ? (
                 <p className=" text-lg">Edit</p>
               ) : (
-                user?.permissions.includes("write") && (<Link
-                  href={""}
-                  onClick={toggleCustomization}
-                  className="text-lg text-primary hover:underline"
-                >
-                  Edit
-                </Link>)
+                user?.permissions
+                  .map((permission) => permission.toLowerCase())
+                  .includes("edit".toLowerCase()) && (
+                  <Link
+                    href={""}
+                    onClick={toggleCustomization}
+                    className="text-lg text-primary hover:underline"
+                  >
+                    Edit
+                  </Link>
+                )
               )}
             </div>
             {isCustomizing ? (
@@ -244,8 +252,6 @@ const FooterNav = ({ user }: any)  => {
                 disabled
               />
             )}
-            
-           
             <div className="flex justify-end gap-8 items-center mt-8">
               {isCustomizing ? (
                 <Link
@@ -257,12 +263,12 @@ const FooterNav = ({ user }: any)  => {
                 </Link>
               ) : null}
               <button
-          className={`w-[124px] h-[43px] bg-[#4A6FBB] text-white text-center rounded-[6px] ${
-            isCustomizing ? "" : "cursor-not-allowed"
-          }`}
-        >
-          Save
-        </button>
+                className={`w-[124px] h-[43px] bg-[#4A6FBB] text-white text-center rounded-[6px] ${
+                  isCustomizing ? "" : "cursor-not-allowed"
+                }`}
+              >
+                Save
+              </button>
             </div>
           </div>
         )}
@@ -271,5 +277,4 @@ const FooterNav = ({ user }: any)  => {
   );
 };
 
-
-export default FooterNav
+export default FooterNav;
