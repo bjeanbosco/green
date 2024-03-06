@@ -253,78 +253,78 @@ const MainWebPages = () => {
             )}
             {activeTab === "admissions" && (
               <div>
-                <AdmissionPage />
+                <AdmissionPage  user={user} />
               </div>
             )}
             {activeTab === "boarding" && (
               <div>
-                <BoardingPage />
+                <BoardingPage  user={user} />
               </div>
             )}
             {activeTab === "contact" && (
               <div>
-                <ContactPage />
+                <ContactPage  user={user} />
               </div>
             )}
             {activeTab === "learners" && (
               <div>
-                <LearnerLifePage />
+                <LearnerLifePage  user={user} />
               </div>
             )}
             {/*  */}
             {activeTab === "extracurricular" && (
               <div>
-                <ExtracurricularActivity />
+                <ExtracurricularActivity  user={user} />
               </div>
             )}
             {activeTab === "counselor" && (
               <div>
-                <Counselling />
+                <Counselling  user={user} />
               </div>
             )}{activeTab === "creative" && (
               <div>
-                <Creative_offers />
+                <Creative_offers  user={user} />
               </div>
             )}{activeTab === "clubs" && (
               <div>
-                <LearnersClubs />
+                <LearnersClubs  user={user} />
               </div>
             )}
             {/*  */}
             {activeTab === "leadership" && (
               <div>
-                <LeadershipPage />
+                <LeadershipPage/>
               </div>
             )}
             {activeTab === "facilities" && (
               <div>
-                <FacilitiesPage />
+                <FacilitiesPage  user={user} />
               </div>
             )}
             {activeTab === "accreditation" && (
               <div>
-                <AccreditationPage />
+                <AccreditationPage  user={user} />
               </div>
             )}
             {/*  */}
             {activeTab === "nursery" && (
               <div>
-                <NurseryPage />
+                <NurseryPage  user={user} />
               </div>
             )}
             {activeTab === "primary" && (
               <div>
-                <PrimaryPage />
+                <PrimaryPage  user={user} />
               </div>
             )}
             {activeTab === "middle" && (
               <div>
-                <MiddleSchoolPage />
+                <MiddleSchoolPage  user={user} />
               </div>
             )}
             {activeTab === "high" && (
               <div>
-                <HighSchoolPage />
+                <HighSchoolPage  user={user}  />
               </div>
             )}
           </div>

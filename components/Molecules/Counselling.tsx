@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const Counselling = () => {
+const Counselling = ({ user }: any) => {
   return (
     <main className="">
       <section

@@ -2,7 +2,7 @@ import ButtonBlank from '@/components/Atoms/ButtonBlank'
 import Link from 'next/link'
 import React from 'react'
 
-const AccreditationPage = () => {
+const AccreditationPage = ({ user }: any) => {
   return (
     <main className="">
       <section

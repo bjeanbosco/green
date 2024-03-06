@@ -8,24 +8,8 @@ import ButtonBlank from "../Atoms/ButtonBlank";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import StaffCard from "../Atoms/StaffCard";
 
-export default function MiddleSchoolPage() {
-  const cloudinaryUrl = "/docs/GHA Middle School.pdf";
-  const fileName = "GHA Middle School.pdf";
-
-  const handleDownload = () => {
-    // Create a temporary anchor element
-    const link = document.createElement("a");
-    link.href = cloudinaryUrl;
-    link.setAttribute("download", fileName); // Set the download attribute to the desired file name
-    document.body.appendChild(link);
-
-    // Trigger a click event on the anchor element
-    link.click();
-
-    // Clean up: remove the anchor element from the DOM
-    document.body.removeChild(link);
-  };
-
+export default function MiddleSchoolPage({ user }: any) {
+  
   return (
     <main
       className="pb-12"
@@ -104,7 +88,8 @@ export default function MiddleSchoolPage() {
             </div>
 
             <div className="md:w-full h-full overflow-hidden relative flex items-end">
-              <Image unoptimized
+              <Image
+                unoptimized
                 placeholder="empty"
                 blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                 width={0}
@@ -114,7 +99,8 @@ export default function MiddleSchoolPage() {
                 src="https://greenhillsacademy.rw:8081/images/362022873_18055348870431847_6695715751711280359_n_xvrunw.jpg"
                 alt="Image"
               />
-              <Image unoptimized
+              <Image
+                unoptimized
                 placeholder="empty"
                 blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                 width={0}
@@ -140,7 +126,8 @@ export default function MiddleSchoolPage() {
         <div className="w-[80%] h-full flex flex-col gap-12 py-16">
           <div className="flex gap-4 items-center mb-4">
             <div className="md:h-12 h-6 w-6 md:w-12">
-              <Image unoptimized
+              <Image
+                unoptimized
                 placeholder="empty"
                 blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                 width={0}
@@ -161,7 +148,8 @@ export default function MiddleSchoolPage() {
               <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
                 <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
                   <div className="w-full h-2 bg-primary" />
-                  <Image unoptimized
+                  <Image
+                    unoptimized
                     placeholder="empty"
                     blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                     width={0}
@@ -178,7 +166,8 @@ export default function MiddleSchoolPage() {
                   />
                 </div>
                 <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image unoptimized
+                  <Image
+                    unoptimized
                     placeholder="empty"
                     blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                     width={0}
@@ -191,7 +180,6 @@ export default function MiddleSchoolPage() {
                   <div className="w-full h-2 bg-primary" />
                 </div>
               </div>
-             
             </div>
           </div>
         </div>
@@ -212,7 +200,8 @@ export default function MiddleSchoolPage() {
           <div className="w-full p-0">
             <div className="flex gap-4 items-center">
               <div className="md:h-12 h-6 w-6 md:w-12">
-                <Image unoptimized
+                <Image
+                  unoptimized
                   placeholder="empty"
                   blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                   width={0}
@@ -267,7 +256,8 @@ export default function MiddleSchoolPage() {
               <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
                 <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
                   <div className="w-full h-2 bg-primary" />
-                  <Image unoptimized
+                  <Image
+                    unoptimized
                     placeholder="empty"
                     blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                     width={0}
@@ -284,7 +274,8 @@ export default function MiddleSchoolPage() {
                   />
                 </div>
                 <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image unoptimized
+                  <Image
+                    unoptimized
                     placeholder="empty"
                     blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
                     width={0}

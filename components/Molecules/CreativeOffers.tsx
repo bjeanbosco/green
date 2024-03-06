@@ -3,7 +3,7 @@ import Image from "next/image";
 import { nursaryArray, primaryArray, middleArray } from "../../utils/aboutData";
 import TextSection from "../Atoms/TextSection";
 
-const Creative_offers = () => {
+const Creative_offers = ({ user }: any) => {
   return (
     <main className="">
       <section

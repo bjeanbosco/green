@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import { facilities } from "@/utils/aboutData";
 
-const FacilitiesPage = () => {
+const FacilitiesPage = ({ user }: any) => {
   return (
     <main className="">
     <section

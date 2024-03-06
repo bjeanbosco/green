@@ -1,7 +1,7 @@
 // pages/api/sections.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '@/utils/db';
-import SectionModel from '@/Models/Section';
+import SectionModel from '@/Models/HighSchoolModel';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
     await dbConnect.connect(); // Correct invocation of connect function
@@ -60,15 +60,29 @@ async function deleteHandler(req: NextApiRequest, res: NextApiResponse<any>) {
 async function updateHandler(req: NextApiRequest, res: NextApiResponse<any>) {
     try {
         const slug = req.query.slug as string;
-        const { title, description } = req.body;
+        const { title, description, subtitle, backgroundImage, imageUrl } = req.body;
 
         // Update the fields based on the provided values
         const updateFields: any = {};
         if (title !== undefined && title.trim() !== "") {
             updateFields["content.title"] = title.trim();
         }
-        if (description !== undefined && description.trim() !== "") {
-            updateFields["content.description"] = description.trim();
+        if (description !== undefined && Array.isArray(description)) {
+            updateFields["content.description"] = description.map((item: string) => item.trim());
+        }
+        if (subtitle !== undefined && subtitle.trim() !== "") {
+            updateFields["content.subtitle"] = subtitle.trim();
+        }
+        if (backgroundImage !== undefined && backgroundImage.trim() !== "") {
+            updateFields["content.backgroundImage"] = backgroundImage.trim();
+        }
+
+        if (imageUrl !== undefined) {
+            if (typeof imageUrl === 'string') {
+                updateFields["content.imageUrl"] = imageUrl;
+            } else if (Array.isArray(imageUrl)) {
+                updateFields["content.imageUrl"] = imageUrl;
+            }
         }
 
         // Update the section in the database
@@ -88,5 +102,6 @@ async function updateHandler(req: NextApiRequest, res: NextApiResponse<any>) {
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
 
 

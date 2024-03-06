@@ -6,27 +6,10 @@ import { motion } from "framer-motion";
 import TextSection from "../Atoms/TextSection";
 import ButtonBlank from "../Atoms/ButtonBlank";
 import { MdOutlineCastForEducation } from "react-icons/md";
-import GreenDecoratedList from "../Atoms/greenDecoratedList";
 import DecoratedList from "../Atoms/decoratedList";
 import StaffCard from "../Atoms/StaffCard";
 
-export default function PrimaryPage() {
-  const cloudinaryUrl = "/docs/Green Hills Academy.pdf";
-  const fileName = "Green Hills Academy.pdf";
-
-  const handleDownload = () => {
-    // Create a temporary anchor element
-    const link = document.createElement("a");
-    link.href = cloudinaryUrl;
-    link.setAttribute("download", fileName); // Set the download attribute to the desired file name
-    document.body.appendChild(link);
-
-    // Trigger a click event on the anchor element
-    link.click();
-
-    // Clean up: remove the anchor element from the DOM
-    document.body.removeChild(link);
-  };
+export default function PrimaryPage({ user }: any) {
   const topList = [
     "Who we are",
     "Where we are in place and time",
