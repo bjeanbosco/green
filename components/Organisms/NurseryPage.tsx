@@ -5,7 +5,7 @@ import ButtonBlank from "../Atoms/ButtonBlank";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import StaffCard from "../Atoms/StaffCard";
 
-export default function NurseryPage() {
+export default function NurseryPage({ user }: any) {
   const cloudinaryUrl = "/docs/Green Hills Academy.pdf";
   const fileName = "Green Hills Academy.pdf";
 

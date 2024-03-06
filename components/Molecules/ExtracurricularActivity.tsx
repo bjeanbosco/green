@@ -3,7 +3,7 @@ import Image from "next/image";
 import TextSection from "../Atoms/TextSection";
 import { extracurricularArray } from "../../utils/aboutData";
 
-export default function ExtracurricularActivity() {
+export default function ExtracurricularActivity({ user }: any) {
   return (
     <div className="w-full flex justify-center">
       <div id="extracurricular" className="w-[80%] flex flex-col gap-8 py-16">

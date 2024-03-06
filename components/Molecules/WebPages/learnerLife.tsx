@@ -9,7 +9,7 @@ import Counselling from '../Counselling';
 import Creative_offers from '../CreativeOffers';
 import LearnersClubs from '../Learners_clubs';
 import df from "./leadership"
-const LearnerLifePage = () => {
+const LearnerLifePage = ({ user }: any) => {
   const [activeTab, setActiveTab] = useState('');
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [detailsArray, setDetailsArray] = useState([

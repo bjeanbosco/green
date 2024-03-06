@@ -11,7 +11,7 @@ type ScheduleItem = {
   value: string;
 };
 
-const ContactPage = () => {
+const ContactPage = ({ user }: any) => {
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(
     "/icons/bgwhiteyellow_mekqvs.svg"

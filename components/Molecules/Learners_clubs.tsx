@@ -4,7 +4,7 @@ import Image from "next/image";
 import TextSection from "../Atoms/TextSection";
 import { intellectualArray, physicalArray } from "../../utils/aboutData";
 
-const LearnersClubs = () => {
+const LearnersClubs = ({ user }: any) => {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
