@@ -60,7 +60,7 @@ async function updateHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     const id = req.query.id as string;
     const { label, url, category } = req.body;
-    console.log(label, url, category)
+
     const updatedNav = await NavigationItemModel.findByIdAndUpdate(id, { label, url, category }, { new: true });
     if (updatedNav) {
       res.status(200).json(updatedNav);

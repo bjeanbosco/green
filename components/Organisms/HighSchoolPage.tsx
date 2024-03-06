@@ -3,7 +3,6 @@ import React from "react";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { highSchoolStaffData } from "@/utils/leadershipData";
 import ButtonBlank from "../Atoms/ButtonBlank";
-import StaffCard from "../Atoms/StaffCard";
 
 export default function HighSchoolPage() {
   const cloudinaryUrl = "/docs/GHA High School.pdf";
@@ -513,20 +512,6 @@ export default function HighSchoolPage() {
                     alt="Image"
                   />
                 </div>
-                <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image
-                    unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    src="https://greenhillsacademy.rw:8081/images/347552413_1021218878868465_1964941660457593841_n_qmnolk.jpg"
-                    alt="Image"
-                  />
-                  <div className="w-full h-2 bg-primary" />
-                </div>
               </div>
             </div>
             <div className="h-full w-full flex flex-col justify-between">
@@ -571,40 +556,7 @@ export default function HighSchoolPage() {
                   group to make up a total of six.
                 </p>
               </div>
-              <div>
-                <ButtonBlank
-                  action={`https://www.ibo.org/programmes/diploma-programme/`}
-                  name="Learn more"
-                  background="#018c79"
-                  border="1px solid var(--color-border)"
-                  color="#fff"
-                  icon={<MdOutlineCastForEducation className="text-[yellow]" />}
-                />
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="flex bg-primary justify-center py-16"
-        style={{
-          backgroundImage: `url(${"/icons/green_c6iapo.svg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="w-[80%]">
-          <h1 className="text-white font-bold">Administration</h1>
-
-          <div className="text-white cardGrid gap-12 mb-12 md:pt-12 sm:pt-4">
-            {highSchoolStaffData.map((staff, index) => (
-              <StaffCard
-                key={index}
-                title={staff.title}
-                imageUrl={staff.imageUrl}
-                name={staff.name}
-              />
-            ))}
           </div>
         </div>
       </section>
