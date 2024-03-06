@@ -13,7 +13,7 @@ const YourComponent: React.FC = () => {
 
   const fetchSections = async () => {
     try {
-      const response = await axios.get('/api/sections');
+      const response = await axios.get('/api/highSchool');
       setSections(response.data);
     } catch (error) {
       console.error('Error fetching sections:', error);
@@ -46,7 +46,7 @@ const YourComponent: React.FC = () => {
     }
 
     try {
-        await axios.put(`/api/sections?slug=${slug}`, selectedSection.content);
+        await axios.put(`/api/highSchool?slug=${slug}`, selectedSection.content);
         await fetchSections();
         setEditMode(false);
     } catch (error) {
@@ -57,7 +57,7 @@ const YourComponent: React.FC = () => {
 
   const handleDelete = async (slug: string) => {
     try {
-      await axios.delete(`/api/sections?slug=${slug}`);
+      await axios.delete(`/api/highSchool?slug=${slug}`);
       await fetchSections();
     } catch (error) {
       console.error('Error deleting section:', error);

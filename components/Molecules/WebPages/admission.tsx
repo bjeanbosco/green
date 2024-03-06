@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { MdCastForEducation } from "react-icons/md";
 import { SiGoogleforms } from "react-icons/si";
@@ -8,69 +8,51 @@ import { useInView } from "react-intersection-observer";
 import axiosInstance from "@/lib/axios";
 import uploadImage from "@/utils/uploadImage";
 import { Admissions } from "@/types/webpages";
+import ButtonBlank from "@/components/Atoms/ButtonBlank";
+import Image from "next/image";
+import {
+  header,
+  overview,
+  admissionDriven,
+  everyoneChallenged,
+  everyoneSuccessful,
+} from "@/utils/admissionData";
+import { useTransform, motion, useScroll } from "framer-motion";
+import { LuDownload } from "react-icons/lu";
+
 
 const AdmissionPage = ({ user }: any) => {
-  const [admission, setAdmission] = useState<Admissions>({
-    "bannerImageUrl": "images/1.png",
-    "bannerTitle": "Wish to learn more? We'll send you a package of information as soon as you complete the form Linked below",
-    "enrollementSection": {
-      "title": "Enrollment Portal",
-      "description": "Families interested in joining the Green Hills community should contact the Admissions Director to discuss availability of space. If there is space, parents are encouraged to schedule a tour of the campus if they have not previously visited. GHA has an open admissions process and accepts learners throughout the school year if space is available.",
-      "imageUrls": [],
-      "formUrl": ""
-    },
-    "missionSection": {
-      "title": "Mission Driven Admissions",
-      "description": "At Green Hills Academy, our mission is to help learners become principled, lifelong learners equipped with the knowledge and skills to excel. In service to our mission, we provide an innovative, inclusive international education for learners from Nursery through Grade 12.",
-      "imageUrls": [],
-      "formUrl": ""
-    },
-    "firstCharacterSection": {
-      "title": "Inclusion",
-      "description": "GHA welcomes learners with a diverse range of cultural and educational backgrounds, talents and abilities. The diverse backgrounds of our learners enrich our school community and contribute to a dynamic learning environment in which all learners are celebrated, and challenged and supported to do their personal best.As a welcoming and inclusive community, we expect families to engage fully with the School, supporting both its educational philosophy and community activities. We also value transparent communications and constructive, respectful, personal and professional interactions.",
-      "imageUrls": [],
-      "formUrl": ""
-    },
-    "secondCharacterSection": {
-      "title": "Everyone challenged",
-      "description": "GHA is committed to personalized learning in order to sustain high levels of motivation and optimize our learners' growth and achievement in all areas of development. We personalize learning to help learners realize their full potential, identify and develop interests and talents, and become internationally-minded global citizens.",
-      "imageUrls": [],
-      "formUrl": ""
-    },
-    "lastCharacterSection": {
-      "title": "Everyone successful",
-      "description": "GHA, while inclusive, is also rigorous and challenging. We expect high levels of motivation and perseverance from every learner. When learners’ records suggest that they may not have the disposition to be successful at GHA, we counsel families to choose a different school.",
-      "imageUrls": [],
-      "formUrl": ""
-    }
-  });
   const [isCustomizing, setIsCustomizing] = useState(false);
 
 
-  const startYear = 1998;
-  const currentYear = new Date().getFullYear();
-  const numberOfYears = currentYear - startYear;
-
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    rootMargin: '200px 0px',
-    });
   const toggleCustomization = () => {
     setIsCustomizing(!isCustomizing);
   };
+  const currentYear = new Date().getFullYear();
+  const numberOfYears = currentYear - overview.startYear;
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "start start"],
+  });
 
-  useEffect(() => {
-    axiosInstance.get("/pages/admission")
-    .then(res => setAdmission(res.data))
-  })
+  const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
+  const cloudinaryUrl = "/docs/2023-2024 Tuition and Fee Schedule.pdf";
+  const fileName = "2023-2024 Tuition and Fee Schedule.pdf";
 
-  const saveToapi = () => {
-    axiosInstance.put("/pages/admission", admission)
-    .then(res => console.log(res.data))
+  const handleDownload = () => {
+    // Create a temporary anchor element
+    const link = document.createElement("a");
+    link.href = cloudinaryUrl;
+    link.setAttribute("download", fileName); // Set the download attribute to the desired file name
+    document.body.appendChild(link);
 
-    setIsCustomizing(false);
+    // Trigger a click event on the anchor element
+    link.click();
+
+    // Clean up: remove the anchor element from the DOM
+    document.body.removeChild(link);
   };
-
   return (
     <main className="">
       <div className="flex my-6 justify-between text-white">
@@ -93,354 +75,422 @@ const AdmissionPage = ({ user }: any) => {
             />
           ) : null}
         </div>
-
-        <div className="flex gap-4">
-          <button
-            onClick={isCustomizing ? saveToapi : () => {}}
-            className={`w-[124px] h-[43px] ${
-              isCustomizing
-                ? "bg-[#5B83D7] hover:bg-[#4A6FBB]"
-                : "cursor-not-allowed bg-[#B3B3B3] text-white"
-            } text-center rounded-[6px]`}
-          >
-            Save Copy
-          </button>
-
-          <button className="w-[124px] h-[43px] bg-primary text-center rounded-[6px]">
-            {" "}
-            Publish
-          </button>
-        </div>
       </div>
-      {isCustomizing && (
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e: any) => {
-            const file = e.target.files[0];
-            uploadImage(file).then(res => setAdmission({...admission, bannerImageUrl: res}))
-          }}
-          className="cursor-pointer"
-        />
-      )}
+      <section>
       <div
-        className="w-full h-[600px] gap-1 flex flex-col pb-4 items-center justify-end "
+        className="w-full h-[70vh] gap-1 flex flex-col pb-4 items-center justify-end "
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url(/images/admission.JPG)`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url(${header.imageUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        {isCustomizing ?<textarea
-        rows={2}
-                className="md:w-[45%] w-[80%] text-center text-black font-normal"
-                value={admission.bannerTitle}
-                onChange={(e) => {
-                  setAdmission({...admission, bannerTitle: e.target.value});
-                }}
-              />: (<div className="md:w-[45%] w-[80%] text-center text-white  font-normal">
-          Wish to learn more? We&apos;ll send you a package of information as
-          soon as you complete the form Linked below
-        </div>)}
-        <button className="text-white hover:shadow-xl mt-4 grid place-items-center bg-primary rounded-lg justify-center">
-          <div className="flex space-x-4 text-[yellow]">
-            <span>Apply now</span>{" "}
-            <MdCastForEducation className="mt-1 text-[yellow]" />
-          </div>
-        </button>
+        <p className="md:w-[45%] w-[80%] text-center text-white">
+          {header.title}
+        </p>
+        <ButtonBlank
+          name="Apply now"
+          icon={<MdCastForEducation className="text-[yellow]" />}
+          action="https://greenhillsacademy.openapply.com/"
+          background="#018c79"
+          color="#fff"
+        />
       </div>
-      <section className="flex justify-center">
-        <div className="w-[80%] grid grid-rows-1 ">
-          <div className="flex w-full my-20 justify-center md:items-center items-start">
-            <div className="flex justify-between md:flex-row flex-col md:items-center items-start">
-              <div className="flex md:w-1/2 w-full flex-col">
-                <div
-                  style={{
-                    backgroundImage: `url(https://greenhillsacademy.rw:8081/images/GHA/9_ujknty.jpg)`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                  className=" md:w-1/2 w-36 md:h-[350px] h-48 z-20"
-                />
-                <div className="md:w-1/2 w-32 z-40 md:ml-28 ml-20 -mt-44 md:px-6 px-2 py-6 bg-primary">
-                  <h3 className="md:text-justify text-[yellow] font-bold">
-                    {numberOfYears}+ Years
-                  </h3>
-                  <p className="md:text-justify text-white font-normal">
-                    Years of Experience
+      <section className="flex h-full justify-center">
+        <div className="w-[80%] flex flex-col gap-8 py-16">
+          <div className="grid md:grid-cols-2 h-full w-full sm:gap-8 md:gap-12">
+            <div className="grid w-full relative h-full">
+              <div className="md:w-[20vw] overflow-x-hidden absolute top-1/3 shadow-2xl left-1/4 z-40 p-3 bg-primary">
+                <h3 className="text-[yellow] font-bold">
+                  {numberOfYears}+ Years
+                </h3>
+                <p className="text-white">Years of Experience</p>
+              </div>
+              <div className="w-full mt-4 grid grid-cols-2 items-center justify-center gap-4 h-full">
+                <div className="h-[300px]">
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src="https://greenhillsacademy.rw:8081/images/GHA_102_ldpoeq.jpg"
+                    alt="Image"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="h-[300px]">
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src="https://greenhillsacademy.rw:8081/images/GHA_156_1_bbqero.jpg"
+                    alt="Image"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="h-[300px]">
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src="https://greenhillsacademy.rw:8081/images/GHA_56_oxyp0v.jpg"
+                    alt="Image"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="h-[300px]">
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src="https://greenhillsacademy.rw:8081/images/GHA_155_rwvdt7.jpg"
+                    alt="Image"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full h-full flex flex-col justify-between items-start">
+              <div className="w-full h-full flex flex-col gap-12">
+                <h1 className="text-primary font-bold">Overview</h1>
+
+                <p className="w-full pb-6 text-justify">
+                  Families considering enrollment at Green Hills Academy are
+                  invited to connect with our admissions team to inquire about
+                  space availability and the required procedures. We also
+                  encourage prospective parents and learners to arrange a campus
+                  tour. Green Hills Academy maintains an open admissions
+                  process, welcoming learners throughout the school year based
+                  on space availability.
+                </p>
+              </div>
+              <motion.button
+                onClick={handleDownload}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                style={{
+                  background: "#018c79",
+                  color: "#fff",
+                  border: "1px solid var(--color-border)",
+                }}
+                className="border rounded-lg gap-2 hover:bg-primary hover:border-[yellow] hover:text-white sm:text-xs p-2 md:px-4 md:py-2 flex items-center justify-center"
+              >
+                Tuition and Fee Schedule
+                <p>
+                  <LuDownload className="text-[yellow]" />
+                </p>
+              </motion.button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        className="w-full bg-primary flex justify-center text-white"
+        style={{
+          backgroundImage: `url(${"/icons/green_c6iapo.svg"})`,
+          backgroundSize: "cover",
+          backgroundPosition: "bottom",
+        }}
+        ref={container}
+      >
+        <div className="w-[80%] flex flex-col gap-8 py-16">
+          <div className="w-full h-full object-cover">
+            <h1 className="text-white font-bold">{admissionDriven.title}</h1>
+            <p className="text-justify text-white md:w-[80%]">
+              {admissionDriven.description}{" "}
+            </p>
+          </div>
+
+          <div className="w-full h-full grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 place-items-start">
+              <div className="w-full h-full flex items-center relative">
+                <div className="w-1/4 my-4 h-full left-0 top-0 absolute bg-[yellow]" />
+                <div className="w-full h-[80%] left-[31px] absolute">
+                  <div className="bgImageContainer">
+                    <motion.div
+                      className={"inner"}
+                      style={{ scale: imageScale }}
+                    >
+                      <img
+                        className="h-full w-full"
+                        src="https://greenhillsacademy.rw:8081/images/GHA_39_1_1_nxnvgl.jpg"
+                        alt="Image"
+                      />
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full h-full flex flex-col gap-16 justify-between items-start">
+                <div className="flex flex-col gap-8">
+                  <div className="w-full p-0">
+                    <div className="flex gap-4 items-center">
+                      <div className="md:h-12 h-6 w-6 md:w-12">
+                        <Image unoptimized
+                          placeholder="empty"
+                          blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          src="/icons/international_newwhite_hkvubl.svg"
+                          alt="Image"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <h2 className="text-[yellow]">
+                        {admissionDriven.subTitle}
+                      </h2>
+                    </div>
+                  </div>
+                  <p className="w-full sm:py-4 text-justify text-white">
+                    {admissionDriven.subDescription}
                   </p>
                 </div>
-                <div
-                  style={{
-                    backgroundImage: `url(/images/adm.JPG)`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                  className="md:w-[80%] w-44 md:h-60 h-32 md:ml-12 ml-10"
-                />
-              </div>
-              <div className="flex md:w-1/2 sm:my-8 w-full flex-col md:gap-8 gap-3 justify-center items-start ">
-              {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold"
-                value={admission.enrollementSection.title}
-                onChange={(e) => {
-                  setAdmission({...admission, enrollementSection: {...admission.enrollementSection, title: e.target.value}});
-                }}
-              />: <h1 className="text-primary sm:text-base font-bold">
-                  {admission.enrollementSection.title}
-                </h1>}
-                <hr className="w-[75px] h-1.5 bg-primary mb-4" />
-                {isCustomizing ?<textarea
-                rows={4}
-                className="text-primary sm:text-base font-bold"
-                value={admission.enrollementSection.description}
-                onChange={(e) => {
-                  setAdmission({...admission, enrollementSection: {...admission.enrollementSection, description: e.target.value}});
-                }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal">
-                  {admission.enrollementSection.description}
-                </p>}
-                <button className="text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
-                  <div className="flex space-x-4 text-white">
-                    <span>Fill the form</span>{" "}
-                    <SiGoogleforms className="mt-1 text-[yellow]" />
-                  </div>
-                </button>
+                <div className="">
+                  <ButtonBlank
+                    name="Enrollment Portal"
+                    icon={<SiGoogleforms className="text-[yellow]" />}
+                    action="https://greenhillsacademy.openapply.com/"
+                    background="#018c79"
+                    color="#fff"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
       <section
-        className="grid w-full bg-primary place-items-center text-white"
+        className="flex justify-center w-full h-[100%] items-center"
         style={{
-          backgroundImage: `url(/icons/bg.svg)`,
+          backgroundImage: `url(${"/icons/whiteflip_h0mlnm.svg"})`,
           backgroundSize: "cover",
           backgroundPosition: "bottom",
         }}
       >
-        <div className="w-[80%] grid grid-rows-1 ">
-          <div className="flex justify-center items-start md:mt-16">
-            <div className="flex md:gap-8 gap-2 flex-col items-start">
-            {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold"
-                value={admission.missionSection.title}
-                onChange={(e) => {
-                  setAdmission({...admission, missionSection: {...admission.missionSection, title: e.target.value}});
-                }}
-              />: <h1 className="text-white sm:text-base font-bold">
-                {admission.missionSection.title}
-              </h1>}
-              <hr className="w-[75px] h-1.5 bg-[yellow] mb-4" />
-              {isCustomizing ?<textarea
-              rows={4}
-                className="text-primary sm:text-base font-bold"
-                value={admission.missionSection.description}
-                onChange={(e) => {
-                  setAdmission({...admission, missionSection: {...admission.missionSection, description: e.target.value}});
-                }}
-              />:  <p className="h-auto text-justify text-white w-[80%] font-normal">
-                {admission.missionSection.description}
-              </p>}
+        <div className="w-[80%] grid md:grid-cols-2 h-full gap-16 py-16">
+          <div className="flex h-full w-full flex-col justify-between gap-4">
+           
+              <div className="flex gap-4 items-center">
+                <div className="md:h-12 md:w-12">
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src="/icons/success_r5s8te.svg"
+                    alt="Image"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <h2 className="text-primary font-bold">
+                  {everyoneChallenged.title}
+                </h2>
+              </div>
+              <div className="md:hidden w-full h-full justify-start items-start gap-[22px] inline-flex">
+                <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
+                  <div className="w-full h-2 bg-primary" />
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full md:h-[50vh] object-cover object-center"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      display: "block",
+                    }}
+                    src="https://greenhillsacademy.rw:8081/images/GHA_137_jpbmmz.jpg"
+                    alt="Image"
+                  />
+                </div>
+                <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
+                  <Image unoptimized
+                    placeholder="empty"
+                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full md:h-[50vh] object-cover object-center"
+                    src="https://greenhillsacademy.rw:8081/images/GHA_118_y8fmvf.jpg"
+                    alt="Image"
+                  />
+                  <div className="w-full h-2 bg-primary" />
+                </div>
+              </div>
+              <p className="w-full text-justify">
+                {everyoneChallenged.description}
+              </p>
+            <div>
+              <ButtonBlank
+                name="Enrollment Portal"
+                icon={<SiGoogleforms className="text-[yellow]" />}
+                action="https://greenhillsacademy.openapply.com/"
+                background="#018c79"
+                color="#fff"
+              />
             </div>
           </div>
-        </div>
-        <div className="w-[80%] grid grid-rows-1 ">
-          <div className="flex justify-center items-center">
-            <div className="flex md:flex-row flex-col-reverse my-16 gap-8 justify-between items-center">
-              <div className="flex md:w-1/2 w-full flex items-end h-full">
-                <div className="bg-cover bg-center md:w-1/2 w-36 md:h-[100%] h-44 z-20">
-                  <img
-                    src="/images/driven.JPG"
-                    alt=""
-                    className="object-contain"
-                  />
-                </div>
-                <div className="bg-cover bg-center md:w-1/2 w-32 h-28 -ml-12">
-                  <img
-                    src="/images/driven2.JPG"
-                    alt=""
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <div className="md:w-1/2 w-full flex md:gap-8 gap-2 flex-col items-start">
-                <div className="flex gap-2">
-                  <img
-                    src="/icons/international_newwhite.svg"
-                    alt=""
-                    className=""
-                  />
-                  {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold"
-                value={admission.firstCharacterSection.title}
-                onChange={(e) => {
-                  setAdmission({...admission, firstCharacterSection: {...admission.firstCharacterSection, title: e.target.value}});
+          <div className="sm:hidden w-full h-full justify-start items-start gap-[22px] inline-flex">
+            <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
+              <div className="w-full h-2 bg-primary" />
+              <Image unoptimized
+                placeholder="empty"
+                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full md:h-[50vh] object-cover object-center"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  display: "block",
                 }}
-              />: <h2 className="text-[yellow] sm:text-base font-bold">
-                    {admission.firstCharacterSection.title}
-                  </h2>}
-                </div>
-                {isCustomizing ?<textarea rows={4}
-                className="text-primary sm:text-base font-bold"
-                value={admission.firstCharacterSection.description}
-                onChange={(e) => {
-                  setAdmission({...admission, firstCharacterSection: {...admission.firstCharacterSection, description: e.target.value}});
-                }}
-              />: <p className="w-full text-justify text-white font-normal">
-                  {admission.firstCharacterSection.description}
-                </p>}
-                <button className="text-white hover:shadow-xl grid place-items-center bg-primary border border-[yellow] rounded-lg justify-center">
-                  <div className="flex space-x-4 text-white">
-                    <span>Fill the form</span>{" "}
-                    <SiGoogleforms className="mt-1 text-[yellow]" />
-                  </div>
-                </button>
-              </div>
+                src="https://greenhillsacademy.rw:8081/images/GHA_137_jpbmmz.jpg"
+                alt="Image"
+              />
+            </div>
+            <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
+              <Image unoptimized
+                placeholder="empty"
+                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full md:h-[50vh] object-cover object-center"
+                src="https://greenhillsacademy.rw:8081/images/GHA_118_y8fmvf.jpg"
+                alt="Image"
+              />
+              <div className="w-full h-2 bg-primary" />
             </div>
           </div>
         </div>
       </section>
       <section
-        className="grid w-full place-items-center h-full"
-        ref={ref}
-      style={{
-        backgroundImage: `url(${inView ? "/icons/bgwhite2_lpw73r.svg" : ""})`,
+        className="flex justify-center h-[100%] items-center"
+        style={{
+          backgroundImage: `url(${"/icons/white2_qkbyoe.svg"})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "bottom",
         }}
       >
-        <div className="w-[80%] h-full">
-          <div className="flex justify-center h-full items-center">
-            <div className="flex md:flex-row flex-col-reverse my-16 gap-8 justify-between items-center">
-              <div className="md:w-1/2 w-full flex md:gap-8 gap-2 flex-col items-start ">
-                <div className="flex gap-2">
-                  <img                       loading="lazy"src="/icons/success.svg" alt="" className="" />
-                  {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold"
-                value={admission.secondCharacterSection.title}
-                onChange={(e) => {
-                  setAdmission({...admission, secondCharacterSection: {...admission.secondCharacterSection, title: e.target.value}});
+        <div className="w-[80%] flex flex-col gap-8 py-16">
+          <div className="grid md:grid-cols-2 gap-16">
+            <div className="w-full h-full justify-start items-start gap-[19px] inline-flex">
+              <Image unoptimized
+                placeholder="empty"
+                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-1/2 h-full object-cover"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  display: "block",
                 }}
-              />: <h2 className="text-primary sm:text-base font-bold">
-                    {admission.secondCharacterSection.title}
-                  </h2>}
-                </div>
-                {isCustomizing ?<textarea
-                rows={4}
-                className="text-primary sm:text-base font-bold"
-                value={admission.secondCharacterSection.description}
-                onChange={(e) => {
-                  setAdmission({...admission, secondCharacterSection: {...admission.secondCharacterSection, description: e.target.value}});
-                }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal">
-                  {admission.secondCharacterSection.description}
-                </p>}
-                <button className="text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
-                  <div className="flex space-x-4 text-white">
-                    <span>Fill the form</span>{" "}
-                    <SiGoogleforms className="mt-1 text-[yellow]" />
-                  </div>
-                </button>
-              </div>
-              <div className="flex md:w-1/2 w-full flex items-end h-full">
-                <div className="bg-cover bg-center md:w-1/2 w-36 md:h-[100%] h-44 z-20">
-                  <img
-                    src="/images/driven.JPG"
-                    alt=""
-                    className="object-contain"
-                  />
-                </div>
-                <div className="bg-cover bg-center md:w-1/2 w-32 h-28 -ml-12">
-                  <img
-                    src="/images/driven2.JPG"
-                    alt=""
-                    className="object-contain"
-                  />
-                </div>
+                src="https://greenhillsacademy.rw:8081/images/ad6_nzqzdb.jpg"
+                alt="Image"
+              />
+              <div className="flex-col w-1/2 h-full justify-start items-start gap-2.5 inline-flex">
+                <Image unoptimized
+                  placeholder="empty"
+                  blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-full h-full object-cover"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    display: "block",
+                  }}
+                  src="https://greenhillsacademy.rw:8081/images/GHA_37_fl9kou.jpg"
+                  alt="Image"
+                />
+                <Image unoptimized
+                  placeholder="empty"
+                  blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-full h-full object-cover"
+                  src="https://greenhillsacademy.rw:8081/images/GHA_138_d9xe2c.jpg"
+                  alt="Image"
+                />
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="w-[80%] h-full">
-          <div className="flex justify-center h-full items-center">
-            <div className="flex md:flex-row flex-col-reverse my-16 gap-8 justify-between items-center">
-              <div className="flex md:w-1/2 w-full flex items-end h-full">
-                <div className="bg-cover bg-center md:w-1/2 w-36 md:h-[100%] h-44 z-20">
-                  <img
-                    src="/images/driven.JPG"
-                    alt=""
-                    className="object-contain"
-                  />
-                </div>
-                <div className="bg-cover bg-center md:w-1/2 w-32 h-28 -ml-12">
-                  <img
-                    src="/images/driven2.JPG"
-                    alt=""
-                    className="object-contain"
-                  />
+            <div className="w-full h-full flex flex-col justify-between items-start">
+              <div className="w-full">
+                <div className="flex gap-4 mb-4 items-center">
+                  <div className="md:h-12 h-6 w-6 md:w-12">
+                    <Image unoptimized
+                      placeholder="empty"
+                      blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      src="/icons/octicon_goal-16_rz4dds.svg"
+                      alt="Image"
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <h2 className="text-primary font-bold">
+                    Everyone successful
+                  </h2>
                 </div>
               </div>
-              <div className="md:w-1/2 w-full flex md:gap-8 gap-2 flex-col items-start ">
-                <div className="flex gap-2">
-                  <img                       loading="lazy"src="/icons/octicon_goal-16.svg" alt="" className="" />
-                  {isCustomizing ?<input
-                className="text-primary sm:text-base font-bold"
-                value={admission.lastCharacterSection.title}
-                onChange={(e) => {
-                  setAdmission({...admission, lastCharacterSection: {...admission.lastCharacterSection, title: e.target.value}});
-                }}
-              />: <h2 className="text-primary sm:text-base font-bold">
-                    {admission.lastCharacterSection.title}
-                  </h2>}
-                </div>
-                {isCustomizing ?<textarea
-                rows={4}
-                className="text-primary sm:text-base font-bold"
-                value={admission.lastCharacterSection.description}
-                onChange={(e) => {
-                  setAdmission({...admission, lastCharacterSection: {...admission.lastCharacterSection, description: e.target.value}});
-                }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal">
-                  {admission.lastCharacterSection.description}
-                </p>}
-                {isCustomizing ?<textarea rows={4}
-                className="text-primary sm:text-base font-bold"
-                value={admission.lastCharacterSection.description}
-                onChange={(e) => {
-                  setAdmission({...admission, lastCharacterSection: {...admission.lastCharacterSection, description: e.target.value}});
-                }}
-              />: <p className="w-full text-justify text-zinc-800 font-normal">
+              <div>
+                <p className="w-full pb-6 text-justify">
+                  GHA, while inclusive, is also rigorous and challenging. We
+                  expect high levels of motivation and perseverance from every
+                  learner. When learners’ records suggest that they may not have
+                  the disposition to be successful at GHA, we counsel families
+                  to choose a different school.
+                </p>
+                <p className="w-full pb-6 text-justify">
                   For more information or to make an appointment with our
-                  Admissions Director, please contact Lucie Umulisa at{" "}
+                  Admissions Director, please contact Lucie Umulisa at &nbsp;
                   <Link
                     href="mailto:admissions@greenhillsacademy.rw"
-                    className="text-primary underline"
+                    className="text-primary underline  md:text-[1.3vw] sm:text-[1.05rem]"
                   >
                     admissions@greenhillsacademy.rw
                   </Link>{" "}
-                  or{" "}
+                  &nbsp; or &nbsp;
                   <Link
                     href="tel:+250787227601"
-                    className="text-primary underline"
+                    className="text-primary underline  md:text-[1.3vw] sm:text-[1.05rem]"
                   >
-                    +250787227601
+                    +250 787 227 601
                   </Link>
                   . She will be happy to answer all of your questions and give
                   you a tour of our beautiful and expansive campus.
-                </p>}
-                <button className="text-white hover:shadow-xl grid place-items-center bg-primary rounded-lg justify-center">
-                  <div className="flex space-x-4 text-white">
-                    <span>Fill the form</span>{" "}
-                    <SiGoogleforms className="mt-1 text-[yellow]" />
-                  </div>
-                </button>
+                </p>
               </div>
+              <ButtonBlank
+                name="Enrollment Portal"
+                icon={<SiGoogleforms className="text-[yellow]" />}
+                action="https://greenhillsacademy.openapply.com/"
+                background="#018c79"
+                color="#fff"
+              />
             </div>
           </div>
         </div>
       </section>
+    </section>
     </main>
   );
 };

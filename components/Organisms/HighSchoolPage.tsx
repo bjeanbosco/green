@@ -15,8 +15,7 @@ export default function HighSchoolPage({ user }: any) {
   const [editedDescriptions, setEditedDescriptions] = useState<string[]>([]);
   const [isCustomizing, setIsCustomizing] = useState(false);
 
-  const { uploadedUrls,  handleFileChange, handleSubmit } =
-    useImageUploader();
+  const { uploadedUrls, handleFileChange, handleSubmit } = useImageUploader();
 
   useEffect(() => {
     fetchSections();
@@ -24,7 +23,7 @@ export default function HighSchoolPage({ user }: any) {
 
   const fetchSections = async () => {
     try {
-      const response = await axios.get("/api/sections");
+      const response = await axios.get("/api/highSchool");
       setSections(response.data);
     } catch (error) {
       console.error("Error fetching sections:", error);
@@ -93,7 +92,7 @@ export default function HighSchoolPage({ user }: any) {
         updatedContent.imageUrl = uploadedUrls;
       }
       selectedSection.content = description;
-      await axios.put(`/api/sections?slug=${slug}`, updatedContent);
+      await axios.put(`/api/highSchool?slug=${slug}`, updatedContent);
       await fetchSections();
       setEditMode(false);
     } catch (error) {
@@ -103,7 +102,7 @@ export default function HighSchoolPage({ user }: any) {
 
   const handleDelete = async (slug: string) => {
     try {
-      await axios.delete(`/api/sections?slug=${slug}`);
+      await axios.delete(`/api/highSchool?slug=${slug}`);
       await fetchSections();
     } catch (error) {
       console.error("Error deleting section:", error);
@@ -615,50 +614,52 @@ export default function HighSchoolPage({ user }: any) {
             </section>
           )}
           <div className="flex w-full justify-end">
-            <div className="flex gap-4 py-2 items-center">
-              {editMode &&
-              selectedSection &&
-              selectedSection.slug === section.slug ? null : (
-                <>
-                  <img
-                    onClick={() => handleSelectSection(section)}
-                    src="/icons/update_ijqjnj.svg"
-                    alt=""
-                    className="text-primary cursor-pointer transition duration-300 ease-in-out hover:scale-110"
-                  />
-                  <img
-                    onClick={() => handleDelete(section.slug)}
-                    src="/icons/delete_tvo46a.svg"
-                    alt=""
-                    className="text-red cursor-pointer transition duration-300 ease-in-out hover:scale-110"
-                  />
-                </>
-              )}
-              {editMode &&
+            {isCustomizing ? (
+              <div className="flex gap-4 py-2 items-center">
+                {editMode &&
                 selectedSection &&
-                selectedSection.slug === section.slug && (
+                selectedSection.slug === section.slug ? null : (
                   <>
-                    <button
-                      onClick={() => handleCancel(section)}
-                      className={`bg-blue text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => handleSaveCopy(section)}
-                      className={`bg-[#B3B3B3] text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
-                    >
-                      Save Copy
-                    </button>
-                    <button
-                      onClick={() => handleUpdate(selectedSection.slug)}
-                      className="bg-primary text-white rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2"
-                    >
-                      Publish
-                    </button>
+                    <img
+                      onClick={() => handleSelectSection(section)}
+                      src="/icons/update_ijqjnj.svg"
+                      alt=""
+                      className="text-primary cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                    <img
+                      onClick={() => handleDelete(section.slug)}
+                      src="/icons/delete_tvo46a.svg"
+                      alt=""
+                      className="text-red cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
                   </>
                 )}
-            </div>
+                {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug && (
+                    <>
+                      <button
+                        onClick={() => handleCancel(section)}
+                        className={`bg-blue text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleSaveCopy(section)}
+                        className={`bg-[#B3B3B3] text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Save Copy
+                      </button>
+                      <button
+                        onClick={() => handleUpdate(selectedSection.slug)}
+                        className="bg-primary text-white rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2"
+                      >
+                        Publish
+                      </button>
+                    </>
+                  )}
+              </div>
+            ) : null}
           </div>
         </section>
       ))}
