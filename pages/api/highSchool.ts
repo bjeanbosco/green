@@ -1,4 +1,4 @@
-// pages/api/sections.ts
+// pages/api/highSchool.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '@/utils/db';
 import SectionModel from '@/Models/HighSchoolModel';
