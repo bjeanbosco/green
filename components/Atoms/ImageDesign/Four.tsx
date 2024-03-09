@@ -30,7 +30,7 @@ const Four: React.FC<Props> = ({ images, color }) => {
               display: "block",
             }}
             src={images[0]}
-            alt={images[0]}
+            alt={"image"}
           />
         </div>
         <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">

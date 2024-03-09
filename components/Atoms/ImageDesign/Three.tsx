@@ -26,7 +26,7 @@ const Three: React.FC<Props> = ({ images, color }) => {
           display: "block",
         }}
         src={images[0]}
-        alt={images[0]}
+        alt={"image"}
       />
       <div className="flex-col w-1/2 h-full justify-start items-start gap-2.5 inline-flex">
         <Image

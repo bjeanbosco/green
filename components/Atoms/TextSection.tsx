@@ -45,6 +45,7 @@ interface TextSectionProps {
   color: string;
 }
 function TextSection({ description, color }: TextSectionProps) {
+ console.log(description)
   return (
     <>
       {description.map((item, index) => (

@@ -3,17 +3,17 @@ import React from "react";
 
 interface ListProps {
   details: string;
-  color: string;
+  color?: string;
 }
 
 const DecoratedList: React.FC<ListProps> = ({ details, color }) => {
-  const parts = details.split(':');
+  const parts = details.split(":");
 
   return (
     <div className="py-4 text-justify">
       {parts.length === 2 ? (
         <div className="w-full justify-start gap-2 flex">
-        <Image
+          <Image
             src="/icons/mingcute_right-fill_anrax6.svg"
             alt=""
             width={16}
@@ -24,18 +24,20 @@ const DecoratedList: React.FC<ListProps> = ({ details, color }) => {
             <strong className="text-primary">{parts[0]}:</strong> {parts[1]}
           </p>
         </div>
+      ) : color === "" || color === undefined || color === null ? (
+        <p className="text-justify pb-6">{details}</p>
       ) : (
         <div className="w-full justify-start gap-2 flex">
-        <Image
-          src="/icons/mingcute_right-fill_anrax6.svg"
-          alt=""
-          width={16}
-          height={16}
-          className="w-6 h-6 mt-1"
-          // layout="responsive"
-        />
-        <p className={`text-${color}`}>{details}</p>
-      </div>
+          <Image
+            src="/icons/mingcute_right-fill_anrax6.svg"
+            alt=""
+            width={16}
+            height={16}
+            className="w-6 h-6 mt-1"
+            // layout="responsive"
+          />
+          <p className={`text-${color}`}>{details}</p>
+        </div>
       )}
     </div>
   );

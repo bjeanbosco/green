@@ -88,9 +88,14 @@ export default function HighSchoolPage({ user }: any) {
         updatedContent.subtitle = selectedSection.content.subtitle;
       }
 
-      if (uploadedUrls !== null) {
+      if (
+        uploadedUrls !== null &&
+        uploadedUrls !== undefined &&
+        uploadedUrls.length > 0
+      ) {
         updatedContent.imageUrl = uploadedUrls;
       }
+
       selectedSection.content = description;
       await axios.put(`/api/highSchool?slug=${slug}`, updatedContent);
       await fetchSections();
@@ -132,9 +137,10 @@ export default function HighSchoolPage({ user }: any) {
   const toggleCustomization = () => {
     setIsCustomizing(!isCustomizing);
   };
+
   return (
     <main>
-      <div className="flex my-6 justify-between text-white">
+      <section className="flex my-6 justify-between text-white">
         {user?.permissions
           .map((permission: string) => permission.toLowerCase())
           .includes("edit".toLowerCase()) && (
@@ -158,7 +164,7 @@ export default function HighSchoolPage({ user }: any) {
             ) : null}
           </div>
         )}
-      </div>
+      </section>
       {sections.map((section, index) => (
         <section key={index} className="pb-12">
           {section.slug === "high-school" && (

@@ -19,7 +19,7 @@ const Two: React.FC<Props> = ({ images, color }) => {
           <div className={`w-full h-2 bg-${color}`} />
           <img
             src={images[0]}
-            alt={images[0]}
+            alt={"image"}
             className="w-full md:h-[50vh] object-cover object-center"
             style={{
               maxWidth: "100%",
