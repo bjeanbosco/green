@@ -17,6 +17,5 @@ While we are proud of the exemplary education we offer and the innumerable succe
 Our vibrant learning community’s home is a lush, beautifully landscaped 26-acre campus with purpose-built facilities in four separate divisions for Nursery School, Primary School, Middle School, and High School. Our facilities include classrooms flooded with natural light, science labs, libraries, a music hall, two swimming pools, sports fields, a spacious gymnasium, and more. We opened our new Primary School in September 2022 and our new Nursery School in September 2023. During the next few years, we will build a new High School, Gymnasium, Dining Hall, and Theater. In this gorgeous environment, we live and learn together.
 
 `,
-  imageUrl:
-    "https://greenhillsacademy.rw:8081/images/principles/Daniel.png",
+  imageUrl: "https://greenhillsacademy.rw:8081/images/principles/Daniel.png",
 };

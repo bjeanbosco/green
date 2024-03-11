@@ -1,7 +1,7 @@
 // pages/api/initialSections.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/utils/db";
-import SectionModel from "@/Models/NurserySchoolModel"; // Assuming you have a Section model
+import SectionModel from "@/Models/AboutUsModel"; // Assuming you have a Section model
 
 export default async function handler(
   req: NextApiRequest,
