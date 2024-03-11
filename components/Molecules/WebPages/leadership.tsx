@@ -5,9 +5,21 @@ import { decodeToken } from "@/lib/jwt";
 import axios from "axios";
 import User from "@/types/user";
 import LeaderTable from "../LeaderTable";
+import {
+  Renderable,
+  Toast,
+  Toaster,
+  ValueFunction,
+  toast,
+} from "react-hot-toast";
+import * as Yup from "yup";
+import useImageUploader from "@/utils/useImageUploader";
 
 const LeadershipPage = () => {
+  const { uploadedUrls, handleFileChange, handleSubmit, error } =
+    useImageUploader();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -22,15 +34,20 @@ const LeadershipPage = () => {
   const [newLeaderData, setNewLeaderData] = useState({
     name: "",
     title: "",
-    category: "", // Added category state
-    imageUrl: "",
+    category: "",
   });
+
+  const newLeaderSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    title: Yup.string().required("Title is required"),
+    category: Yup.string().required("Category is required"),
+  });
+
   const resetNewLeaderData = () => {
     setNewLeaderData({
       name: "",
       title: "",
       category: "",
-      imageUrl: "",
     });
   };
 
@@ -41,7 +58,6 @@ const LeadershipPage = () => {
       setUser(decodedUser);
     }
 
-    // Fetch Leader data
     axios.get("/api/leadership").then((res) => setLeader(res.data));
   }, []);
 
@@ -50,7 +66,7 @@ const LeadershipPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setNewLeaderData((prevData) => ({
       ...prevData,
@@ -59,21 +75,71 @@ const LeadershipPage = () => {
   };
 
   const handleSaveLeader = () => {
-    axios.post("/api/leadership", newLeaderData).then((res) => {
-      setLeader((prevLeader) => [...prevLeader, res.data]);
-      closeModal();
-      resetNewLeaderData(); // Reset newLeaderData
-    });
+   
+    newLeaderSchema
+      .validate(newLeaderData, { abortEarly: false })
+      .then(() => {
+        axios
+          .post("/api/leadership", newLeaderData)
+          .then((res) => {
+            res.data.imageUrl = uploadedUrls[0];
+            setLeader((prevLeader) => [...prevLeader, res.data]);
+            closeModal();
+            resetNewLeaderData();
+            toast.success("Leader saved successfully!");
+          })
+          .catch((error) => {
+            console.error("Error saving Leader:", error);
+            toast.error("Error saving Leader!");
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      })
+      .catch((errors) => {
+        errors.inner.forEach(
+          (err: { message: Renderable | ValueFunction<Renderable, Toast> }) => {
+            toast.error(err.message);
+          }
+        );
+        setIsLoading(false);
+      });
+  };
+
+  const handleSubmitButton = async () => {
+    setIsLoading(true);
+    await handleSubmit();
+    console.log(uploadedUrls)
+    if (uploadedUrls.length === 0) {
+      setIsLoading(false);
+      toast.error("No image uploaded!");
+      return;
+    }
+    handleSaveLeader();
   };
 
   const handleDelete = (_id: string) => {
-    axios.delete(`/api/leadership?id=${_id}`).then(() => {
-      setLeader((prevLeader) => prevLeader.filter((Leader) => Leader._id !== _id));
-    });
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this leader?"
+    );
+    if (!isConfirmed) return;
+
+    axios
+      .delete(`/api/leadership?id=${_id}`)
+      .then(() => {
+        setLeader((prevLeader) =>
+          prevLeader.filter((Leader) => Leader._id !== _id)
+        );
+        toast.success("Leader deleted successfully!");
+      })
+      .catch((error) => {
+        console.error("Error deleting Leader:", error);
+        toast.error("Error deleting Leader!");
+      });
   };
 
   const handleUpdate = () => {
-    if (!userToUpdate || !userToUpdate._id) return; // Check if userToUpdate or its ID is not null or undefined
+    if (!userToUpdate || !userToUpdate._id) return;
 
     const { _id, name, title, imageUrl, category } = userToUpdate;
     axios
@@ -87,15 +153,17 @@ const LeadershipPage = () => {
           )
         );
         setIsModalOpen(false);
+        toast.success("Leader updated successfully!");
       })
       .catch((error) => {
         console.error("Error updating Leader:", error);
-        // Handle error here
+        toast.error("Error updating Leader!");
       });
   };
-  
+
   return (
     <main>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="flex justify-end gap-8 items-center mt-8">
         <button
           onClick={openModal}
@@ -164,13 +232,9 @@ const LeadershipPage = () => {
                         className="bg-[#B3B3B3]/25"
                         type="file"
                         value={userToUpdate.imageUrl}
-                        onChange={(e) =>
-                          setUserToUpdate({
-                            ...userToUpdate,
-                            imageUrl: e.target.value,
-                          })
-                        }
+                        onChange={handleFileChange}
                       />
+                      <img src="" alt="" className="h-20 w-20" />
                     </div>
                     <div className="w-1/2">
                       <p className="font-bold mt-8 pb-2">Category</p>
@@ -245,9 +309,9 @@ const LeadershipPage = () => {
                   <input
                     className="bg-[#B3B3B3]/25"
                     type="file"
-                    value={newLeaderData.imageUrl}
-                    onChange={handleInputChange}
+                    onChange={handleFileChange}
                   />
+                  {error && <p className="text-[red]">{error}</p>}
                 </div>
                 <div className="w-1/2">
                   <p className="font-bold mt-8 pb-2">Category</p>
@@ -269,13 +333,15 @@ const LeadershipPage = () => {
               <div className="flex justify-center gap-8 my-8">
                 <button
                   className="px-4 py-2 bg-[#4A6FBB] w-[120px] h-[50px] rounded-[9px] shadow text-white font-bold"
-                  onClick={handleSaveLeader}
+                  onClick={handleSubmitButton}
+                  disabled={isLoading} // Disable button when loading
                 >
-                  Save
+                  {isLoading ? "Loading..." : "Save"}
                 </button>
                 <button
                   className="px-4 py-2 bg-white w-[120px] h-[50px] rounded-[9px] shadow font-bold"
                   onClick={closeModal}
+                  disabled={isLoading} // Disable button when loading
                 >
                   Cancel
                 </button>
@@ -286,7 +352,7 @@ const LeadershipPage = () => {
       </Modal>
     </main>
   );
-}
+};
 
 export default LeadershipPage;
 

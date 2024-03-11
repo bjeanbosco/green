@@ -23,7 +23,7 @@ const useImageUploader = (options: UploadOptions = {}) => {
     };
 
     const handleSubmit = async () => {
-        console.log(files?.length)
+
         if (!files || files.length === 0) {
             setError("Please select files");
             return;
