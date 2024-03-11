@@ -3,10 +3,14 @@ interface Section {
   content: {
     title?: string;
     subtitle?: string;
-    slogan?:string;
+    slogan?: string;
+    startYear?: number;
     description?: string | string[];
+    subDescription?: string | string[];
+    listItems?: string | string[];
     other?: { path: string; title: string; imageUrl: string }[];
     imageUrl?: string | string[];
+    videoUrl?: string;
     links?: { title: string; url: string }[];
   };
 }
@@ -14,376 +18,221 @@ interface Section {
 
 const sections: Section[] = [
   {
-    slug: "header-text",
+    slug: "primary_school",
     content: {
-      title: "Green Hills Academy At A Glimpse",
+      title:"Primary School",
+      subtitle:"International Baccalaureate Primary Years Programme",
+      imageUrl: "https://greenhillsacademy.rw:8081/images/266795736_4685877221497631_8323611157934163519_n_rrncgp.jpg",
     }
   },
   {
-    slug: "router-about",
+    slug: "overview",
     content: {
-      other: [
-        {
-          path: "/about/learners_tab",
-          title: " Learners life",
-          imageUrl: "https://greenhillsacademy.rw:8081/images/GHA_121_fq5dcg.jpg",
-        },
-        {
-          path: "/about/leadership_tab",
-          title: "Leadership",
-          imageUrl: "https://greenhillsacademy.rw:8081/images/GHA_43_uxvpi4.jpg",
-        },
-        {
-          path: "/about/facilities_tab",
-          title: "Facilities",
-          imageUrl: "https://greenhillsacademy.rw:8081/images/infrastructures/GHA_44_sws6pa.jpg",
-        },
-        {
-          path: "/about/accreditation",
-          title: "Accreditation",
-          imageUrl: "https://greenhillsacademy.rw:8081/images/GHA_63_kejfdv.jpg",
-        },
+      title:"Overview",
+      description:[
+        `Our Primary School follows the IB Primary Years Programme
+        (PYP) from Grades One to Five. Learners engage in
+        interactive lessons and activities based on six Units of
+        Inquiry. All subjects and events are interconnected with
+        these Units to offer learners a chance for deep exploration
+        and learning. The Units of Inquiry are:`,
+        `In Grade Five, the final year of the PYP, learners
+        demonstrate their overall knowledge of the Primary Years
+        Programme by taking part in an extended, in-depth
+        collaborative project known as the PYP Exhibition. This
+        involves learning and working collaboratively to investigate
+        real-life issues and pose solutions to problems. During the
+        final presentations, learners collectively synthesize all of
+        the essential elements of the PYP in ways that can be shared
+        with the entire learning community.`,
+      ],
+      listItems:[
+        "Who we are",
+    "Where we are in place and time",
+    "How we express ourselves",
+    "How the world works",
+    "How we organize ourselves",
+    "Sharing the planet",
+      ],
+      imageUrl: [
+        "https://greenhillsacademy.rw:8081/images/DSC_1369_ibr5ar.jpg",
+        "https://greenhillsacademy.rw:8081/images/376739279_18061701070431847_5802953708720395779_n_kjsqau.jpg",
       ],
     }
   },
   {
-    slug: "who-we-are",
+    slug: "overview_cont",
     content: {
-      title: "Who We Are",
-      description: [
-        `Green Hills Academy is authorized by the International
-        Baccalaureate (IB) organization to offer the Primary Years
-        Programme for learners in Nursery 1 to Grade 5, the Middle
-        Years Programme for learners in Grades 6 to 10, the
-        Diploma and Career-related Programmes for learners in
-        Grades 11 and 12. IB World Schools shares a common
-        philosophy and commitment to providing a high quality,
-        challenging, international education that prepares
-        learners for further study in university and fulfilling
-        lives. For further information about the IB and its
-        programmes, visit &nbsp;`,
+      description:[
+        ` Our teaching and learning are proactive, inquiry-based,
+        learner-centered, and led. Learners are interactive, collaborate,
+        discuss, research, present, and reflect in groups. The
+        communication, research, self-management, social, and thinking
+        skills are crystal clear on a daily basis during teaching and
+        learning. The Units of Inquiry are transdisciplinary themes. They
+        include and transcend subject areas and connect the learners to
+        the real world of which they are global citizens.`,
+        `Collaboration is on our daily menu. Educators gather in their
+        grade-level teams to plan and prepare lessons together, to discuss
+        and exchange teaching and learning strategies in order to enhance
+        their pedagogical methods and boost the learners’ academic
+        performances.`,
+        `Support is available across our primary division. Homeroom
+        educators are supported by their team leaders. Science, Math,
+        English French, Art/ICT, PE/Traditional Dance/Music, and Learner
+        Support are supported by their Heads of Department. There are two
+        vice principals (French and English) and the School Principal who
+        are daily at the disposal of all staff and faculty to provide help
+        and respond to all concerns.`,
       ],
-      links: [
-        { title: "www.ibo.org", url: "www.ibo.org" },
-        { title: "Watch Our Videos", url: "https://www.youtube.com/@GHA_rwanda/videos" }
-      ]
-      , imageUrl: [
-        `https://greenhillsacademy.rw:8081/images/GHA_16.jpg`,
-        `https://greenhillsacademy.rw:8081/images/DSC_2364.jpg`,
-      ]
+      imageUrl: [
+        "https://greenhillsacademy.rw:8081/images/285913554_2300484220104568_3567442786875876806_n_gdclvq.jpg",
+        "https://greenhillsacademy.rw:8081/images/GIS_90.jpg"
+      ],
+      
     }
   },
   {
-    slug: "head-of-school",
+    slug: "overview_cont2",
     content: {
-      title: "Welcome to Green Hills Academy",
-      subtitle:"Daniel Holliger, PHD",
-      slogan: "Head of School",
-      description:`It is a great pleasure to welcome you to Green Hills Academy (GHA), the only International Baccalaureate World School in Rwanda. A full-continuum IB World School offering the Primary Years, Middle Years, Diploma, and Career-related Programmes, GHA offers both day and boarding options. 
-      At GHA, learners excel academically and personally in a safe, caring, and vibrant learning community. We create engaging and empowering learning experiences that foster a love for learning and prepare learners for the future in a continuously changing world. Preparing learners for the uncertainties of our future world is a challenge that we embrace at GHA by developing critical thinking skills, creativity, emotional intelligence, self-confidence, resilience, and collaboration to solve real-world problems.
-      At GHA, academic achievement and personal growth go hand in hand to ensure the development of the whole child. We provide our learners with engaging and challenging learning opportunities while encouraging them to do their personal best in every area of life. We inspire learners to reach their full potential, identify and develop interests and talents, and become independent and self-reliant individuals. We help learners develop excellent social skills, understanding and management of emotions, and healthy friendships. 
-      Our active Prefects and learner Councils at all grade levels foster learner agency, leadership, and voice. In addition, learners have many opportunities in classes and extracurricular activities to develop artistic, cultural, sporting, creative, and leadership skills that will serve them well during their time at GHA and beyond.
-      Central to the IB Programmes is the development of Approaches Learning (ATL) skills and IB Learner Profile attributes. The five ATL skills - Thinking, Communication, Research, Social, and Self-management Skills - are designed to help learners learn how to learn. The learner profile attributes promote lifelong learning, responsible citizenship, and respect for diverse cultures and perspectives. Developing the attributes - Inquirers, Knowledgeable, Thinkers, Communicators, Principled, Open-minded, Caring, Risk-takers, Balanced, and Reflective -  is essential for preparing learners to meet the challenges of the 21st century. 
-      With talented learners from over 60 countries and wonderful educators from over 15 countries, GHA’s rich diversity prepares learners for the diverse societies they will join when they enter the workplace. Our learners learn to understand and respect multiple viewpoints, express empathy and compassion for others, and become ethical young people with global understanding and perspective.
-      Recognizing the significant value of being multilingual, we offer a bilingual French-English program from Nursery through Middle School in addition to our English program from Nursery through Twelfth Grade. We also offer additional language study in Kinyarwanda, German, French, and Mandarin. 
-      Widely recognized as one of the best high school programs of study, our International Baccalaureate Diploma Programme prepares learners for admission to excellent universities of choice worldwide. IB learners develop a superior breadth and depth of knowledge, essential skills for success and leadership in the 21st century, and attitudes and values based on a sense of shared responsibility for each other. After studying in excellent universities, our learners go on to become leaders in their areas of work and contribute to building a more peaceful and sustainable global society.
-      Our boarding program provides an environment in which learners thrive and grow into well-rounded young adults. The program is designed to help learners excel in academics and extracurricular activities and prepare them for university and life. 
-      
-      While we are proud of the exemplary education we offer and the innumerable successes of our learners, faculty, and staff, we are keenly aware that our success is contingent upon the ongoing growth and development of our faculty and staff. To provide an exceptional learning experience for learners, the faculty and staff of a school must continuously learn and grow. Thus, we are constantly engaged in developing our professional practice through training, self-reflection, peer feedback, and mentoring.
-      
-      Our vibrant learning community’s home is a lush, beautifully landscaped 26-acre campus with purpose-built facilities in four separate divisions for Nursery School, Primary School, Middle School, and High School. Our facilities include classrooms flooded with natural light, science labs, libraries, a music hall, two swimming pools, sports fields, a spacious gymnasium, and more. We opened our new Primary School in September 2022 and our new Nursery School in September 2023. During the next few years, we will build a new High School, Gymnasium, Dining Hall, and Theater. In this gorgeous environment, we live and learn together.
-
+      description:[
+        `Our 50/50 French-English Bilingual Program provides a unique
+        opportunity for our learners to be linguistically balanced while
+        studying Science, Math, French, and English in both languages, to
+        smoothly access the best francophone and/or anglophone
+        universities worldwide, to easily flow between different cultures,
+        and embrace perspectives other than their own.`,
+        `Teaching and learning go beyond the classroom. Our learners
+        connect what they are learning or have learned in class to the
+        real world. They take action by going into the community not only
+        to interact with people but also to implement the knowledge they
+        have acquired in their classrooms in order to solve some community
+        issues and meet their needs. All our grade-level learners also go
+        on field trips that line up and support our PYP curriculum.
       `,
-      imageUrl: "https://greenhillsacademy.rw:8081/images/principles/Daniel.png",
-
+      ],
+      imageUrl: [
+        "https://greenhillsacademy.rw:8081/images/407253799_901905251940600_5011519124696385143_n_bpvguu.jpg",
+        "https://greenhillsacademy.rw:8081/images/GIS_93.jpg",
+      ],
     }
   },
   {
-    slug: "gha-alumni",
+    slug: "head_boarding",
     content: {
-      title: "Green Hills Academy Alumni",
-      subtitle:"Worldwide Reach",
-      imageUrl: "https://greenhillsacademy.rw:8081/images/MAP_wbqpki.png",
-
+      title:
+        "Welcome To Boarding School",
+      subtitle: "Raymond Kiptum, Boarding School Director",
+      imageUrl: [
+        "https://greenhillsacademy.rw:8081/images/GHA_2_jhakmk.jpg"
+      ],
+      description: [
+        `At Greenhills Academy, we are dedicated to providing an
+        exceptional boarding experience, and our Head of Boarding is at
+        the heart of this commitment. Their role is instrumental in
+        shaping the experiences and future success of our learners,
+        ensuring that every boarder feels valued, safe, and encouraged
+        to reach their full potential.`,
+        `Raymond Kiptum, the head of boarding is a trusted mentor and a
+        compassionate advocate for our learners. They work closely with
+        our boarding staff to create a home away from home, where
+        learners can thrive both academically and socially. The Head of
+        Boarding also collaborates with parents, educators, and
+        administrators to build a strong support network for our
+        borders. Raymond has over 12 years of experience in managing
+        international boarding schools. He is also an experienced
+        educator of Business Management and Economics.
+      `,
+        `Mr Raymond shares our passion for the well-being and success of
+        our learners and upholds our school's values of excellence,
+        respect, and community.`,
+      ]
     }
   },
   {
-    slug: "universities",
+    slug: "footer",
     content: {
-      title: "Prestigious Universities",
+      description:
+        ["We provide a full-time program balanced in all areas, concentrating on providing learning opportunities for our learners. Our program caters to the holistic approach of a child’s development and focuses on:"],
+    }
+  },
+  {
+    slug: "academics",
+    content: {
       description:[
-        "Harvard University",
-        "Yale University",
-        "Berkeley University",
-        "Stanford University",
-        "Purdue University",
-        "Rice University",
-        "Cornell University",
-        "Kent State University",
-        "Umass Boston",
-        "Reed College",
-        "Sunny Plattsburgh University",
-        "Hope College",
-        "Pomona College",
-        "Drexel University",
-        "Drake University",
-        "University of Buffalo",
-        "North Carolina State University",
-        "Michigan State University",
-        "University of Kentucky",
-        "Arkansas University",
-        "Massachusetts Institute of Technology",
-        "University of Oklahoma",
-        "University of Houston",
-        "Rollins University",
-        "Lynn University",
-        "Stony Brook University",
-        "Arizona State University",
-        "Texas A&M",
-        "Oklahoma Christian University",
-        "University of Miami",
-        "Grand Canyon College",
-        "Penn State University",
-        "University of Cincinnati",
-        "Rice University",
-        "Northeastern University",
-        "Pratt Institute",
-        "University of Washington",
-        "Boston University",
-        "Marist College",
-        "Brock University",
-        "University of New Haven",
-        "Temple University",
-        "Sacred Heart University",
-        "Johns Hopkins University",
-        "Columbia College",
-        "Auburn University",
-        "Kansas State University",
-        "Amherst College",
-        "Princeton University",
-        "University of Wisconsin",
-        "Dartmouth College",
-        "Lafayette University",
-        "Williams College",
-        "Connecticut College",
-        "University of Richmond",
-        "Swarthmore College",
-        "Tufts College",
-        "Colby College",
-        "Union College",
-        "Depauw University",
-        "Western Michigan University",
-        "Bucknell University",
-        "Haverford College",
-        "Rochester Institute of Technology",
-        "Fordham University",
-        "Nova Southeastern University",
-        "Babson College",
-        "New York University",
-        "Syracuse University",
-        "Baylor University",
-        "Gustavus College",
-        "Lehigh University",
-        "Duquesne University",
-        "University of Houston College",
-        "University of Tampa",
-        "Rider University",
-        "Phoenix University",
-        "Savannah School of Arts & Design",
-        "College of Holy Cross",
-        "Columbia University",
-        "NYU Abu Dhabi",
-        "Carnegie Mellon University",
-        "Iowa State University",
-        "Brown University",
-        "Sunny Stony Brook University",
-        "University of Hult",
-        "College of Wooster",
-        "Loyola University",
-        "University of Connecticut",
-        "University of Pittsburgh",
-        "University of North Texas",
-        "University of Houston",
-        "Sunny Buffalo University",
-        "Skidmore College",
-        "University of Washington",
-        "University of Southern Mississippi",
-        "Birmingham Southern College",
-        "Xavier University",
-        "University of Massachusetts",
-        "Florida Institute of Technology",
-        "Florida Atlantic University",
-        "Michigan Technological University",
-        "University of Miami",
-        "Rhode Island College",
-        "Tulane University",
-        "Carleton University",
-        "University of British Columbia",
-        "McGill University",
-        "University of Toronto",
-        "Prince Edward University",
-        "Concordia University",
-        "University of Windsor",
-        "Manitoba University",
-        "McMaster University",
-        "McEwan University",
-        "York University",
-        "Lakehead University",
-        "University of Calgary",
-        "University of Ottawa",
-        "Trent University",
-        "Queens University",
-        "University of Alberta",
-        "Wilfred Laurier University",
-        "University of Saskatchewan",
-        "Simon Fraser University",
-        "Toronto Metropolitan University",
-        "Dalhousie University",
-        "Western University",
-        "Waterloo University",
-        "Seneca College",
-        "Ontario Tech University",
-        "University of Guelph-Humber",
-        "Algoma University",
-        "Thompson Rivers University",
-        "St. Mary's University",
-        "Windsor University",
-        "Mount Allison University",
-        "University of Regina",
-        "St. Mary's University",
-        "Brock University",
-        "University of Victoria",
-        "University of Winnipeg",
-        "Niagara College",
-        "Fanshawe College",
-        "Centennial College",
-        "Great Lakes College of Toronto",
-        "St. Thomas University",
-        "University Canada West",
-        "Douglas College",
-        "Oxford University",
-        "Nottingham Trent University",
-        "University of Leicester",
-        "University College London",
-        "University of Kent",
-        "University of Westminster",
-        "University of Manchester",
-        "University of Newcastle",
-        "University of Leeds",
-        "De Montfort University",
-        "University of Cambridge",
-        "Middlesex University",
-        "London School of Economics",
-        "Birmingham University",
-        "Anglia Ruskin University",
-        "Brunel University",
-        "Essex University",
-        "University of Roehampton",
-        "University of York",
-        "University of Edinburgh",
-        "University of Glasgow",
-        "Imperial College",
-        "University of Portsmouth",
-        "Dundee University",
-        "University of Central Lancashire",
-        "University of East London",
-        "University of Aberdeen",
-        "University of Plymouth",
-        "University of London",
-        "University of Birmingham",
-        "University of Warwick",
-        "University of Lancaster",
-        "University of Southampton",
-        "Coventry University",
-        "University of Exeter",
-        "University of East Anglia",
-        "Westminster University",
-        "London Metropolitan University",
-        "EU Business School - Spain",
-        "IE Business School - Spain",
-        "Groningen University - Netherlands",
-        "Maastricht University - Netherlands",
-        "Utrecht University - Netherlands",
-        "Leiden University - Netherlands",
-        "University of Amsterdam - Netherlands",
-        "Vrije University - Netherlands",
-        "Delft University - Netherlands",
-        "Radboud University - Netherlands",
-        "University of Twente - Netherlands",
-        "Tilburg University - Netherlands",
-        "Hanze University - Netherlands",
-        "ESSCA Business School - France",
-        "SciencePo - France",
-        "American Business School - France",
-        "University of Debrecen - Hungary",
-        "Szeged University - Hungary",
-        "Debrecen University - Hungary",
-        "Lund University - Sweden",
-        "Linnaeus University - Sweden",
-        "Malmo University - Sweden",
-        "University of Galve - Sweden",
-        "University of Warsaw - Poland",
-        "Vistula University - Poland",
-        "Bialystok University of Technology - Poland",
-        "Warsaw School of Economics - Poland",
-        "University of Liège - Belgium",
-        "University of Luxembourg - Luxembourg",
-        "Constructor University - Germany",
-        "University of Göttingen - Germany",
-        "Jacobs University - Germany",
-        "EU Business School - Germany",
-        "Adventist University of Central Africa - Rwanda",
-        "African Leadership University - Rwanda",
-        "University of Global Health Equity - Rwanda",
-        "Catholic University - Kenya",
-        "Nazarene University - Kenya",
-        "Strathmore University - Kenya",
-        "Daystar University - Kenya",
-        "United States International University - Kenya",
-        "Makerere University - Uganda",
-        "University of Johannesburg - South Africa",
-        "University of Pretoria - South Africa",
-        "University of Cape Town - South Africa",
-        "Griffith University - Australia",
-        "Murdoch University - Australia",
-        "Deakin University - Australia",
-        "Monash University - Australia",
-        "University of Sydney - Australia",
-        "Edith Cowan University - Australia",
-        "University of Melbourne - Australia",
-        "University of Adelaide - Australia",
-        "Middlesex University - Mauritius",
-        "African Leadership University - Mauritius",
-        "New York University- Abu Dhabi - UAE",
-        "Heriot-Watt University - UAE",
-        "Middlesex University - UAE",
-        "Murdoch University - UAE",
-        "Handong Global University - South Korea",
-        "Nanjing University - China",
-        "Huazhong University - China",
-        "University of Nicosia - Cyprus",
-        "Ateneo De Manila - Philippines",
-      ],
+        "Within our program, we hope to provide opportunities in the above areas always with an emphasis on fun and happiness. With passion and the willingness to support each other, we are establishing an atmosphere of joy, where learners are expected to learn and help in a way they enjoy. A house that allows silliness and expects laughter whilst we work hard and responsibly."],
+        imageUrl:"https://greenhillsacademy.rw:8081/images/GHA_66_znyyge.jpg",
     }
   },
   {
-    slug: "alumni_registration_form",
+    slug: "Life",
     content: {
-      title: "Let&apos;s Strengthen Our Community: Calling Our Alumni!",
-      description:[
-        `We aspire to further engage and strengthen the Green Hills
-        Academy community. We recognize that you, our Alumni play a
-        crucial role in this mission and we invite you to reconnect and
-        participate in the ongoing journey of broadening and
-        strengthening our community.`,
-        ` We encourage our esteemed alumni to complete the Alumni
-        Registration Form, to foster continued connection, updates, and
-        participation in the Green Hills Academy community.`,
-      ],
-      links: [
-        { title: "Alumni Registration Form", url: "https://forms.gle/xGyjBLuaxBpm2WE37" },
-      ],
+      description:[`Learners learn to follow routines, manage their time gain
+      confidence, and discuss issues within our boarding community. Under
+      the guidance of our qualified staff, learners learn to manage conflict
+      with each other and their own behaviors. The program is learner-focused and led. Older learners learn responsibility within the house
+      and leadership amongst their peers. Extracurricular activities,
+      opportunities for cooking, regular chores, access to a laundry, and
+      other programs allow our learners to learn the skills for living
+      independently in the future.`],
 
+      imageUrl:"https://greenhillsacademy.rw:8081/images/Copy_of_DSC_0955_i7pyfc.jpg",
+    }
+  },
+  {
+    slug: "behaviour",
+    content: {
+      description:[`A high level of personal responsibility is expected from boarding
+      learners. The environment is geared to learners understanding the need
+      to follow routine meet behavioural expectations and take on
+      opportunities of leadership. Learners are given the opportunities to
+      discuss rules and boundaries, they learn to make smart choices and
+      attempt to modify concerning behaviors. This environment allows
+      learners to safely practice making decisions, and gain advice and
+      experience in areas relevant to their age and maturity. Learners
+      develop a strong foundation for the future and a knowledge of why
+      their decisions will be important.`],imageUrl:"https://greenhillsacademy.rw:8081/images/Copy_of_DSC_1140_bngpca.jpg",
+    }
+  },
+  {
+    slug: "medical",
+    content: {
+      description:[`The boarding program uses qualified nurses and its own sickbay.
+      Learners are taken to medical practitioners as needed. Through sport,
+      games, and an activity program the learners participate in physical
+      activity no less than three times a week. Our learners have access to
+      the swimming pool, gym, and sports fields at scheduled times under the
+      watchful eyes of qualified instructors and staff. Learners are also
+      part of food committees and discuss issues of nutrition and menu
+      planning. Learner’s health and fitness are tested, recorded, and
+      evaluated regularly to allow for staff to discuss any concerns.`],imageUrl:"https://greenhillsacademy.rw:8081/images/Copy_of_DSC_2737_ee7h8w.jpg",
+    }
+  },
+  {
+    slug: "responsibility",
+    content: {
+      description:[`Learners are expected to be part of the boarding community,
+      responsible for themselves and their actions, responsible for
+      community property and belongings and the creation of an appropriate
+      atmosphere based on joint values and goals. During the program
+      learners are responsible for chores, duties, and each other. Each month
+      learners participate in service to align with the IB and Round Square
+      The ideals of the school include community projects, school projects and
+      service amongst the boarding house that instills a sense of compassion,
+      generosity and kindness in our learners. Service not only allows our
+      learners to help others but allows our learners to understand the
+      intrinsic value in putting others first.`],imageUrl:"https://greenhillsacademy.rw:8081/images/Copy_of_DSC_2473_yjqc1c.jpg",
+    }
+  },
+  {
+    slug: "fun",
+    content: {
+      description:[`Within our program, we hope to provide opportunities in the above areas
+      always with an emphasis on fun and happiness. With passion and the
+      willingness to support each other, we are establishing an atmosphere of
+      joy, where learners are expected to learn and help in a way they
+      enjoy. A house that allows silliness and expects laughter whilst we
+      work hard and responsibly.`],imageUrl:"https://greenhillsacademy.rw:8081/images/mess-img1_rwmv0n.png",
     }
   },
 

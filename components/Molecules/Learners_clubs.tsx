@@ -1,222 +1,426 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useTransform, motion, useScroll } from "framer-motion";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import TextSection from "../Atoms/TextSection";
-import { intellectualArray, physicalArray } from "../../utils/aboutData";
+import axios from "axios";
+import useImageUploader from "@/utils/useImageUploader";
+import ImageComponent from "./ImageComponent";
+import { GiCancel } from "react-icons/gi";
 
 const LearnersClubs = ({ user }: any) => {
-  const container = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start end", "start start"],
-  });
+  const [sections, setSections] = useState<any[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [selectedSection, setSelectedSection] = useState<any | null>(null);
+  const [copySaved, setCopySaved] = useState<boolean>(false);
+  const [editedDescriptions, setEditedDescriptions] = useState<string[]>([]);
+  const [isCustomizing, setIsCustomizing] = useState(false);
 
-  const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
+  const { uploadedUrls, handleFileChange, handleSubmit } = useImageUploader();
 
+  useEffect(() => {
+    fetchSections();
+  }, []);
+
+  const fetchSections = async () => {
+    try {
+      const response = await axios.get("/api/learnerClub");
+      setSections(response.data);
+    } catch (error) {
+      console.error("Error fetching sections:", error);
+    }
+  };
+
+  const handleSelectSection = (section: any) => {
+    setSelectedSection(section);
+    if (section && section.content && section.content.description) {
+      setEditedDescriptions(section.content.description);
+    }
+    setEditMode(true);
+  };
+
+  const handleContentChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (!selectedSection) return;
+
+    const { name } = e.target;
+
+    // If it's a file input
+    if (e.target.type === "file") {
+      const file = (e.target as HTMLInputElement)?.files?.[0]; // Optional chaining here
+      if (file) {
+        const updatedSection = { ...selectedSection };
+        updatedSection.content[name] = file; // Store the file object directly
+        setSelectedSection(updatedSection);
+      }
+    } else {
+      const { value } = e.target;
+      const updatedSection = { ...selectedSection };
+      updatedSection.content[name] = value;
+      setSelectedSection(updatedSection);
+    }
+  };
+
+  const handleUpdate = async (slug: string) => {
+    if (!selectedSection || !selectedSection.content) {
+      console.error("Error: Selected section or its content is null");
+      return;
+    }
+
+    const { title } = selectedSection.content;
+    const description = editedDescriptions;
+
+    try {
+      await handleSubmit();
+
+      const updatedContent: {
+        title: string;
+        description: string | string[];
+        subtitle?: string;
+        imageUrl?: string | string[];
+      } = {
+        title,
+        description,
+      };
+      if (selectedSection.content.subtitle) {
+        updatedContent.subtitle = selectedSection.content.subtitle;
+      }
+
+      if (
+        uploadedUrls !== null &&
+        uploadedUrls !== undefined &&
+        uploadedUrls.length > 0
+      ) {
+        updatedContent.imageUrl = uploadedUrls;
+      }
+
+      selectedSection.content = description;
+      await axios.put(`/api/learnerClub?slug=${slug}`, updatedContent);
+      await fetchSections();
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error updating section:", error);
+    }
+  };
+
+  const handleDelete = async (slug: string) => {
+    try {
+      await axios.delete(`/api/learnerClub?slug=${slug}`);
+      await fetchSections();
+    } catch (error) {
+      console.error("Error deleting section:", error);
+    }
+  };
+
+  const localStorageKeyPrefix = "counselling_";
+  const handleSaveCopy = (section: any) => {
+    localStorage.setItem(
+      localStorageKeyPrefix + "copiedSection",
+      JSON.stringify(section)
+    );
+    setCopySaved(true);
+  };
+  const handleCancel = (section: any) => {
+    setSelectedSection(section);
+    setEditMode(false);
+  };
+
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newValue = e.target.value;
+    setEditedDescriptions((prevDescriptions) => {
+      const updatedDescriptions = [...prevDescriptions];
+      updatedDescriptions[index] = newValue;
+      return updatedDescriptions;
+    });
+  };
+  const toggleCustomization = () => {
+    setIsCustomizing(!isCustomizing);
+  };
 
   return (
-    <main className="w-full mb-16">
-      <section className="flex justify-center">
-      <div className="w-[80%] flex flex-col gap-8 py-16">
-          <h1 className="font-bold text-primary">
-            High School Extracurricular Excellence at Green Hills Academy
-          </h1>
-          <h2 className="text-primary capitalize">Intellectual Pursuits</h2>
-
-          <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-12 place-items-start">
-            <div>
-              <TextSection description={intellectualArray} color={"#000"} />
-            </div>
-            <div>
-              <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
-                <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-                  <div className="w-full h-2 bg-primary" />
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      display: "block",
-                    }}
-                    src="https://greenhillsacademy.rw:8081/images/313199295_576754504220368_5153481277779731709_n_jswouj.jpg"
-                    alt="Image"
-                  />
-                </div>
-                <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    src="https://greenhillsacademy.rw:8081/images/386640374_18064938559431847_1161725750774480945_n_b8usne.jpg"
-                    alt="Image"
-                  />
-                  <div className="w-full h-2 bg-primary" />
-                </div>
-              </div>
-              <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
-                <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-                  <div className="w-full h-2 bg-primary" />
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      display: "block",
-                    }}
-                    src="https://greenhillsacademy.rw:8081/images/409018919_906617781469347_4373556515431079327_n_rlkuix.jpg"
-                    alt="Image"
-                  />
-                </div>
-                <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    src="https://greenhillsacademy.rw:8081/images/GHA_68_1_u7z5gg.jpg"
-                    alt="Image"
-                  />
-                  <div className="w-full h-2 bg-primary" />
-                </div>
-              </div>
-            </div>
-          </div>
+    <main className="w-full">
+      <div className="flex my-6 justify-between text-white">
+        <div className="flex gap-2">
+          <button
+            onClick={toggleCustomization}
+            className={`w-[124px] h-[43px] text-center rounded-[6px] ${
+              isCustomizing
+                ? "bg-[#B3B3B3] hover:bg-[#B3B3B3] cursor-not-allowed"
+                : "bg-[#5B83D7] hover:bg-[#4A6FBB] text-white"
+            }`}
+            disabled={isCustomizing}
+          >
+            Customize
+          </button>
+          {isCustomizing ? (
+            <GiCancel
+              onClick={toggleCustomization}
+              className="text-[red] cursor-pointer"
+            />
+          ) : null}
         </div>
-      </section>
-      <section
-        className="w-full flex justify-center"
-        style={{
-          backgroundImage: `url(${"/icons/green_c6iapo.svg"}`,
-          backgroundSize: "cover",
-          backgroundPosition: "left",
-        }}
-      >
-      <div className="w-[80%] flex flex-col gap-8 py-16">
-          <h2 className="text-[yellow] capitalize">Physical Fitness</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 place-items-start">
-            <div>
-              {" "}
-              <TextSection description={physicalArray} color={"#fff"} />
-            </div>
-
-            <div>
-              <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
-                <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-                  <div className="w-full h-2 bg-[yellow]" />
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      display: "block",
-                    }}
-                    src="https://greenhillsacademy.rw:8081/images/401040188_18069482443431847_8269720069445765284_n_dznknm.jpg"
-                    alt="Image"
-                  />
-                </div>
-                <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    src="https://greenhillsacademy.rw:8081/images/359331603_18054473854431847_5341948767340672059_n_hvxty4.jpg"
-                    alt="Image"
-                  />
-                  <div className="w-full h-2 bg-[yellow]" />
-                </div>
-              </div>
-
-              <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
-                <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-                  <div className="w-full h-2 bg-[yellow]" />
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      display: "block",
-                    }}
-                    src="https://greenhillsacademy.rw:8081/images/GHA_126_hhg7e6.jpg"
-                    alt="Image"
-                  />
-                </div>
-                <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                  <Image unoptimized
-                    placeholder="empty"
-                    blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full md:h-[50vh] object-cover object-center"
-                    src="https://greenhillsacademy.rw:8081/images/GHA_88_omj0xu.jpg"
-                    alt="Image"
-                  />
-                  <div className="w-full h-2 bg-[yellow]" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="flex w-full h-full justify-center" ref={container}>
-      <div className="w-[80%] flex flex-col gap-8 py-16">
-          <h2 className="text-primary text-center">
-            Fostering Self-Reliance and Leadership
-          </h2>
-          <div className="w-full h-full grid md:grid-cols-2 gap-16 items-center">
-            <p className="text-black pb-6 text-justify">
-              At Green Hills Academy, we encourage all learners to participate
-              in these diverse extracurricular activities. This involvement
-              showcases our belief in self-reliance, self-discovery, and
-              leadership potential. These ECAs serve as platforms for our
-              learners to &quot;let their lives speak,&quot; fostering personal
-              growth and meaningful contributions to the school community. Join
-              us in embracing the power of holistic education!
-            </p>
-            <div className="w-full h-[50vh] flex items-center relative">
-              <div className="w-full h-[80%] right-[31px] z-10 absolute">
-                <div className="bgImageContainer">
-                  <motion.div className={"inner"} style={{ scale: imageScale }}>
-                    <img
-                      src="https://greenhillsacademy.rw:8081/images/317976113_1332444890923697_5449406090760326630_n_kej1nx.jpg"
-                      alt="learner_life Image"
+      </div>
+      {sections.map((section: any, index: React.Key | null | undefined) => (
+        <section key={index} className="w-full mb-16">
+          {section.slug === "intellectual" && (
+            <section className="flex justify-center">
+              <div className="w-[80%] flex flex-col gap-8 py-16">
+                <h1 className="font-bold text-primary">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
                     />
-                  </motion.div>
+                  ) : (
+                    section.content.title
+                  )}{" "}
+                </h1>
+                <h2 className="text-primary capitalize">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.subtitle || ""}
+                      onChange={handleContentChange}
+                      name="subtitle"
+                    />
+                  ) : (
+                    section.content.subtitle
+                  )}
+                </h2>
+
+                <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-12 place-items-start">
+                  <div>
+                    {editMode &&
+                    selectedSection &&
+                    selectedSection.slug === section.slug ? (
+                      section.content.listItems.map(
+                        (item: any, index: number) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={editedDescriptions[index]}
+                            onChange={(e) => handleDescriptionChange(e, index)}
+                            className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                          />
+                        )
+                      )
+                    ) : (
+                      <TextSection
+                        description={section.content.listItems}
+                        color="#000"
+                      />
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug && (
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          multiple
+                          name="bg"
+                        />
+                      )}
+                    <ImageComponent
+                      images={section.content.imageUrl}
+                      color={"primary"}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="w-1/4 my-4 h-full right-0 top-0 absolute bg-primary" />
-            </div>
+            </section>
+          )}
+          {section.slug === "physical_fitness" && (
+            <section
+              className="w-full flex justify-center"
+              style={{
+                backgroundImage: `url(${"/icons/green_c6iapo.svg"}`,
+                backgroundSize: "cover",
+                backgroundPosition: "left",
+              }}
+            >
+              <div className="w-[80%] flex flex-col gap-8 py-16">
+                <h2 className="text-[yellow] capitalize">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
+                    />
+                  ) : (
+                    section.content.title
+                  )}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 place-items-start">
+                  <div>
+                    {editMode &&
+                    selectedSection &&
+                    selectedSection.slug === section.slug ? (
+                      section.content.listItems.map(
+                        (item: any, index: number) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={editedDescriptions[index]}
+                            onChange={(e) => handleDescriptionChange(e, index)}
+                            className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                          />
+                        )
+                      )
+                    ) : (
+                      <TextSection
+                        description={section.content.listItems}
+                        color="#fff"
+                      />
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug && (
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          multiple
+                          name="bg"
+                        />
+                      )}
+                    <ImageComponent
+                      images={section.content.imageUrl}
+                      color={"[yellow]"}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          {section.slug === "fostering" && (
+            <section className="flex w-full h-full justify-center">
+              <div className="w-[80%] flex flex-col gap-8 py-16">
+                <h2 className="text-primary text-center">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
+                    />
+                  ) : (
+                    section.content.title
+                  )}
+                </h2>
+                <div className="w-full h-full grid md:grid-cols-2 gap-16 items-center">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug
+                    ? section.content.description.map(
+                        (item: any, index: number) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={editedDescriptions[index]}
+                            onChange={(e) => handleDescriptionChange(e, index)}
+                            className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                          />
+                        )
+                      )
+                    : section.content.description.map(
+                        (item: any, index: number) => (
+                          <p key={index} className="text-justify">
+                            {item}
+                          </p>
+                        )
+                      )}
+                  <div className="flex flex-col gap-2">
+                    {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug && (
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          multiple
+                          name="bg"
+                        />
+                      )}
+                    <ImageComponent
+                      images={section.content.imageUrl}
+                      color={"primary"}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          <div className="flex w-full justify-end">
+            {isCustomizing ? (
+              <div className="flex gap-4 py-2 items-center">
+                {editMode &&
+                selectedSection &&
+                selectedSection.slug === section.slug ? null : (
+                  <>
+                    <img
+                      onClick={() => handleSelectSection(section)}
+                      src="/icons/update_ijqjnj.svg"
+                      alt=""
+                      className="text-primary cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                    <img
+                      onClick={() => handleDelete(section.slug)}
+                      src="/icons/delete_tvo46a.svg"
+                      alt=""
+                      className="text-red cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                  </>
+                )}
+                {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug && (
+                    <>
+                      <button
+                        onClick={() => handleCancel(section)}
+                        className={`bg-blue text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleSaveCopy(section)}
+                        className={`bg-[#B3B3B3] text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Save Copy
+                      </button>
+                      <button
+                        onClick={() => handleUpdate(selectedSection.slug)}
+                        className="bg-primary text-white rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2"
+                      >
+                        Publish
+                      </button>
+                    </>
+                  )}
+              </div>
+            ) : null}
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
+      {copySaved && (
+        <p className="text-green">Copy of section saved to local storage!</p>
+      )}
     </main>
   );
 };

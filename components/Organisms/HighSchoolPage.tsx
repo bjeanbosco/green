@@ -182,7 +182,7 @@ export default function HighSchoolPage({ user }: any) {
               <section
                 className="w-full h-[70vh] gap-1 flex flex-col pb-4 items-center justify-end "
                 style={{
-                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9)), url(https://greenhillsacademy.rw:8081/images/67295345_2400658930204296_2041273394504074210_n_qybvz2.jpg)`,
+                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9)), url(${section.content.imageUrl})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
