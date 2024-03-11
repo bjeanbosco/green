@@ -47,10 +47,6 @@ export const admissionDriven = {
 
 export const everyoneChallenged = {
   title: "Everyone challenged",
-  imageUrl: [
-    "https://greenhillsacademy.rw:8081/images/admission_eekdrc.jpg",
-    "https://greenhillsacademy.rw:8081/images/admission_eekdrc.jpg",
-  ],
   description: `  GHA is committed to personalized learning in order to sustain
     high levels of motivation and optimize our learners' growth
    and achievement in all areas of development. We

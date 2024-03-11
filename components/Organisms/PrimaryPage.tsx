@@ -1,15 +1,146 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LuDownload } from "react-icons/lu";
 import { primarySchoolStaffData } from "@/utils/leadershipData";
-import { motion } from "framer-motion";
-import TextSection from "../Atoms/TextSection";
 import ButtonBlank from "../Atoms/ButtonBlank";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import DecoratedList from "../Atoms/decoratedList";
 import StaffCard from "../Atoms/StaffCard";
+import axios from "axios";
+import useImageUploader from "@/utils/useImageUploader";
+import ImageComponent from "../Molecules/ImageComponent";
+import { GiCancel } from "react-icons/gi";
 
 export default function PrimaryPage({ user }: any) {
+  const [sections, setSections] = useState<any[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [selectedSection, setSelectedSection] = useState<any | null>(null);
+  const [copySaved, setCopySaved] = useState<boolean>(false);
+  const [editedDescriptions, setEditedDescriptions] = useState<string[]>([]);
+  const [isCustomizing, setIsCustomizing] = useState(false);
+
+  const { uploadedUrls, handleFileChange, handleSubmit } = useImageUploader();
+
+  useEffect(() => {
+    fetchSections();
+  }, []);
+
+  const fetchSections = async () => {
+    try {
+      const response = await axios.get("/api/primarySchool");
+      setSections(response.data);
+    } catch (error) {
+      console.error("Error fetching sections:", error);
+    }
+  };
+
+  const handleSelectSection = (section: any) => {
+    setSelectedSection(section);
+    if (section && section.content && section.content.description) {
+      setEditedDescriptions(section.content.description);
+    }
+    setEditMode(true);
+  };
+
+  const handleContentChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (!selectedSection) return;
+
+    const { name } = e.target;
+
+    // If it's a file input
+    if (e.target.type === "file") {
+      const file = (e.target as HTMLInputElement)?.files?.[0]; // Optional chaining here
+      if (file) {
+        const updatedSection = { ...selectedSection };
+        updatedSection.content[name] = file; // Store the file object directly
+        setSelectedSection(updatedSection);
+      }
+    } else {
+      const { value } = e.target;
+      const updatedSection = { ...selectedSection };
+      updatedSection.content[name] = value;
+      setSelectedSection(updatedSection);
+    }
+  };
+
+  const handleUpdate = async (slug: string) => {
+    if (!selectedSection || !selectedSection.content) {
+      console.error("Error: Selected section or its content is null");
+      return;
+    }
+
+    const { title } = selectedSection.content;
+    const description = editedDescriptions;
+
+    try {
+      await handleSubmit();
+
+      const updatedContent: {
+        title: string;
+        description: string | string[];
+        subtitle?: string;
+        imageUrl?: string | string[];
+      } = {
+        title,
+        description,
+      };
+      if (selectedSection.content.subtitle) {
+        updatedContent.subtitle = selectedSection.content.subtitle;
+      }
+
+      if (
+        uploadedUrls !== null &&
+        uploadedUrls !== undefined &&
+        uploadedUrls.length > 0
+      ) {
+        updatedContent.imageUrl = uploadedUrls;
+      }
+
+      selectedSection.content = description;
+      await axios.put(`/api/primarySchool?slug=${slug}`, updatedContent);
+      await fetchSections();
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error updating section:", error);
+    }
+  };
+
+  const handleDelete = async (slug: string) => {
+    try {
+      await axios.delete(`/api/primarySchool?slug=${slug}`);
+      await fetchSections();
+    } catch (error) {
+      console.error("Error deleting section:", error);
+    }
+  };
+
+  const handleSaveCopy = (section: any) => {
+    localStorage.setItem("copiedSection", JSON.stringify(section));
+    setCopySaved(true);
+  };
+  const handleCancel = (section: any) => {
+    setSelectedSection(section);
+    setEditMode(false);
+  };
+
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newValue = e.target.value;
+    setEditedDescriptions((prevDescriptions) => {
+      const updatedDescriptions = [...prevDescriptions];
+      updatedDescriptions[index] = newValue;
+      return updatedDescriptions;
+    });
+  };
+  const toggleCustomization = () => {
+    setIsCustomizing(!isCustomizing);
+  };
   const topList = [
     "Who we are",
     "Where we are in place and time",
@@ -19,262 +150,335 @@ export default function PrimaryPage({ user }: any) {
     "Sharing the planet",
   ];
   return (
-    <main className="pb-12">
-      <section
-        className="w-full h-[70vh] gap-1 flex flex-col pb-4 items-center justify-end "
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url(https://greenhillsacademy.rw:8081/images/266795736_4685877221497631_8323611157934163519_n_rrncgp.jpg
-)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="flex justify-center">
-          <div className="w-[55px] grid place-items-center">
-            <div className="w-[18px] h-[7px] my-2 bg-[yellow]" />
-            <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
+    <main className="">
+      <section className="flex my-6 justify-between text-white">
+        {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
+          <div className="flex gap-2">
+            <button
+              onClick={toggleCustomization}
+              className={`w-[124px] h-[43px] text-center rounded-[6px] ${
+                isCustomizing
+                  ? "bg-[#B3B3B3] hover:bg-[#B3B3B3] cursor-not-allowed"
+                  : "bg-[#5B83D7] hover:bg-[#4A6FBB] text-white"
+              }`}
+              disabled={isCustomizing}
+            >
+              Customize
+            </button>
+            {isCustomizing ? (
+              <GiCancel
+                onClick={toggleCustomization}
+                className="text-[red] cursor-pointer"
+              />
+            ) : null}
           </div>
-        </div>
-        <h1 className="text-primary capitalize">Primary School</h1>
-        <h3 className="text-center text-white">
-          International Baccalaureate Primary Years Programme
-        </h3>
+        )}
       </section>
-      <section
-        className="flex justify-center md:h-full py-16 items-center"
-        style={{
-          backgroundImage: `url(${"/icons/whiteflip_h0mlnm.svg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="w-[80%] h-full flex flex-col justify-between">
-          <div className="grid h-full md:grid-cols-2 place-items-center sm:gap-8 md:gap-16">
-            <div className="w-full h-full">
-              <div className="w-full h-full flex flex-col gap-12">
-                <h1 className="text-primary font-bold">Overview</h1>
-
-                <div>
-                  <p className="text-justify pb-6">
-                    Our Primary School follows the IB Primary Years Programme
-                    (PYP) from Grades One to Five. Learners engage in
-                    interactive lessons and activities based on six Units of
-                    Inquiry. All subjects and events are interconnected with
-                    these Units to offer learners a chance for deep exploration
-                    and learning. The Units of Inquiry are:
-                  </p>
-                  {topList.map((item, index) => (
-                  <DecoratedList key={index} color="black" details={item} /> ))}
-
-                  <p className="text-justify pb-6">
-                    In Grade Five, the final year of the PYP, learners
-                    demonstrate their overall knowledge of the Primary Years
-                    Programme by taking part in an extended, in-depth
-                    collaborative project known as the PYP Exhibition. This
-                    involves learning and working collaboratively to investigate
-                    real-life issues and pose solutions to problems. During the
-                    final presentations, learners collectively synthesize all of
-                    the essential elements of the PYP in ways that can be shared
-                    with the entire learning community.{" "}
-                  </p>
+      {sections.map((section, index) => (
+        <section key={index} className="pb-12">
+          {section.slug === "primary_school" && (
+            <section
+              className="w-full h-[70vh] gap-1 flex flex-col pb-4 items-center justify-end "
+              style={{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url(https://greenhillsacademy.rw:8081/images/266795736_4685877221497631_8323611157934163519_n_rrncgp.jpg)`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="flex justify-center">
+                <div className="w-[55px] grid place-items-center">
+                  <div className="w-[18px] h-[7px] my-2 bg-[yellow]" />
+                  <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
                 </div>
               </div>
-            </div>
-            <div className="md:w-full h-full overflow-hidden relative flex items-end">
-              <Image unoptimized
-                placeholder="empty"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full h-full left-[86px] top-0 absolute object-cover"
-                src="https://greenhillsacademy.rw:8081/images/DSC_1369_ibr5ar.jpg"
-                alt="Image"
-              />
-              <Image unoptimized
-                placeholder="empty"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-1/2 h-1/2 left-0 absolute border-8 border-white object-cover"
-                src="https://greenhillsacademy.rw:8081/images/376739279_18061701070431847_5802953708720395779_n_kjsqau.jpg"
-                alt="Image"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="w-full bg-green flex justify-center"
-        style={{
-          backgroundImage: `url(${"/icons/lightgreen_fotidt.svg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="w-[80%] h-full my-16 md:grid grid-cols-2 gap-16 items-center">
-          <div className="w-full">
-            <p className="text-justify pb-6">
-              Our teaching and learning are proactive, inquiry-based,
-              learner-centered, and led. Learners are interactive, collaborate,
-              discuss, research, present, and reflect in groups. The
-              communication, research, self-management, social, and thinking
-              skills are crystal clear on a daily basis during teaching and
-              learning. The Units of Inquiry are transdisciplinary themes. They
-              include and transcend subject areas and connect the learners to
-              the real world of which they are global citizens.
-            </p>
-            <p className="text-justify pb-6">
-              Collaboration is on our daily menu. Educators gather in their
-              grade-level teams to plan and prepare lessons together, to discuss
-              and exchange teaching and learning strategies in order to enhance
-              their pedagogical methods and boost the learners’ academic
-              performances.
-            </p>
-            <p className="text-justify pb-6">
-              Support is available across our primary division. Homeroom
-              educators are supported by their team leaders. Science, Math,
-              English French, Art/ICT, PE/Traditional Dance/Music, and Learner
-              Support are supported by their Heads of Department. There are two
-              vice principals (French and English) and the School Principal who
-              are daily at the disposal of all staff and faculty to provide help
-              and respond to all concerns.
-            </p>
-          </div>
-          <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
-            <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-              <div className="w-full h-2 bg-primary" />
-              <Image unoptimized
-                placeholder="empty"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full md:h-full object-cover object-center"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  display: "block",
-                }}
-                src="https://greenhillsacademy.rw:8081/images/285913554_2300484220104568_3567442786875876806_n_gdclvq.jpg"
-                alt="Image"
-              />
-            </div>
-            <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-              <Image unoptimized
-                placeholder="empty"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full md:h-full object-cover object-center"
-                src="https://greenhillsacademy.rw:8081/images/GIS_90.jpg"
-                alt="Image"
-              />
-              <div className="w-full h-2 bg-primary" />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="w-full flex justify-center"
-        style={{
-          backgroundImage: `url(${"/icons/whiteflip_h0mlnm.svg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="w-[80%] my-16 grid md:grid-cols-2 gap-12">
-          <div className="w-full h-full justify-start items-start gap-[22px] inline-flex">
-            <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-              <div className="w-full h-2 bg-primary" />
-              <Image unoptimized
-                placeholder="empty"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full md:h-[50vh] object-cover object-center"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  display: "block",
-                }}
-                src="https://greenhillsacademy.rw:8081/images/407253799_901905251940600_5011519124696385143_n_bpvguu.jpg"
-                alt="Image"
-              />
-            </div>
-            <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-              <Image unoptimized
-                placeholder="empty"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full md:h-[50vh] object-cover object-center"
-                src="https://greenhillsacademy.rw:8081/images/GIS_93.jpg"
-                alt="Image"
-              />
-              <div className="w-full h-2 bg-primary" />
-            </div>
-          </div>
-          <div className="h-full w-full">
-            <p className="text-justify pb-6">
-              Our 50/50 French-English Bilingual Program provides a unique
-              opportunity for our learners to be linguistically balanced while
-              studying Science, Math, French, and English in both languages, to
-              smoothly access the best francophone and/or anglophone
-              universities worldwide, to easily flow between different cultures,
-              and embrace perspectives other than their own.
-            </p>
-            <p className="text-justify pb-6">
-              Teaching and learning go beyond the classroom. Our learners
-              connect what they are learning or have learned in class to the
-              real world. They take action by going into the community not only
-              to interact with people but also to implement the knowledge they
-              have acquired in their classrooms in order to solve some community
-              issues and meet their needs. All our grade-level learners also go
-              on field trips that line up and support our PYP curriculum.
-            </p>
-            <div>
-            <ButtonBlank
-                    action={`https://www.ibo.org/programmes/primary-years-programme/`}
-                    name="Learn more"
-                    background="#018c79"
-                    border="1px solid var(--color-border)"
-                    color="#fff"
-                    icon={
-                      <MdOutlineCastForEducation className="text-[yellow]" />
-                    }
-                  />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="flex bg-primary justify-center py-16"
-        style={{
-          backgroundImage: `url(${"/icons/green_c6iapo.svg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="w-[80%]">
-          <h1 className="text-white font-bold">Administration</h1>
+              <h1 className="text-primary capitalize">Primary School</h1>
+              <h3 className="text-center text-white">
+                International Baccalaureate Primary Years Programme
+              </h3>
+            </section>
+          )}
+          {section.slug === "overview" && (
+            <section
+              className="flex justify-center md:h-full py-16 items-center"
+              style={{
+                backgroundImage: `url(${"/icons/whiteflip_h0mlnm.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="w-[80%] h-full flex flex-col justify-between">
+                <div className="grid h-full md:grid-cols-2 place-items-center sm:gap-8 md:gap-16">
+                  <div className="w-full h-full">
+                    <div className="w-full h-full flex flex-col gap-12">
+                      <h1 className="text-primary font-bold">
+                        {editMode &&
+                        selectedSection &&
+                        selectedSection.slug === section.slug ? (
+                          <input
+                            type="text"
+                            value={selectedSection.content.title || ""}
+                            onChange={handleContentChange}
+                            name="title"
+                          />
+                        ) : (
+                          section.content.title
+                        )}
+                      </h1>
 
-          <div className="text-white cardGrid gap-12 mb-12 md:pt-12 sm:pt-4">
-            {primarySchoolStaffData.map((staff, index) => (
-              <StaffCard
-                key={index}
-                title={staff.title}
-                imageUrl={staff.imageUrl}
-                name={staff.name}
-              />
-            ))}
+                      <div>
+                        {editMode &&
+                        selectedSection &&
+                        selectedSection.slug === section.slug ? (
+                          section.content.description.map(
+                            (item: any, index: number) => (
+                              <input
+                                key={index}
+                                type="text"
+                                value={editedDescriptions[index]}
+                                onChange={(e) =>
+                                  handleDescriptionChange(e, index)
+                                }
+                                className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                              />
+                            )
+                          )
+                        ) : (
+                          <p key={index} className="text-justify pb-6">
+                            {section.content.description[0]}
+                          </p>
+                        )}
+                        {topList.map((item, index) => (
+                          <DecoratedList
+                            key={index}
+                            color="black"
+                            details={item}
+                          />
+                        ))}
+                        {editMode &&
+                        selectedSection &&
+                        selectedSection.slug === section.slug
+                          ? section.content.listItems.map(
+                              (item: any, index: number) => (
+                                <input
+                                  key={index}
+                                  type="text"
+                                  value={editedDescriptions[index]}
+                                  onChange={(e) =>
+                                    handleDescriptionChange(e, index)
+                                  }
+                                  className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                                />
+                              )
+                            )
+                          : section.content.listItems.map(
+                              (
+                                item: string,
+                                index: React.Key | null | undefined
+                              ) => (
+                                <DecoratedList
+                                  key={index}
+                                  color="black"
+                                  details={item}
+                                />
+                              )
+                            )}
+
+                        <p key={index} className="text-justify pb-6">
+                          {section.content.description[1]}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug && (
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          multiple
+                          name="bg"
+                        />
+                      )}
+                    <ImageComponent
+                      special={true}
+                      images={section.content.imageUrl}
+                      color={"primary"}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          {section.slug === "overview_cont" && (
+            <section
+              className="w-full bg-green flex justify-center"
+              style={{
+                backgroundImage: `url(${"/icons/lightgreen_fotidt.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="w-[80%] h-full my-16 md:grid grid-cols-2 gap-16 items-center">
+                <div className="w-full">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug
+                    ? section.content.description.map(
+                        (item: any, index: number) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={editedDescriptions[index]}
+                            onChange={(e) => handleDescriptionChange(e, index)}
+                            className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                          />
+                        )
+                      )
+                    : section.content.description.map(
+                        (item: any, index: number) => (
+                          <p key={index} className="text-justify pb-6">
+                            {item}
+                          </p>
+                        )
+                      )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  {editMode &&
+                    selectedSection &&
+                    selectedSection.slug === section.slug && (
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        multiple
+                        name="bg"
+                      />
+                    )}
+                  <ImageComponent
+                    images={section.content.imageUrl}
+                    color={"primary"}
+                  />
+                </div>
+              </div>
+            </section>
+          )}
+          {section.slug === "overview_cont2" && (
+            <section
+              className="w-full flex justify-center"
+              style={{
+                backgroundImage: `url(${"/icons/whiteflip_h0mlnm.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="w-[80%] my-16 grid md:grid-cols-2 gap-12">
+                <div className="flex flex-col gap-2">
+                  {editMode &&
+                    selectedSection &&
+                    selectedSection.slug === section.slug && (
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        multiple
+                        name="bg"
+                      />
+                    )}
+                  <ImageComponent
+                    images={section.content.imageUrl}
+                    color={"primary"}
+                  />
+                </div>
+                <div className="h-full w-full">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug
+                    ? section.content.description.map(
+                        (item: any, index: number) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={editedDescriptions[index]}
+                            onChange={(e) => handleDescriptionChange(e, index)}
+                            className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                          />
+                        )
+                      )
+                    : section.content.description.map(
+                        (item: any, index: number) => (
+                          <p key={index} className="text-justify pb-6">
+                            {item}
+                          </p>
+                        )
+                      )}
+                  <div>
+                    <ButtonBlank
+                      action={`https://www.ibo.org/programmes/primary-years-programme/`}
+                      name="Learn more"
+                      background="#018c79"
+                      border="1px solid var(--color-border)"
+                      color="#fff"
+                      icon={
+                        <MdOutlineCastForEducation className="text-[yellow]" />
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          <div className="flex w-full justify-end">
+            {isCustomizing ? (
+              <div className="flex gap-4 py-2 items-center">
+                {editMode &&
+                selectedSection &&
+                selectedSection.slug === section.slug ? null : (
+                  <>
+                    <img
+                      onClick={() => handleSelectSection(section)}
+                      src="/icons/update_ijqjnj.svg"
+                      alt=""
+                      className="text-primary cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                    <img
+                      onClick={() => handleDelete(section.slug)}
+                      src="/icons/delete_tvo46a.svg"
+                      alt=""
+                      className="text-red cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                  </>
+                )}
+                {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug && (
+                    <>
+                      <button
+                        onClick={() => handleCancel(section)}
+                        className={`bg-blue text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleSaveCopy(section)}
+                        className={`bg-[#B3B3B3] text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Save Copy
+                      </button>
+                      <button
+                        onClick={() => handleUpdate(selectedSection.slug)}
+                        className="bg-primary text-white rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2"
+                      >
+                        Publish
+                      </button>
+                    </>
+                  )}
+              </div>
+            ) : null}
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
+      {copySaved && <p>Copy of section saved to local storage!</p>}
     </main>
   );
 }
