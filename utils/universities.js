@@ -104,7 +104,6 @@ export const universities = [
     "University of Miami",
     "Rhode Island College",
     "Tulane University",
-  
     "Carleton University",
     "University of British Columbia",
     "McGill University",
@@ -149,7 +148,6 @@ export const universities = [
     "St. Thomas University",
     "University Canada West",
     "Douglas College",
-  
     "Oxford University",
     "Nottingham Trent University",
     "University of Leicester",
@@ -188,7 +186,6 @@ export const universities = [
     "University of East Anglia",
     "Westminster University",
     "London Metropolitan University",
-  
     "EU Business School - Spain",
     "IE Business School - Spain",
     "Groningen University - Netherlands",
@@ -222,7 +219,6 @@ export const universities = [
     "University of Göttingen - Germany",
     "Jacobs University - Germany",
     "EU Business School - Germany",
-  
     "Adventist University of Central Africa - Rwanda",
     "African Leadership University - Rwanda",
     "University of Global Health Equity - Rwanda",

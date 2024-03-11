@@ -12,12 +12,146 @@ import { About } from "@/types/webpages";
 import uploadImage from "@/utils/uploadImage";
 import { headOfSchool } from "@/utils/head0fSchool";
 import { gallery } from "@/utils/gallery";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { routerAbout } from "@/utils/routerAbout";
 import Image from "next/image";
 import { universities } from "@/utils/universities";
 import ButtonBlank from "@/components/Atoms/ButtonBlank";
+import useImageUploader from "@/utils/useImageUploader";
+import axios from "axios";
+import ImageComponent from "../ImageComponent";
+import { UrlObject } from "url";
 
 const AboutPage = ({ user }: any) => {
+  const [sections, setSections] = useState<any[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [selectedSection, setSelectedSection] = useState<any | null>(null);
+  const [copySaved, setCopySaved] = useState<boolean>(false);
+  const [editedDescriptions, setEditedDescriptions] = useState<string[]>([]);
+  const [isCustomizing, setIsCustomizing] = useState(false);
+
+  const { uploadedUrls, handleFileChange, handleSubmit } = useImageUploader();
+
+  useEffect(() => {
+    fetchSections();
+  }, []);
+
+  const fetchSections = async () => {
+    try {
+      const response = await axios.get("/api/aboutUs");
+      setSections(response.data);
+    } catch (error) {
+      console.error("Error fetching sections:", error);
+    }
+  };
+
+  const handleSelectSection = (section: any) => {
+    setSelectedSection(section);
+    if (section && section.content && section.content.description) {
+      setEditedDescriptions(section.content.description);
+    }
+    setEditMode(true);
+  };
+
+  const handleContentChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (!selectedSection) return;
+
+    const { name } = e.target;
+
+    // If it's a file input
+    if (e.target.type === "file") {
+      const file = (e.target as HTMLInputElement)?.files?.[0]; // Optional chaining here
+      if (file) {
+        const updatedSection = { ...selectedSection };
+        updatedSection.content[name] = file; // Store the file object directly
+        setSelectedSection(updatedSection);
+      }
+    } else {
+      const { value } = e.target;
+      const updatedSection = { ...selectedSection };
+      updatedSection.content[name] = value;
+      setSelectedSection(updatedSection);
+    }
+  };
+
+  const handleUpdate = async (slug: string) => {
+    if (!selectedSection || !selectedSection.content) {
+      console.error("Error: Selected section or its content is null");
+      return;
+    }
+
+    const { title } = selectedSection.content;
+    const description = editedDescriptions;
+
+    try {
+      await handleSubmit();
+
+      const updatedContent: {
+        title: string;
+        description: string | string[];
+        subtitle?: string;
+        imageUrl?: string | string[];
+      } = {
+        title,
+        description,
+      };
+      if (selectedSection.content.subtitle) {
+        updatedContent.subtitle = selectedSection.content.subtitle;
+      }
+
+      if (
+        uploadedUrls !== null &&
+        uploadedUrls !== undefined &&
+        uploadedUrls.length > 0
+      ) {
+        updatedContent.imageUrl = uploadedUrls;
+      }
+
+      selectedSection.content = description;
+      await axios.put(`/api/aboutUs?slug=${slug}`, updatedContent);
+      await fetchSections();
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error updating section:", error);
+    }
+  };
+
+  const handleDelete = async (slug: string) => {
+    try {
+      await axios.delete(`/api/aboutUs?slug=${slug}`);
+      await fetchSections();
+    } catch (error) {
+      console.error("Error deleting section:", error);
+    }
+  };
+
+  const handleSaveCopy = (section: any) => {
+    localStorage.setItem("copiedSection", JSON.stringify(section));
+    setCopySaved(true);
+  };
+  const handleCancel = (section: any) => {
+    setSelectedSection(section);
+    setEditMode(false);
+  };
+
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newValue = e.target.value;
+    setEditedDescriptions((prevDescriptions) => {
+      const updatedDescriptions = [...prevDescriptions];
+      updatedDescriptions[index] = newValue;
+      return updatedDescriptions;
+    });
+  };
+  const toggleCustomization = () => {
+    setIsCustomizing(!isCustomizing);
+  };
   const settings = {
     infinite: true,
     slidesToShow: 4,
@@ -41,30 +175,6 @@ const AboutPage = ({ user }: any) => {
         },
       },
     ],
-  };
-  const [imageData, setImageData] = useState([
-    "https://greenhillsacademy.rw:8081/images/4_kxmvir.jpg",
-    "https://greenhillsacademy.rw:8081/images/1_hcjnfu.jpg",
-    "https://greenhillsacademy.rw:8081/images/3_wb4qxk.jpg",
-    "https://greenhillsacademy.rw:8081/images/2_hrxmza.jpg",
-    "https://greenhillsacademy.rw:8081/images/8_f9cwce.jpg",
-    "https://greenhillsacademy.rw:8081/images/9_ujknty.jpg",
-  ]);
-
-  const handleAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      uploadImage(file).then((res) => {
-        setAbout({ ...about, sliderPhotos: [...about.sliderPhotos, res] });
-      });
-      const imageUrl = URL.createObjectURL(file);
-      setImageData([...imageData, imageUrl]);
-    }
-  };
-
-  const handleDeleteImage = (index: number) => {
-    const updatedImageData = about.sliderPhotos.filter((_, i) => i !== index);
-    setAbout({ ...about, sliderPhotos: updatedImageData });
   };
   const [currentIndex, setCurrentIndex] = useState(0);
   const sliderRef = useRef<Slider | null>(null);
@@ -111,119 +221,13 @@ const AboutPage = ({ user }: any) => {
     responsive: responsiveSettings,
   };
 
-  const [isCustomizing, setIsCustomizing] = useState(false);
-
-  const toggleCustomization = () => {
-    setIsCustomizing(!isCustomizing);
-  };
-  const [about, setAbout] = useState<About>({
-    title: "Green Hills Academy At Glimpse",
-    sliderPhotos: [
-      "/images/4.JPG",
-      "/images/1.JPG",
-      "/images/3.JPG",
-      "/images/2.JPG",
-      "/images/8.JPG",
-      "/images/9.JPG",
-    ],
-    whoWeAre: {
-      title: "WHO WE ARE",
-      description:
-        "Green Hills Academy is authorized by the International Baccalaureate (IB) organization to offer the Primary Years Programme for learners in Nursery 1 to Grade 5, the Middle Years Programme for learners in Grades 6 to 10 and the Diploma Programme for learners in Grades 11 and 12 . IB World School shares a common philosophy and commitment to providing a high quality, challenging, international education that prepares learners for further study in university and fulfilling lives. For further information about the IB and its programmes, visit www.ibo.org.",
-      videoUrl: "https://www.youtube.com/watch?v=wsNLaXRCxog&t",
-      photoUrl: "/images/1.JPG",
-    },
-    welcomeNote: {
-      title: "WELCOME TO GREEN HILLS ACADEMY",
-      professorName: "Daniel Holliger, PHD",
-      professorPosition: "Head of School(He/Him/His)",
-      professorPhotoUrl: "/images/2.png",
-      note: "It is a great pleasure to welcome you to Green Hills Academy (GHA), the only International Baccalaureate World School and LabelFrancÉducation school in Rwanda. At GHA, learners excel academically and personally in a safe, caring and vibrant learning community. We create energizing, engaging and empowering learning experiences that foster a love for learning and prepare learners for the future in a continuously changing world. Preparing learners for the uncertainties of our future world is a challenge that we embrace at GHA by developing critical thinking skills, creativity, emotional intelligence, self-confidence, resilience and collaboration to solve real world problems.",
-      readMoreSlug: "",
-    },
-    sectionsBackgroundImageSrc: "/images/12.png",
-    sections: [
-      {
-        iconSrc: "icons/icon-1.png",
-        title: "Learners life",
-        viewMoreSlug: "",
-        viewMoreLabel: "View More",
-      },
-      {
-        iconSrc: "icons/icon-2.png",
-        title: "Leadership",
-        viewMoreSlug: "",
-        viewMoreLabel: "View More",
-      },
-      {
-        iconSrc: "icons/icon-3.png",
-        title: "Facilities",
-        viewMoreSlug: "",
-        viewMoreLabel: "View More",
-      },
-      {
-        iconSrc: "icons/icon-4.png",
-        title: "Accreditation",
-        viewMoreSlug: "",
-        viewMoreLabel: "View More",
-      },
-    ],
-    alumniSectionTitle: "GREEN HILLS ALUMNI",
-    operationalCountriesTitle: "World wide react",
-    operationalCountries: [
-      "Rwanda",
-      "US",
-      "Canada",
-      "Holland",
-      "China",
-      "Germany",
-      "Kenya",
-    ],
-    partnerUniversitiesTitle: "Prestigious Universities",
-    partnerUniversities: [
-      "Harvard University",
-      "Massachusetts Institute of Technology (MIT)",
-      "Stanford University",
-      "Dartmouth College",
-      "Cornell University",
-      "New York University (NYU)",
-      "McGill University",
-      "University of Rwanda",
-      "African Leadership University",
-      "Kaiserslautern University",
-    ],
-    achievementsTitle: "Diverse Achievements",
-    achievements: [
-      "Technology Innovators",
-      "Media Pioneers",
-      "Legal Experts",
-      "Entrepreneurs",
-      "Medical Professionals",
-      "Creative Artists",
-      "Public Service Leaders",
-    ],
-  });
-  useEffect(() => {
-    axiosInstance.get("/pages/about").then((res) => {
-      setAbout(res.data);
-    });
-  }, []);
-  const saveToapi = () => {
-    axiosInstance.put("/pages/about", about).then((res) => {
-      console.log(res.data);
-    });
-  };
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    rootMargin: "200px 0px",
-  });
   return (
-    <div>
-      <div className="flex my-6 justify-between text-white">
-        <div className="flex gap-2">
-          {user?.permissions
-            .map((permission: string) => permission.toLowerCase())
-            .includes("edit".toLowerCase()) && (
+    <main>
+      <section className="flex my-6 justify-between text-white">
+        {user?.permissions
+          .map((permission: string) => permission.toLowerCase())
+          .includes("edit".toLowerCase()) && (
+          <div className="flex gap-2">
             <button
               onClick={toggleCustomization}
               className={`w-[124px] h-[43px] text-center rounded-[6px] ${
@@ -235,337 +239,601 @@ const AboutPage = ({ user }: any) => {
             >
               Customize
             </button>
-          )}
-          {isCustomizing ? (
-            <GiCancel
-              onClick={toggleCustomization}
-              className="text-[red] cursor-pointer"
-            />
-          ) : null}
-        </div>
-
-        <div className="flex gap-4">
-          <button
-            onClick={isCustomizing ? saveToapi : () => {}}
-            className={`w-[124px] h-[43px] ${
-              isCustomizing
-                ? "bg-[#5B83D7] hover:bg-[#4A6FBB]"
-                : "cursor-not-allowed bg-[#B3B3B3] text-white"
-            } text-center rounded-[6px]`}
-          >
-            Save Copy
-          </button>
-
-          <button className="w-[124px] h-[43px] bg-primary text-center rounded-[6px]">
-            {" "}
-            Publish
-          </button>
-        </div>
-      </div>
-      <div>
-        <div className="">
-          <section
-            className="w-full pt-28"
-            style={{
-              backgroundImage: `url(${"/icons/white2_qkbyoe.svg"})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="flex h-[300px] items-end justify-center">
-              <div className="text-center w-[80%] my-12">
-                <div className="flex justify-center">
-                  <div className="w-[55px] grid place-items-center">
-                    <div className="w-[18px] h-[7px] my-2 bg-primary" />
-                    <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <h1 className="text-primary capitalize">
-                    Green Hills Academy At A Glimpse
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section
-            className="w-full flex bg-primary sm:flex-col md:h-full items-center flex justify-center"
-            style={{
-              backgroundImage: `url(${"/icons/green_c6iapo.svg"})`,
-              backgroundSize: "cover",
-              backgroundPosition: "top",
-            }}
-          >
-            <div className="w-[80%] py-16 place-items-center place-content-center grid md:grid-cols-4 grid-cols-2 gap-12">
-              {routerAbout.map((data, index) => (
-                <Link
-                  href={data.path}
-                  key={index}
-                  className="w-full rounded-xl"
-                  style={{
-                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9)), url(${data.imageUrl})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                >
-                  <div className="group flex items-center  h-[200px] justify-end flex-col gap-12 p-4 w-full border border-transparent hover:rounded-xl hover:bg-black hover:bg-opacity-50 hover:border-primary relative">
-                    <h3 className="text-center text-[yellow] font-bold capitalize group-hover:opacity-50 transition-opacity">
-                      {data.title}
-                    </h3>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-          <section
-            className="flex bg-green h-full py-8 justify-center items-center"
-            style={{
-              backgroundImage: `url(/icons/lightgreen3_bdlud3.svg)`,
-              backgroundSize: "cover",
-              backgroundPosition: "bottom",
-            }}
-          >
-            <div className="w-[80%] h-full flex flex-col gap-8 py-16">
-              <h1 className="text-primary font-bold uppercase">Who We Are</h1>
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="md:hidden w-full h-full justify-start items-start gap-[22px] inline-flex">
-                  <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-                    <div className="w-full h-2 bg-primary" />
-                    <Image
-                      unoptimized
-                      placeholder="empty"
-                      blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full md:h-[50vh] object-cover object-center"
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        display: "block",
-                      }}
-                      src="https://greenhillsacademy.rw:8081/images/GHA_16.jpg"
-                      alt="Image"
-                    />
-                  </div>
-                  <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                    <Image
-                      unoptimized
-                      placeholder="empty"
-                      blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full md:h-[50vh] object-cover object-center"
-                      src="https://greenhillsacademy.rw:8081/images/DSC_2364.jpg"
-                      alt="Image"
-                    />
-                    <div className="w-full h-2 bg-primary" />
-                  </div>
-                </div>
-                <div className="w-full h-full flex flex-col justify-between">
-                  <div className="w-full h-full">
-                    <p className="pb-4 text-justify">
-                      Green Hills Academy is authorized by the International
-                      Baccalaureate (IB) organization to offer the Primary Years
-                      Programme for learners in Nursery 1 to Grade 5, the Middle
-                      Years Programme for learners in Grades 6 to 10, the
-                      Diploma and Career-related Programmes for learners in
-                      Grades 11 and 12. IB World Schools shares a common
-                      philosophy and commitment to providing a high quality,
-                      challenging, international education that prepares
-                      learners for further study in university and fulfilling
-                      lives. For further information about the IB and its
-                      programmes, visit &nbsp;
-                      <Link
-                        href="www.ibo.org"
-                        target="_blank"
-                        className="text-primary md:text-[1.3vw] sm:text-[1.05rem]"
-                      >
-                        www.ibo.org
-                      </Link>
-                    </p>
-                  </div>
-                  <div>
-                    <ButtonBlank
-                      action={`https://www.youtube.com/@GHA_rwanda/videos`}
-                      name="Watch Our Videos"
-                      background="#018c79"
-                      border="1px solid var(--color-border)"
-                      color="#fff"
-                      icon={<BiVideo className="text-[yellow]" />}
-                    />
-                  </div>
-                </div>
-                <div className="sm:hidden w-full h-full justify-start items-start gap-[22px] inline-flex">
-                  <div className="w-1/2 h-full flex-col justify-start items-end gap-[38px] inline-flex">
-                    <div className="w-full h-2 bg-primary" />
-                    <Image
-                      unoptimized
-                      placeholder="empty"
-                      blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full md:h-[50vh] object-cover object-center"
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        display: "block",
-                      }}
-                      src="https://greenhillsacademy.rw:8081/images/GHA_128_zeqxfi.jpg"
-                      alt="Image"
-                    />
-                  </div>
-                  <div className="w-1/2 h-full flex-col justify-start items-start gap-[38px] inline-flex">
-                    <Image
-                      unoptimized
-                      placeholder="empty"
-                      blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='8' ry='8' fill='%23E2E8F0'/%3E%3Cline x1='0' y1='0' x2='60' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3Cline x1='60' y1='0' x2='0' y2='60' stroke='%234B5563' stroke-width='1.5'/%3E%3C/svg%3E`}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full md:h-[50vh] object-cover object-center"
-                      src="https://greenhillsacademy.rw:8081/images/DSC_2364.jpg"
-                      alt="Image"
-                    />
-                    <div className="w-full h-2 bg-primary" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section
-            id="head"
-            className="flex h-full justify-center items-center"
-            style={{
-              backgroundImage: `url(${"/icons/white2_qkbyoe.svg"})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="w-[80%] h-full flex flex-col gap-8 py-16">
-              <h1 className="uppercase text-center font-bold text-primary">
-                {headOfSchool.slogan}
-              </h1>
-              <div className="w-full h-full md:grid md:place-items-center overflow-hidden">
-                <div className="w-full h-full h-full md:grid md:grid-cols-2 gap-16">
-                  <div className="sm:hidden">
-                    <div className="w-full h-full flex items-center relative">
-                      <div className="w-1/4 my-4 h-full sm:h-[20vh] left-0 top-0 absolute bg-primary" />
-                      <div className="w-full h-[80%] left-[31px] absolute">
-                        <div className="bgImageContainerHead">
-                          <div className={"inner"}>
-                            <img
-                              className=""
-                              src={headOfSchool.imageUrl}
-                              alt="Image"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="md:hidden flex justify-start mb-12">
-                    <div className="h-[300px]">
-                      <div className="bgImageContainerHead">
-                        <div className={"inner"}>
-                          <img
-                            className=""
-                            src={headOfSchool.imageUrl}
-                            alt="Image"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-full flex flex-col justify-between">
-                    <div className="w-full h-full flex flex-col gap-12">
-                      <div className="grid gap-4">
-                        <h3 className="font-bold text-primary">
-                          {headOfSchool.name}
-                        </h3>
-                        <p className="font-bold">{headOfSchool.title}</p>
-                      </div>
-                      <p className="text-justify md:pr-2">
-                        {headOfSchool.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <div
-            id="alumni"
-            className="w-full h-full flex items-center justify-center"
-          >
-            <div className="h-[80%] w-[80%] py-16 gap-8 flex-col">
-              <h1 className="text-primary uppercase text-center">
-                Green Hills Academy Alumni
-              </h1>
-              <h2 className="font-bold text-primary pt-16">Worldwide Reach</h2>
-              <div className=" flex justify-center items-center">
-                <img
-                  className="h-full w-full object-contain"
-                  src="https://greenhillsacademy.rw:8081/images/MAP_wbqpki.png"
-                  alt="Image"
-                />
-              </div>
-            </div>
+            {isCustomizing ? (
+              <GiCancel
+                onClick={toggleCustomization}
+                className="text-[red] cursor-pointer"
+              />
+            ) : null}
           </div>
-
-          <div
-            id="alumni_registration_form"
-            className="flex justify-center overflow-hidden py-16"
-          >
-            <div
-              className="w-[80%] bg-primary py-16 text-white flex flex-col justify-center p-8 gap-12 rounded-[36px] shadow-xl"
+        )}
+      </section>
+      {sections.map((section, index) => (
+        <section key={index}>
+          {section.slug === "header-text" && (
+            <section
+              className="w-full pt-28"
+              style={{
+                backgroundImage: `url(${"/icons/white2_qkbyoe.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="flex h-[300px] items-end justify-center">
+                <div className="text-center w-[80%] my-12">
+                  <div className="flex justify-center">
+                    <div className="w-[55px] grid place-items-center">
+                      <div className="w-[18px] h-[7px] my-2 bg-primary" />
+                      <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <h1 className="text-primary capitalize">
+                      {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug ? (
+                        <input
+                          type="text"
+                          value={selectedSection.content.title || ""}
+                          onChange={handleContentChange}
+                          name="title"
+                        />
+                      ) : (
+                        section.content.title
+                      )}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          {section.slug === "router-about" && (
+            <section
+              className="w-full flex bg-primary sm:flex-col md:h-full items-center flex justify-center"
               style={{
                 backgroundImage: `url(${"/icons/green_c6iapo.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "top",
+              }}
+            >
+              <div className="w-[80%] py-16 place-items-center place-content-center grid md:grid-cols-4 grid-cols-2 gap-12">
+                {section.content.other.map(
+                  (
+                    data: {
+                      path: string | UrlObject;
+                      imageUrl: any;
+                      title:
+                        | string
+                        | number
+                        | boolean
+                        | React.ReactElement<
+                            any,
+                            string | React.JSXElementConstructor<any>
+                          >
+                        | Iterable<React.ReactNode>
+                        | React.ReactPortal
+                        | React.PromiseLikeOfReactNode
+                        | null
+                        | undefined;
+                    },
+                    index: React.Key | null | undefined
+                  ) => (
+                    <Link
+                      href={data.path}
+                      key={index}
+                      className="w-full rounded-xl"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9)), url(${data.imageUrl})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
+                      <div className="group flex items-center  h-[200px] justify-end flex-col gap-12 p-4 w-full border border-transparent hover:rounded-xl hover:bg-black hover:bg-opacity-50 hover:border-primary relative">
+                        <h3 className="text-center text-[yellow] font-bold capitalize group-hover:opacity-50 transition-opacity">
+                          {data.title}
+                        </h3>
+                      </div>
+                    </Link>
+                  )
+                )}
+              </div>
+            </section>
+          )}
+          {section.slug === "who-we-are" && (
+            <section
+              className="flex bg-green h-full py-8 justify-center items-center"
+              style={{
+                backgroundImage: `url(/icons/lightgreen3_bdlud3.svg)`,
                 backgroundSize: "cover",
                 backgroundPosition: "bottom",
               }}
             >
-              <div>
-                <div className="flex pt-4 justify-center">
-                  <div className="w-[55px] grid place-items-center">
-                    <div className="w-[18px] h-[7px] my-2 bg-[yellow]" />
-                    <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
+              <div className="w-[80%] h-full flex flex-col gap-8 py-16">
+                <h1 className="text-primary font-bold uppercase">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
+                    />
+                  ) : (
+                    section.content.title
+                  )}
+                </h1>
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div className="flex flex-col gap-2">
+                    {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug && (
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          multiple
+                          name="bg"
+                        />
+                      )}
+                    <ImageComponent
+                      images={section.content.imageUrl}
+                      color={"primary"}
+                    />
+                  </div>
+                  <div className="w-full h-full flex flex-col justify-between">
+                    <div className="w-full h-full">
+                      {editMode &&
+                      selectedSection &&
+                      selectedSection.slug === section.slug
+                        ? section.content.description.map(
+                            (item: any, index: number) => (
+                              <input
+                                key={index}
+                                type="text"
+                                value={editedDescriptions[index]}
+                                onChange={(e) =>
+                                  handleDescriptionChange(e, index)
+                                }
+                                className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                              />
+                            )
+                          )
+                        : section.content.description.map(
+                            (item: any, index: number) => (
+                              <p key={index} className="text-justify pb-6">
+                                {item}
+                              </p>
+                            )
+                          )}
+                      <Link
+                        href={section.content.links[0].url}
+                        target="_blank"
+                        className="text-primary md:text-[1.3vw] sm:text-[1.05rem]"
+                      >
+                        {section.content.links[0].title}
+                      </Link>
+                    </div>
+                    <div>
+                      <ButtonBlank
+                        action={section.content.links[1].url}
+                        name={section.content.links[1].title}
+                        background="#018c79"
+                        border="1px solid var(--color-border)"
+                        color="#fff"
+                        icon={<BiVideo className="text-[yellow]" />}
+                      />
+                    </div>
                   </div>
                 </div>
-                <h2 className="font-bold text-[yellow] text-center">
-                  Let&apos;s Strengthen Our Community: Calling Our Alumni!
+              </div>
+            </section>
+          )}
+          {section.slug === "head-of-school" && (
+            <section
+              id="head"
+              className="flex h-full justify-center items-center"
+              style={{
+                backgroundImage: `url(${"/icons/white2_qkbyoe.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="w-[80%] h-full flex flex-col gap-8 py-16">
+                <h1 className="uppercase text-center font-bold text-primary">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
+                    />
+                  ) : (
+                    section.content.title
+                  )}
+                </h1>
+                <div className="w-full h-full md:grid md:place-items-center overflow-hidden">
+                  <div className="w-full h-full h-full md:grid md:grid-cols-2 gap-16">
+                    <div className="flex justify-start mb-12">
+                      <div className="flex flex-col gap-2">
+                        {editMode &&
+                          selectedSection &&
+                          selectedSection.slug === section.slug && (
+                            <input
+                              type="file"
+                              onChange={handleFileChange}
+                              multiple
+                              name="bg"
+                            />
+                          )}
+                        <ImageComponent
+                          images={section.content.imageUrl}
+                          color={"primary"}
+                        />
+                      </div>
+                    </div>
+                    <div className="w-full h-full flex flex-col justify-between">
+                      <div className="w-full h-full flex flex-col gap-12">
+                        <div className="grid gap-4">
+                          <h3 className="font-bold text-primary">
+                            {editMode &&
+                            selectedSection &&
+                            selectedSection.slug === section.slug ? (
+                              <textarea
+                                value={selectedSection.content.subtitle || ""}
+                                onChange={handleContentChange}
+                                name="subtitle"
+                                className=" w-full text-black"
+                              />
+                            ) : (
+                              section.content.subtitle
+                            )}
+                          </h3>
+                          <p className="font-bold">
+                            {editMode &&
+                            selectedSection &&
+                            selectedSection.slug === section.slug ? (
+                              <textarea
+                                value={selectedSection.content.slogan || ""}
+                                onChange={handleContentChange}
+                                name="slogan"
+                                className=" w-full text-black"
+                              />
+                            ) : (
+                              section.content.slogan
+                            )}
+                          </p>
+                        </div>
+                        {editMode &&
+                        selectedSection &&
+                        selectedSection.slug === section.slug ? (
+                          section.content.description.map(
+                            (item: any, index: number) => (
+                              <input
+                                key={index}
+                                type="text"
+                                value={editedDescriptions[index]}
+                                onChange={(e) =>
+                                  handleDescriptionChange(e, index)
+                                }
+                                className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                              />
+                            )
+                          )
+                        ) : section.content.description.map(
+                          (item: any, index: number) => (
+                            <p key={index} className="text-justify pb-6">
+                              {item}
+                            </p>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          {section.slug === "gha-alumni" && (
+            <section
+              id="alumni"
+              className="w-full h-full flex items-center justify-center"
+            >
+              <div className="h-[80%] w-[80%] py-16 gap-8 flex-col">
+                <h1 className="text-primary uppercase text-center">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
+                    />
+                  ) : (
+                    section.content.title
+                  )}
+                </h1>
+                <h2 className="font-bold text-primary pt-16">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <textarea
+                      value={selectedSection.content.subtitle || ""}
+                      onChange={handleContentChange}
+                      name="subtitle"
+                      className=" w-full text-black"
+                    />
+                  ) : (
+                    section.content.subtitle
+                  )}
                 </h2>
+                <div className="flex flex-col gap-2">
+                  {editMode &&
+                    selectedSection &&
+                    selectedSection.slug === section.slug && (
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        multiple
+                        name="bg"
+                      />
+                    )}
+                  <ImageComponent
+                    images={section.content.imageUrl}
+                    color={"primary"}
+                  />
+                </div>
               </div>
-              <p className="text-center">
-                We aspire to further engage and strengthen the Green Hills
-                Academy community. We recognize that you, our Alumni play a
-                crucial role in this mission and we invite you to reconnect and
-                participate in the ongoing journey of broadening and
-                strengthening our community.
-              </p>
-              <div className="w-full flex justify-center">
-                <ButtonBlank
-                  action={`https://forms.gle/xGyjBLuaxBpm2WE37`}
-                  name="Alumni Registration Form"
-                  background="#fff"
-                  border="1px solid var(--color-border)"
-                  color="#018c79"
-                />
+            </section>
+          )}
+          {section.slug === "universities" && (
+            <section
+              className="overflow-x-hidden w-[100%] h-[100%] items-center flex justify-center bg-green text-white rounded-lg font-bold"
+              style={{
+                backgroundImage: `url(${"/icons/lightgreen_fotidt.svg"})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="w-[80%] h-full flex flex-col gap-8 py-16">
+                <h2 className="font-bold text-primary">
+                  {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug ? (
+                    <input
+                      type="text"
+                      value={selectedSection.content.title || ""}
+                      onChange={handleContentChange}
+                      name="title"
+                    />
+                  ) : (
+                    section.content.title
+                  )}
+                </h2>
+                <Slider
+                  dotsClass="slick-dots line-indicator"
+                  ref={sliderRef}
+                  slidesToShow={3}
+                  slidesToScroll={3}
+                  infinite={true}
+                  autoplay
+                  lazyLoad="ondemand"
+                  autoplaySpeed={4000}
+                  speed={2000}
+                  customPaging={(i) => (
+                    <div
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        top: "-10px",
+                        opacity: 0,
+                      }}
+                    >
+                      {i}
+                    </div>
+                  )}
+                  {...sliderSettings}
+                >
+                  {section.content &&
+                    section.content.description &&
+                    chunkArray(section.content.description, 10).map(
+                      (chunk, rowIndex) => (
+                        <div key={rowIndex} className="flex gap-8 px-1 h-full">
+                          {chunk.map((item, colIndex) => (
+                            <div
+                              key={colIndex}
+                              className={`py-4 px-4 text-[#f8f008] ${
+                                colIndex % 2 === 0
+                                  ? "bg-primary bg-opacity-50"
+                                  : "bg-primary"
+                              }`}
+                            >
+                              {item}
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    )}
+                </Slider>
+                <div
+                  className="div"
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    padding: "0 10px",
+                  }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <div
+                      style={{
+                        width: 40,
+                        height: 40,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginRight: 10,
+                        // borderRadius: 7,
+                        boxShadow: "0 1px 3px rgb(0 0 0 / 10%)",
+                        cursor: "pointer",
+                      }}
+                      className="buttons rounded-full"
+                      onClick={() => sliderRef.current?.slickPrev()}
+                    >
+                      <IoIosArrowBack />
+                    </div>
+                    <div
+                      style={{
+                        width: 40,
+                        height: 40,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        // borderRadius: 7,
+                        boxShadow: "0 1px 3px rgb(0 0 0 / 10%)",
+                        cursor: "pointer",
+                      }}
+                      className="buttons rounded-full"
+                      onClick={() => sliderRef.current?.slickNext()}
+                    >
+                      <IoIosArrowForward />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p className="text-center">
-                We encourage our esteemed alumni to complete the Alumni
-                Registration Form, to foster continued connection, updates, and
-                participation in the Green Hills Academy community.
-              </p>
-            </div>
+            </section>
+          )}
+          {section.slug === "alumni_registration_form" && (
+            <section
+              id="alumni_registration_form"
+              className="flex justify-center overflow-hidden py-16"
+            >
+              <div
+                className="w-[80%] bg-primary py-16 text-white flex flex-col justify-center p-8 gap-12 rounded-[36px] shadow-xl"
+                style={{
+                  backgroundImage: `url(${"/icons/green_c6iapo.svg"})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "bottom",
+                }}
+              >
+                <div>
+                  <div className="flex pt-4 justify-center">
+                    <div className="w-[55px] grid place-items-center">
+                      <div className="w-[18px] h-[7px] my-2 bg-[yellow]" />
+                      <div className="w-[55px] h-[7px] bg-[#80C1B9]" />
+                    </div>
+                  </div>
+                  <h2 className="font-bold text-[yellow] text-center">
+                    {editMode &&
+                    selectedSection &&
+                    selectedSection.slug === section.slug ? (
+                      <input
+                        type="text"
+                        value={selectedSection.content.title || ""}
+                        onChange={handleContentChange}
+                        name="title"
+                      />
+                    ) : (
+                      section.content.title
+                    )}
+                  </h2>
+                </div>
+                {editMode &&
+                selectedSection &&
+                selectedSection.slug === section.slug ? (
+                  section.content.description.map(
+                    (item: any, index: number) => (
+                      <input
+                        key={index}
+                        type="text"
+                        value={editedDescriptions[index]}
+                        onChange={(e) => handleDescriptionChange(e, index)}
+                        className="w-full px-3 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary"
+                      />
+                    )
+                  )
+                ) : (
+                  <p className="text-center">
+                    {section.content.description[0]}
+                  </p>
+                )}
+                <div className="w-full flex justify-center">
+                  <ButtonBlank
+                    action={section.content.links[0].url}
+                    name={section.content.links[0].title}
+                    background="#fff"
+                    border="1px solid var(--color-border)"
+                    color="#018c79"
+                  />
+                </div>
+                <p className="text-center">{section.content.description[1]}</p>
+              </div>
+            </section>
+          )}
+          <div className="flex w-full justify-end">
+            {isCustomizing ? (
+              <div className="flex gap-4 py-2 items-center">
+                {editMode &&
+                selectedSection &&
+                selectedSection.slug === section.slug ? null : (
+                  <>
+                    <img
+                      onClick={() => handleSelectSection(section)}
+                      src="/icons/update_ijqjnj.svg"
+                      alt=""
+                      className="text-primary cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                    <img
+                      onClick={() => handleDelete(section.slug)}
+                      src="/icons/delete_tvo46a.svg"
+                      alt=""
+                      className="text-red cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    />
+                  </>
+                )}
+                {editMode &&
+                  selectedSection &&
+                  selectedSection.slug === section.slug && (
+                    <>
+                      <button
+                        onClick={() => handleCancel(section)}
+                        className={`bg-blue text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleSaveCopy(section)}
+                        className={`bg-[#B3B3B3] text-white text-center rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2`}
+                      >
+                        Save Copy
+                      </button>
+                      <button
+                        onClick={() => handleUpdate(selectedSection.slug)}
+                        className="bg-primary text-white rounded-[6px] cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-2"
+                      >
+                        Publish
+                      </button>
+                    </>
+                  )}
+              </div>
+            ) : null}
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      ))}
+      {copySaved && <p>Copy of section saved to local storage!</p>}
+    </main>
   );
 };
 
 export default AboutPage;
+
+const chunkArray = (array: any[], size: number) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
+// Chunk the list items into groups of 20
+const chunkedItems = chunkArray(universities, 10);
